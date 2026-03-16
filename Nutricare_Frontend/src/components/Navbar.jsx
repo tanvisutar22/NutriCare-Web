@@ -1,0 +1,48 @@
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom"; //f
+
+export default function Navbar() {
+  const { user, logout } = useAuth();
+
+  const navigate = useNavigate(); //f
+  const handleLogout = async () => {
+    await logout(); // clears session + user state
+    navigate("/login"); // ✅ redirect to login page
+  };
+
+  return (
+    <nav className="bg-teal-600 text-white px-6 py-4 flex justify-between items-center">
+      <h1 className="text-xl font-bold">NutriCare </h1>
+      <div className="space-x-4">
+        {!user ? (
+          <>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/register">Register</Link>
+            <Link to="/login">Login</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/profile">Profile</Link>
+            {/* <Link to="/user-form">Edit</Link> */}
+            <Link to="/update-profile">Edit</Link>
+            <Link to="/diet-plan">Diet Plan</Link>
+            <Link to="/metric">Metrics</Link>
+            <Link to="/metric-charts">Metric Charts</Link>
+            <Link to="/diet-log">Diet Log</Link>
+            <Link to="/goal-history">Goal History</Link>
+
+            <button
+              onClick={handleLogout}
+              className="bg-white text-teal-600 px-3 py-1 rounded"
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
