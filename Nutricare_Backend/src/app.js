@@ -16,18 +16,18 @@ app.use(Express.static("public"));
 app.use(cookieParser());
 import authRouter from "./routes/auth.routes.js";
 import otpRouter from "./routes/otp.routes.js";
-import userRouter from "./routes/user.routes.js";
-import variableMetricRouter from "./routes/variableMetric.routes.js";
-import goalHistoryRouter from "./routes/goalHistory.routes.js";
-import dietRouter from "./routes/diet.routes.js";
-import dietLogRouter from "./routes/dietLog.routes.js";
-app.use("/api/v1/dietLog", dietLogRouter);
-app.use("/api/v1/diet", dietRouter);
-// im
-app.use("/api/v1/variableMetric", variableMetricRouter);
-app.use("/api/v1/goalHistory", goalHistoryRouter);
+// import userRouter from "./routes/user.routes.js";
+// import variableMetricRouter from "./routes/variableMetric.routes.js";
+// import goalHistoryRouter from "./routes/goalHistory.routes.js";
+// import dietRouter from "./routes/diet.routes.js";
+// import dietLogRouter from "./routes/dietLog.routes.js";
+// app.use("/api/v1/dietLog", dietLogRouter);
+// app.use("/api/v1/diet", dietRouter);
+// // im
+// app.use("/api/v1/variableMetric", variableMetricRouter);
+// app.use("/api/v1/goalHistory", goalHistoryRouter);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/otp", otpRouter);
-app.use("/api/v1/user", userRouter);
+// app.use("/api/v1/user", userRouter);
 export default app;
