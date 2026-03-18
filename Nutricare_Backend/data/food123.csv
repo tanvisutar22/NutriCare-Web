@@ -1,0 +1,7 @@
+foodName,category,calories,protein,carbs,fat,foodPreference,allergens,medicalTags
+Oats (plain),breakfast,380,13,69,7,veg,gluten,diabetes_safe
+Boiled Egg,breakfast,155,13,1.1,11,eggetarian,eggs,
+Grilled Chicken Breast,lunch,165,31,0,3.6,nonveg,,diabetes_safe
+Brown Rice,lunch,123,2.6,25.6,1,veg,,diabetes_safe
+Paneer Curry,dinner,260,15,8,18,veg,milk,
+Steamed Vegetables,dinner,50,3,10,0.5,veg,,diabetes_safe,hypertension_safe

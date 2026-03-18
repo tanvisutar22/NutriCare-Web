@@ -1,0 +1,1001 @@
+foodName,category,calories,protein,carbs,fat,foodPreference,allergens,medicalTags
+Chole,breakfast,214,22.3,64.7,18.1,veg,eggs,low_carb
+Millet Khichdi,breakfast,339,1.4,65.1,19.0,nonveg,eggs,diabetes_safe
+Quinoa,dinner,126,1.0,59.4,7.6,nonveg,peanuts,high_protein
+Tortilla Wrap,dinner,162,28.2,70.0,10.1,eggetarian,,low_sodium
+Curd,lunch,262,16.7,49.8,8.3,nonveg,,diabetes_safe
+Dal Tadka,breakfast,285,13.9,17.5,2.6,nonveg,eggs,
+Macaroni,dinner,208,15.0,16.4,2.4,veg,soy,high_protein
+Oats,lunch,175,25.1,53.8,14.0,eggetarian,,low_sodium
+Tofu Stir Fry,lunch,202,3.5,53.1,24.2,nonveg,soy,
+Veg Momos,breakfast,272,8.2,27.8,21.7,eggetarian,gluten,diabetes_safe
+Fish Curry,snack,283,22.8,58.3,11.2,veg,,high_protein
+French Fries,snack,49,2.9,63.0,9.9,veg,,low_carb
+Avocado Toast,breakfast,44,29.1,20.2,23.1,eggetarian,eggs,low_sodium
+Fruit Salad,snack,353,9.0,21.4,8.9,veg,,low_sodium
+Roasted Peanuts,lunch,317,27.0,4.4,17.1,nonveg,eggs,
+Paratha,snack,159,16.1,65.2,24.8,nonveg,soy,diabetes_safe
+Lasagna,breakfast,374,6.3,42.5,12.3,eggetarian,eggs,low_sodium
+Chicken Kebab,lunch,287,20.1,53.7,20.5,eggetarian,soy,low_carb
+Fish Curry,snack,146,33.9,24.2,23.5,veg,soy,
+Whey Protein Shake,lunch,195,14.4,17.3,5.8,eggetarian,,diabetes_safe
+Peanut Butter Toast,lunch,165,28.1,6.3,7.1,nonveg,gluten,diabetes_safe
+Peanut Butter Toast,dinner,317,28.7,14.9,23.8,veg,gluten,low_carb
+Peanut Butter Toast,snack,350,3.6,11.7,7.0,eggetarian,,
+Almond Milk,breakfast,163,7.1,35.1,8.4,eggetarian,eggs,diabetes_safe
+Chicken Curry,lunch,62,8.4,66.0,20.7,nonveg,milk,high_protein
+Prawn Curry,lunch,156,9.5,29.0,10.7,nonveg,soy,low_sodium
+Cauliflower Sabzi,breakfast,217,32.2,28.8,18.2,veg,peanuts,low_sodium
+Sweet Potato,dinner,84,29.8,66.9,14.0,eggetarian,,low_sodium
+Energy Bar,dinner,121,10.3,17.8,15.1,veg,,low_carb
+Cucumber Salad,snack,393,11.2,51.7,8.6,veg,gluten,
+Poha,snack,272,30.9,14.2,13.9,eggetarian,milk,
+Tortilla Wrap,dinner,151,3.2,18.0,6.6,nonveg,peanuts,low_carb
+Palak Paneer,snack,189,35.0,51.3,10.1,nonveg,,
+Fried Rice,snack,256,8.9,12.3,10.8,eggetarian,milk,high_protein
+Steamed Vegetables,snack,260,32.9,50.8,7.6,nonveg,milk,diabetes_safe
+Omelette,breakfast,297,19.4,24.1,19.0,eggetarian,eggs,high_protein
+Mixed Veg Sabzi,lunch,336,32.9,28.7,15.1,nonveg,milk,
+Noodles,breakfast,340,23.6,36.6,21.3,veg,,diabetes_safe
+Tomato Soup,dinner,287,31.8,7.2,13.6,eggetarian,gluten,diabetes_safe
+Paneer Bhurji,dinner,225,30.0,33.6,3.1,nonveg,milk,high_protein
+Mixed Veg Sabzi,lunch,388,22.9,62.5,8.3,eggetarian,milk,low_carb
+Paneer Tikka,breakfast,61,8.3,36.6,0.6,nonveg,milk,low_carb
+Papaya,breakfast,365,29.2,13.9,10.8,nonveg,,high_protein
+Aloo Gobi,snack,282,30.9,47.3,17.6,nonveg,gluten,low_carb
+Apple,lunch,167,19.8,68.0,10.6,nonveg,gluten,low_sodium
+Vegetable Sandwich,lunch,251,23.8,28.2,19.9,veg,gluten,low_sodium
+Tomato Salad,lunch,135,30.2,33.3,7.4,veg,eggs,
+Dosa,snack,263,34.2,18.5,2.0,nonveg,soy,diabetes_safe
+Chicken Fried Rice,lunch,272,3.5,46.6,14.8,nonveg,,high_protein
+Vegetable Sandwich,lunch,286,4.2,63.5,14.7,veg,peanuts,diabetes_safe
+Upma,lunch,157,12.5,29.6,24.7,eggetarian,soy,
+Chia Pudding,breakfast,377,8.8,66.3,1.2,nonveg,peanuts,
+Almond Milk,snack,382,11.9,36.4,5.2,veg,soy,low_sodium
+Rajma,lunch,268,25.2,45.3,21.5,nonveg,peanuts,high_protein
+Upma,breakfast,304,19.3,53.2,0.5,nonveg,milk,low_carb
+Trail Mix,breakfast,328,2.9,44.8,24.6,eggetarian,eggs,low_sodium
+Chicken Sandwich,lunch,51,20.0,41.6,8.3,eggetarian,peanuts,low_sodium
+Chicken Fried Rice,dinner,383,24.7,1.4,16.0,nonveg,soy,diabetes_safe
+Mashed Potato,dinner,84,5.4,58.2,12.8,veg,,diabetes_safe
+Chicken Sandwich,lunch,106,4.8,68.5,6.1,veg,milk,low_sodium
+Almond Milk,breakfast,278,6.5,19.4,2.9,veg,,diabetes_safe
+Steamed Vegetables,snack,367,22.2,10.0,18.0,eggetarian,eggs,high_protein
+Vegetable Soup,dinner,76,7.3,47.1,12.2,eggetarian,milk,
+Greek Yogurt,breakfast,373,2.8,34.4,17.0,veg,eggs,diabetes_safe
+Tofu Stir Fry,lunch,69,9.3,52.7,20.7,nonveg,soy,low_carb
+Omelette,snack,281,33.1,40.1,0.4,nonveg,,high_protein
+Spaghetti,lunch,131,2.3,46.9,4.9,nonveg,soy,low_carb
+Peanut Chaat,dinner,60,12.8,13.1,2.4,veg,soy,low_sodium
+Orange,snack,232,4.4,61.1,17.7,nonveg,soy,diabetes_safe
+Almond Milk,lunch,183,18.6,2.5,14.5,eggetarian,milk,low_sodium
+Khichdi,breakfast,383,13.3,8.3,21.8,veg,peanuts,diabetes_safe
+Orange,dinner,257,10.2,4.2,8.3,eggetarian,eggs,diabetes_safe
+Aloo Gobi,lunch,384,26.6,22.4,1.7,nonveg,eggs,diabetes_safe
+Sambar,lunch,288,21.9,8.3,9.9,veg,,high_protein
+Trail Mix,dinner,241,5.1,57.1,11.0,veg,peanuts,
+Chicken Sandwich,snack,352,13.0,45.2,3.6,veg,eggs,low_carb
+Egg Fried Rice,breakfast,291,15.6,17.0,0.6,nonveg,gluten,low_carb
+Berry Smoothie,breakfast,393,13.1,25.1,13.4,veg,milk,diabetes_safe
+Mixed Veg Sabzi,breakfast,253,3.6,10.9,21.1,eggetarian,eggs,
+Khichdi,lunch,395,4.2,15.3,21.7,nonveg,,
+Omelette,snack,106,19.5,9.1,13.6,eggetarian,soy,high_protein
+Palak Paneer,dinner,228,24.8,5.7,10.2,eggetarian,peanuts,
+Seekh Kebab,breakfast,123,2.6,14.8,2.6,eggetarian,eggs,high_protein
+Mango Smoothie,lunch,230,17.0,62.5,23.8,nonveg,eggs,high_protein
+Paratha,breakfast,125,22.4,34.7,12.1,veg,milk,low_sodium
+Vegetable Curry,snack,359,10.7,7.5,5.5,nonveg,peanuts,diabetes_safe
+Palak Paneer,dinner,365,4.0,18.5,7.6,eggetarian,soy,
+Chicken Curry,snack,391,30.1,61.7,2.5,nonveg,,high_protein
+Seekh Kebab,breakfast,211,24.6,49.3,18.7,nonveg,milk,diabetes_safe
+Fish Curry,lunch,151,31.2,23.0,18.8,veg,eggs,low_carb
+Cornflakes,lunch,314,1.4,1.1,24.5,eggetarian,,
+Oats,lunch,218,11.9,31.6,11.5,veg,eggs,low_sodium
+Whey Protein Shake,snack,187,19.1,19.9,12.6,nonveg,eggs,diabetes_safe
+Vegetable Sandwich,lunch,120,5.5,32.6,4.2,nonveg,eggs,diabetes_safe
+Tomato Soup,lunch,83,17.7,65.9,22.7,eggetarian,milk,low_carb
+Prawn Curry,dinner,307,9.3,35.1,23.0,veg,,low_sodium
+Brown Bread Sandwich,breakfast,109,32.4,66.9,11.5,nonveg,soy,
+Banana,breakfast,62,14.2,5.8,20.5,veg,milk,low_carb
+Rajma,lunch,353,14.2,6.1,17.9,nonveg,soy,low_sodium
+Whey Protein Shake,breakfast,370,30.1,68.8,23.3,eggetarian,milk,low_sodium
+Sambar,lunch,55,16.1,1.2,7.2,nonveg,soy,low_carb
+Falafel,breakfast,181,15.7,8.7,20.8,veg,gluten,low_carb
+Chicken Kebab,lunch,183,34.6,39.2,1.3,eggetarian,soy,low_carb
+Whole Wheat Toast,dinner,62,28.9,63.5,16.5,eggetarian,eggs,high_protein
+French Fries,dinner,348,7.7,47.1,0.7,eggetarian,eggs,
+Lasagna,snack,44,15.2,47.6,14.6,eggetarian,gluten,low_sodium
+Banana,lunch,96,25.4,27.6,11.1,nonveg,eggs,
+Dal Fry,lunch,103,6.2,32.8,12.1,eggetarian,peanuts,high_protein
+Chole,dinner,378,34.0,22.0,11.8,nonveg,gluten,low_sodium
+Peanut Butter Toast,dinner,104,11.1,22.9,3.3,veg,eggs,diabetes_safe
+Pasta,dinner,375,27.4,68.6,17.4,veg,,high_protein
+Granola,lunch,382,15.1,0.8,16.9,veg,peanuts,low_sodium
+Papaya,snack,157,8.8,59.7,12.8,eggetarian,,
+Whole Wheat Toast,lunch,317,28.7,64.1,3.5,veg,peanuts,low_carb
+Salad,breakfast,207,33.3,40.1,2.6,veg,eggs,low_carb
+Poha,breakfast,367,17.9,24.3,1.6,veg,peanuts,high_protein
+Ramen,lunch,290,20.4,29.2,14.0,nonveg,eggs,high_protein
+Fruit Salad,snack,118,12.1,31.9,24.7,eggetarian,eggs,
+Sweet Potato,breakfast,257,25.8,28.2,5.2,veg,,low_sodium
+Chole,breakfast,153,15.7,53.2,6.7,nonveg,,low_carb
+Fruit Salad,dinner,41,10.9,37.8,17.3,veg,soy,high_protein
+Chicken Kebab,breakfast,316,6.2,47.9,9.5,veg,gluten,high_protein
+Egg Fried Rice,snack,75,20.3,65.8,17.6,eggetarian,soy,
+Chicken Pizza,breakfast,399,29.5,57.6,17.6,nonveg,,low_sodium
+Naan,snack,341,26.6,2.2,19.5,eggetarian,soy,high_protein
+Jeera Rice,lunch,246,26.5,32.6,17.6,veg,eggs,low_carb
+White Rice,dinner,333,22.8,11.7,5.0,veg,gluten,
+Aloo Gobi,lunch,169,33.6,43.9,18.7,veg,soy,low_sodium
+Mango Smoothie,lunch,98,16.4,25.5,20.0,eggetarian,soy,low_sodium
+Sprouts Salad,breakfast,358,13.3,7.6,16.2,eggetarian,,low_carb
+White Rice,dinner,250,28.6,7.7,1.5,nonveg,soy,
+Lentil Soup,snack,385,25.5,5.5,7.1,veg,peanuts,high_protein
+Chicken Momos,breakfast,78,3.4,45.5,18.1,nonveg,eggs,diabetes_safe
+Chicken Kebab,lunch,197,30.4,26.3,11.8,nonveg,soy,
+Granola,dinner,362,30.9,55.0,12.4,eggetarian,milk,low_sodium
+Apple,lunch,51,30.4,67.3,13.8,eggetarian,,low_sodium
+Rajma,breakfast,391,24.3,20.7,1.1,nonveg,gluten,high_protein
+White Rice,snack,274,22.6,57.7,20.2,nonveg,gluten,diabetes_safe
+Sweet Potato,dinner,342,3.3,43.5,18.2,veg,eggs,low_carb
+Paneer Butter Masala,dinner,190,16.0,21.6,14.4,nonveg,,
+Tortilla Wrap,breakfast,192,9.7,8.0,14.2,veg,soy,low_carb
+Protein Shake,lunch,124,30.1,43.9,15.4,veg,peanuts,low_carb
+Spaghetti,snack,51,8.9,36.3,12.2,nonveg,,
+Cucumber Salad,snack,325,20.5,64.4,16.5,eggetarian,soy,high_protein
+Jeera Rice,breakfast,60,22.0,43.2,13.5,veg,gluten,
+Brown Rice,breakfast,151,23.8,3.6,23.2,veg,soy,diabetes_safe
+Trail Mix,breakfast,130,23.4,4.1,1.1,nonveg,,high_protein
+Egg Fried Rice,breakfast,116,23.7,40.6,23.0,eggetarian,,diabetes_safe
+Peanut Chaat,lunch,377,12.3,6.7,2.5,eggetarian,peanuts,low_sodium
+Paneer Tikka,dinner,333,13.8,63.4,24.1,veg,gluten,diabetes_safe
+Mixed Veg Sabzi,lunch,316,25.1,50.5,16.3,nonveg,,low_sodium
+Sprouts Salad,breakfast,118,26.1,57.9,21.8,nonveg,,diabetes_safe
+Paneer Sandwich,breakfast,112,24.1,19.9,22.8,nonveg,gluten,low_carb
+Khichdi,breakfast,195,33.9,39.3,7.9,veg,eggs,high_protein
+Seekh Kebab,breakfast,340,11.0,53.9,23.8,veg,eggs,
+Quinoa,snack,70,14.8,24.1,16.9,eggetarian,eggs,
+Egg Curry,breakfast,94,25.0,9.0,6.3,nonveg,eggs,diabetes_safe
+Trail Mix,breakfast,120,5.8,60.9,11.0,nonveg,soy,
+Scrambled Eggs,dinner,343,4.7,5.6,2.4,eggetarian,,diabetes_safe
+Egg Curry,dinner,349,24.2,19.7,23.3,veg,gluten,low_sodium
+Tomato Soup,snack,175,28.7,44.1,2.8,nonveg,milk,high_protein
+Chicken Pulao,snack,114,32.3,59.9,11.9,eggetarian,milk,high_protein
+Tofu Stir Fry,snack,85,8.3,50.0,13.6,veg,eggs,diabetes_safe
+Chicken Fried Rice,breakfast,373,27.5,11.1,20.8,eggetarian,eggs,high_protein
+Mixed Veg Sabzi,snack,267,15.8,22.3,24.7,nonveg,eggs,high_protein
+Banana,snack,335,21.6,59.6,23.7,veg,gluten,low_carb
+Vegetable Pulao,lunch,206,6.1,58.7,13.0,nonveg,milk,
+Banana,lunch,49,6.1,30.5,11.0,veg,gluten,high_protein
+Vegetable Sandwich,breakfast,109,9.8,62.6,23.1,veg,milk,high_protein
+Dal Fry,snack,288,34.9,16.9,4.4,eggetarian,milk,diabetes_safe
+Chicken Biryani,snack,151,32.7,68.5,10.1,veg,,high_protein
+Sambar,lunch,147,4.6,17.8,10.2,veg,,diabetes_safe
+Chicken Momos,lunch,252,24.9,16.7,11.4,nonveg,peanuts,low_carb
+Millet Khichdi,snack,267,18.5,2.4,6.6,nonveg,milk,low_carb
+Dosa,breakfast,357,26.7,26.5,10.7,nonveg,soy,low_carb
+Roti,dinner,245,12.5,29.4,5.3,eggetarian,milk,low_sodium
+Pita Bread,snack,244,18.4,35.3,20.9,eggetarian,milk,high_protein
+Chicken Fried Rice,snack,214,8.6,28.6,9.1,eggetarian,soy,
+Broccoli Stir Fry,breakfast,143,8.7,28.3,23.8,veg,,
+Almond Milk,snack,67,32.7,55.6,17.8,veg,gluten,
+Avocado Toast,lunch,339,13.1,62.5,0.6,eggetarian,eggs,
+Bhindi Fry,lunch,384,21.0,3.5,8.1,eggetarian,eggs,low_sodium
+White Rice,dinner,142,23.4,13.7,16.5,eggetarian,soy,low_carb
+Orange,dinner,377,28.3,6.9,13.7,veg,milk,diabetes_safe
+Steamed Vegetables,snack,187,22.6,40.0,24.9,veg,peanuts,low_carb
+Palak Paneer,lunch,279,16.6,33.3,11.8,nonveg,soy,
+Almond Milk,lunch,322,27.4,59.0,11.8,veg,gluten,low_carb
+Fish Fry,dinner,310,31.5,60.0,1.5,eggetarian,,
+Millet Khichdi,dinner,380,30.2,57.1,7.5,nonveg,eggs,high_protein
+Tortilla Wrap,breakfast,233,31.1,26.5,7.1,veg,peanuts,low_carb
+Ramen,dinner,383,29.2,31.2,6.3,veg,peanuts,low_sodium
+Rajma,snack,107,5.1,65.7,18.8,veg,peanuts,diabetes_safe
+Tofu Stir Fry,lunch,74,15.5,10.0,0.9,veg,peanuts,high_protein
+Oats,dinner,304,8.0,34.1,3.9,eggetarian,,diabetes_safe
+Soy Milk,breakfast,277,27.8,18.5,3.9,veg,,high_protein
+Macaroni,lunch,121,6.5,60.6,15.4,veg,,low_sodium
+Seekh Kebab,breakfast,228,31.2,24.3,24.4,nonveg,eggs,low_sodium
+Milk,breakfast,245,18.4,50.7,15.3,veg,milk,low_sodium
+Smoothie,dinner,126,31.3,30.2,15.9,eggetarian,,diabetes_safe
+Idli,breakfast,385,5.5,66.5,5.3,veg,peanuts,diabetes_safe
+Dosa,snack,214,26.5,58.8,5.5,veg,peanuts,
+Dosa,lunch,375,15.8,49.5,21.1,veg,soy,low_sodium
+Idli,breakfast,318,4.1,28.6,13.5,veg,peanuts,
+Tomato Salad,lunch,379,24.6,51.5,9.2,eggetarian,soy,high_protein
+Sprouts Salad,breakfast,146,33.9,51.7,2.8,veg,gluten,low_sodium
+Almond Milk,snack,152,9.9,60.4,8.7,eggetarian,eggs,
+Pita Bread,lunch,88,11.8,56.6,12.9,veg,soy,high_protein
+Prawn Curry,lunch,384,26.2,20.5,12.2,eggetarian,eggs,
+Brown Rice,snack,49,18.7,26.8,20.1,veg,,low_carb
+Upma,dinner,367,1.4,49.2,15.2,veg,eggs,low_carb
+Vegetable Soup,lunch,49,19.7,62.3,8.0,veg,,
+Pasta,dinner,135,22.2,17.5,4.8,veg,eggs,low_carb
+Paneer Bhurji,dinner,240,25.5,9.9,10.5,veg,soy,low_carb
+Papaya,lunch,361,29.0,14.3,9.3,veg,soy,low_sodium
+Chicken Curry,snack,255,33.4,2.3,23.0,eggetarian,peanuts,low_sodium
+Omelette,lunch,111,14.1,52.2,11.2,veg,milk,low_sodium
+Egg Fried Rice,lunch,225,34.8,62.2,8.8,nonveg,eggs,low_carb
+Mashed Potato,dinner,109,24.5,32.2,7.7,eggetarian,gluten,diabetes_safe
+Dal Tadka,lunch,238,4.4,2.0,6.6,eggetarian,,
+Chicken Curry,dinner,181,27.6,33.0,15.6,eggetarian,gluten,high_protein
+French Fries,snack,167,28.2,24.8,17.7,eggetarian,,low_carb
+Mushroom Soup,breakfast,343,31.2,66.4,1.7,eggetarian,gluten,low_sodium
+Vegetable Sandwich,lunch,302,3.3,24.1,10.4,nonveg,milk,high_protein
+Lasagna,lunch,107,3.4,32.0,4.8,nonveg,peanuts,low_sodium
+Energy Bar,lunch,159,11.8,35.7,8.8,eggetarian,peanuts,diabetes_safe
+Vegetable Curry,snack,92,26.8,52.1,14.5,nonveg,peanuts,diabetes_safe
+Grilled Chicken Breast,dinner,120,32.4,35.6,7.5,eggetarian,milk,high_protein
+Brown Bread Sandwich,lunch,325,34.2,69.9,21.9,veg,soy,low_carb
+Veg Momos,breakfast,62,22.2,57.2,22.7,eggetarian,peanuts,
+Falafel,snack,192,28.0,18.1,3.7,nonveg,,low_sodium
+Milk,dinner,171,31.9,21.2,11.9,eggetarian,peanuts,
+Fish Fry,snack,48,23.4,58.2,11.2,eggetarian,eggs,
+Avocado Toast,lunch,331,28.6,13.9,6.8,eggetarian,peanuts,low_carb
+Naan,dinner,163,20.8,68.8,12.5,nonveg,eggs,low_carb
+Fish Fry,snack,366,31.5,56.5,3.8,veg,,diabetes_safe
+Chicken Pulao,snack,115,23.3,52.9,4.4,veg,gluten,low_sodium
+Chicken Fried Rice,lunch,393,15.6,28.1,1.1,eggetarian,gluten,
+Granola,snack,369,13.9,38.6,12.4,nonveg,,low_sodium
+Chicken Sandwich,breakfast,233,1.8,61.0,9.6,veg,eggs,high_protein
+Banana,breakfast,97,4.7,67.7,21.1,nonveg,eggs,high_protein
+Oats,breakfast,358,22.5,9.2,21.2,eggetarian,soy,
+Fish Fry,snack,255,6.0,23.7,11.5,veg,gluten,low_carb
+Peanut Butter Toast,lunch,64,15.2,60.5,12.6,nonveg,milk,
+Protein Shake,lunch,153,21.2,63.2,18.7,veg,milk,
+Berry Smoothie,breakfast,181,5.4,26.1,19.6,eggetarian,peanuts,low_sodium
+Idli,breakfast,237,20.1,19.6,22.5,veg,,diabetes_safe
+Aloo Gobi,breakfast,346,19.4,4.1,17.3,veg,peanuts,
+Roasted Peanuts,snack,335,7.3,23.6,12.4,nonveg,,high_protein
+Pita Bread,dinner,79,16.0,54.6,21.1,nonveg,,diabetes_safe
+Protein Shake,dinner,307,26.9,1.6,7.3,nonveg,milk,diabetes_safe
+Roasted Chickpeas,lunch,179,9.3,46.5,21.0,eggetarian,,low_sodium
+Dal Fry,dinner,369,12.7,58.8,6.8,eggetarian,eggs,diabetes_safe
+Naan,snack,221,22.6,1.5,13.5,veg,eggs,low_sodium
+Poha,snack,264,34.7,53.0,24.4,nonveg,eggs,low_carb
+Cucumber Salad,dinner,290,14.0,21.2,2.3,nonveg,peanuts,low_sodium
+Chicken Pulao,dinner,310,24.7,21.5,19.4,nonveg,peanuts,low_carb
+Poha,breakfast,375,27.3,18.7,10.5,eggetarian,peanuts,high_protein
+Noodles,breakfast,278,31.0,0.3,7.3,nonveg,eggs,diabetes_safe
+Mashed Potato,dinner,365,12.3,66.5,21.4,veg,gluten,
+Scrambled Eggs,lunch,160,26.0,15.8,23.2,eggetarian,,high_protein
+Tofu Stir Fry,dinner,139,13.6,54.6,2.5,veg,eggs,high_protein
+Chicken Curry,dinner,279,10.1,0.1,14.7,eggetarian,,low_carb
+Chapati,dinner,56,14.2,31.0,1.8,nonveg,milk,diabetes_safe
+Falafel,lunch,188,30.5,43.4,7.3,eggetarian,eggs,high_protein
+Lentil Soup,dinner,297,9.4,27.2,19.0,veg,,high_protein
+Trail Mix,lunch,93,7.6,2.5,0.9,eggetarian,,low_carb
+Tortilla Wrap,lunch,311,6.9,35.5,3.2,eggetarian,peanuts,
+Lentil Soup,breakfast,99,29.6,16.5,1.8,nonveg,peanuts,diabetes_safe
+Chicken Momos,breakfast,240,4.2,49.2,15.3,veg,,diabetes_safe
+Chicken Kebab,dinner,58,12.0,45.4,17.6,nonveg,,high_protein
+Lasagna,breakfast,264,30.7,25.7,23.8,eggetarian,gluten,diabetes_safe
+Vegetable Curry,breakfast,385,29.7,58.8,11.7,nonveg,gluten,
+Roasted Chickpeas,lunch,229,10.1,37.8,10.9,eggetarian,peanuts,diabetes_safe
+Whole Wheat Toast,snack,71,13.8,33.2,21.9,veg,milk,diabetes_safe
+Seekh Kebab,dinner,392,25.0,61.4,8.5,nonveg,eggs,diabetes_safe
+Vegetable Curry,lunch,227,23.6,69.7,17.1,eggetarian,gluten,low_sodium
+Brown Bread Sandwich,breakfast,111,29.2,15.0,20.8,nonveg,eggs,diabetes_safe
+Peanut Butter Toast,breakfast,340,10.5,8.9,9.7,nonveg,peanuts,low_carb
+Mashed Potato,dinner,298,7.5,34.4,23.9,eggetarian,eggs,low_carb
+Grilled Fish,dinner,181,16.7,42.8,10.1,eggetarian,soy,diabetes_safe
+Brown Bread Sandwich,breakfast,348,6.0,64.4,14.8,eggetarian,gluten,low_sodium
+Macaroni,snack,257,2.0,69.6,8.3,eggetarian,,low_sodium
+Omelette,snack,166,12.5,5.2,6.9,eggetarian,gluten,diabetes_safe
+Spaghetti,dinner,300,33.2,54.2,14.2,veg,milk,low_carb
+Scrambled Eggs,dinner,298,19.5,45.8,10.6,eggetarian,peanuts,low_carb
+Granola,dinner,251,13.0,42.4,7.1,veg,,
+Pita Bread,breakfast,178,20.7,35.3,6.0,nonveg,soy,high_protein
+Tofu Stir Fry,lunch,347,2.1,44.3,22.0,veg,gluten,high_protein
+Paratha,breakfast,195,34.0,35.7,12.7,veg,,diabetes_safe
+Pita Bread,breakfast,393,26.5,7.2,4.8,veg,soy,low_sodium
+Egg Fried Rice,breakfast,126,6.7,8.0,15.9,nonveg,eggs,low_carb
+Fruit Salad,breakfast,52,20.7,54.5,24.4,veg,peanuts,diabetes_safe
+Mixed Veg Sabzi,lunch,185,22.0,36.4,4.6,veg,soy,low_carb
+Egg Curry,dinner,204,4.2,44.6,21.4,nonveg,gluten,high_protein
+Upma,dinner,222,15.2,56.4,2.8,veg,,low_carb
+Palak Paneer,lunch,177,35.0,15.1,23.5,eggetarian,soy,high_protein
+Milk,lunch,321,32.8,48.0,6.8,veg,eggs,diabetes_safe
+Sprouts Salad,breakfast,103,15.0,61.9,10.0,nonveg,soy,high_protein
+Vegetable Curry,breakfast,220,19.1,48.7,10.7,eggetarian,peanuts,low_carb
+Roti,lunch,124,5.1,40.2,3.0,nonveg,soy,
+Palak Paneer,lunch,323,7.0,6.5,14.4,nonveg,peanuts,diabetes_safe
+Broccoli Stir Fry,lunch,333,8.2,38.1,20.3,eggetarian,soy,low_carb
+Fish Curry,dinner,327,28.4,46.9,5.6,eggetarian,eggs,
+Apple,dinner,390,18.1,51.3,24.1,eggetarian,eggs,high_protein
+Tofu Stir Fry,breakfast,91,9.6,47.2,16.5,eggetarian,milk,low_carb
+Greek Yogurt,lunch,275,10.3,12.9,17.6,eggetarian,gluten,diabetes_safe
+Chicken Tikka,dinner,138,14.1,23.4,1.6,eggetarian,soy,
+Omelette,breakfast,174,17.3,29.4,19.5,eggetarian,soy,
+Omelette,lunch,259,26.8,17.5,24.8,veg,soy,low_carb
+Cornflakes,dinner,338,6.3,43.7,10.7,veg,eggs,
+Papaya,snack,110,11.6,28.6,6.2,veg,,low_carb
+Tomato Salad,breakfast,98,5.1,22.6,22.4,nonveg,peanuts,low_carb
+Whole Wheat Toast,breakfast,114,1.1,29.6,21.9,nonveg,gluten,low_sodium
+Cauliflower Sabzi,dinner,328,18.2,65.1,21.9,eggetarian,soy,low_carb
+Papaya,dinner,295,26.8,22.3,6.0,eggetarian,gluten,diabetes_safe
+Seekh Kebab,lunch,399,26.0,49.8,9.1,eggetarian,peanuts,
+Quinoa,dinner,105,27.8,20.4,6.3,nonveg,,low_carb
+Protein Shake,dinner,304,4.1,41.0,17.6,eggetarian,eggs,diabetes_safe
+Peanut Chaat,snack,364,12.5,53.7,8.4,eggetarian,soy,low_sodium
+Energy Bar,lunch,180,22.6,60.5,8.9,eggetarian,peanuts,
+Cucumber Salad,snack,190,28.6,62.0,18.8,nonveg,eggs,low_carb
+Jeera Rice,lunch,223,14.3,1.6,11.6,veg,eggs,low_sodium
+Milk,breakfast,110,24.1,46.7,9.6,eggetarian,soy,high_protein
+Paneer Sandwich,breakfast,315,25.1,24.3,22.0,veg,,low_sodium
+Mango Smoothie,lunch,146,12.2,18.1,0.1,nonveg,milk,
+Protein Shake,snack,263,3.0,44.3,7.1,veg,,low_sodium
+Idli,lunch,337,14.9,40.7,0.9,veg,milk,diabetes_safe
+Chicken Biryani,lunch,77,9.8,52.4,18.0,nonveg,,high_protein
+Chicken Fried Rice,snack,248,13.4,68.5,5.2,veg,gluten,high_protein
+Omelette,snack,343,3.2,34.5,1.4,eggetarian,gluten,diabetes_safe
+Seekh Kebab,breakfast,194,11.7,19.3,7.8,veg,milk,
+Bhindi Fry,dinner,225,27.1,25.0,4.6,nonveg,peanuts,low_carb
+Paratha,breakfast,217,20.6,9.1,3.6,eggetarian,milk,low_carb
+Whey Protein Shake,lunch,393,5.6,46.5,7.4,eggetarian,soy,low_carb
+Chicken Biryani,breakfast,376,32.9,9.8,19.2,nonveg,soy,low_sodium
+Macaroni,breakfast,75,8.2,25.4,11.0,eggetarian,milk,low_carb
+Fruit Salad,lunch,376,32.2,11.8,6.6,eggetarian,,
+Brown Bread Sandwich,lunch,286,7.8,19.8,21.4,eggetarian,gluten,low_carb
+Fruit Salad,lunch,353,10.1,31.9,17.8,veg,gluten,low_sodium
+Dal Tadka,dinner,352,26.0,9.4,24.7,veg,,low_carb
+Prawn Curry,dinner,78,28.2,43.4,9.8,nonveg,gluten,low_carb
+Milk,lunch,98,1.1,22.2,15.8,eggetarian,soy,low_sodium
+Fish Fry,dinner,151,5.1,38.7,15.6,nonveg,milk,low_carb
+Naan,lunch,381,3.9,4.3,6.9,nonveg,gluten,
+Greek Yogurt,lunch,70,20.3,1.3,5.3,eggetarian,soy,diabetes_safe
+Boiled Potato,breakfast,46,3.1,3.3,22.0,veg,gluten,low_sodium
+Fish Fry,lunch,127,20.2,54.9,18.1,eggetarian,peanuts,low_sodium
+Dal Tadka,snack,256,18.0,50.2,0.9,veg,milk,low_carb
+Noodles,breakfast,192,15.0,2.4,9.9,veg,milk,low_carb
+Seekh Kebab,snack,235,10.0,19.7,7.0,nonveg,peanuts,low_sodium
+Paneer Sandwich,breakfast,319,32.0,23.3,24.9,veg,,
+Khichdi,lunch,153,32.2,66.9,1.0,eggetarian,milk,diabetes_safe
+Vegetable Sandwich,breakfast,347,27.6,66.0,6.9,veg,,high_protein
+Seekh Kebab,lunch,93,16.0,55.9,6.0,nonveg,gluten,diabetes_safe
+Noodles,snack,81,27.5,68.2,11.1,nonveg,soy,low_carb
+Energy Bar,snack,217,17.2,68.9,16.3,eggetarian,gluten,high_protein
+Salad,snack,224,22.8,41.0,20.5,veg,soy,low_carb
+Rajma,dinner,143,15.0,48.2,8.6,nonveg,gluten,low_sodium
+Veg Pizza,dinner,337,6.3,57.9,17.0,veg,gluten,low_carb
+Sprouts Salad,snack,70,5.9,65.4,20.8,nonveg,gluten,diabetes_safe
+Vegetable Soup,dinner,149,22.2,38.8,13.1,nonveg,eggs,
+Grilled Fish,snack,344,30.9,59.5,8.4,veg,peanuts,low_carb
+Banana,breakfast,246,4.2,1.7,6.8,nonveg,eggs,low_carb
+Spaghetti,lunch,303,27.4,37.5,7.5,veg,milk,diabetes_safe
+Mashed Potato,lunch,88,24.3,44.1,23.1,eggetarian,soy,high_protein
+Broccoli Stir Fry,breakfast,206,12.6,21.3,1.9,eggetarian,milk,low_carb
+Omelette,lunch,66,30.0,17.7,24.3,eggetarian,gluten,high_protein
+Broccoli Stir Fry,lunch,385,12.2,0.6,2.4,nonveg,gluten,low_sodium
+Chicken Pulao,breakfast,252,4.6,52.8,23.1,nonveg,,low_carb
+Naan,breakfast,353,24.6,0.3,13.3,veg,peanuts,
+Lasagna,lunch,297,29.1,57.9,5.2,eggetarian,eggs,diabetes_safe
+Veg Pizza,dinner,374,17.4,36.5,23.1,nonveg,,
+Mushroom Soup,lunch,267,19.7,46.9,13.1,veg,soy,diabetes_safe
+Poha,snack,242,22.8,23.0,11.3,veg,milk,high_protein
+Boiled Egg,snack,61,22.8,15.2,5.0,nonveg,soy,diabetes_safe
+Soy Milk,lunch,83,34.3,22.8,6.1,nonveg,peanuts,low_carb
+Vegetable Soup,lunch,179,16.0,8.0,4.6,veg,milk,low_sodium
+Granola,snack,395,6.3,24.4,8.8,eggetarian,eggs,low_carb
+Dosa,lunch,163,30.8,26.1,5.7,eggetarian,peanuts,diabetes_safe
+Tomato Soup,lunch,207,16.8,60.8,21.2,eggetarian,eggs,low_carb
+Ramen,lunch,365,29.0,34.1,20.6,nonveg,milk,diabetes_safe
+Poha,lunch,75,14.5,34.4,5.5,veg,eggs,diabetes_safe
+Cauliflower Sabzi,snack,68,19.8,69.1,24.3,eggetarian,gluten,
+Fruit Salad,snack,146,26.4,62.4,0.9,eggetarian,,low_sodium
+Grilled Fish,breakfast,129,14.6,36.4,20.1,nonveg,soy,low_sodium
+Spaghetti,lunch,380,7.7,53.5,22.1,eggetarian,gluten,diabetes_safe
+Idli,snack,268,4.9,29.7,12.7,veg,eggs,low_sodium
+Tofu Stir Fry,snack,134,33.3,24.1,15.9,eggetarian,,
+Peanut Chaat,lunch,59,12.8,49.4,6.8,nonveg,eggs,
+Sambar,lunch,356,31.0,0.2,6.7,veg,eggs,diabetes_safe
+Vegetable Sandwich,dinner,223,11.4,32.3,13.2,veg,peanuts,high_protein
+Chicken Tikka,snack,320,4.1,33.8,18.2,nonveg,eggs,low_sodium
+Quinoa,lunch,400,10.0,9.0,12.9,veg,gluten,diabetes_safe
+Almond Milk,lunch,182,28.3,26.1,0.7,eggetarian,eggs,low_carb
+Dal Fry,breakfast,106,30.8,15.9,20.8,veg,milk,low_carb
+Pita Bread,dinner,103,15.5,31.4,20.7,veg,soy,low_carb
+Veg Pizza,dinner,386,15.7,59.3,22.6,nonveg,soy,low_carb
+Chicken Sandwich,dinner,274,33.2,1.1,19.6,veg,peanuts,low_carb
+Aloo Gobi,breakfast,260,30.8,67.4,3.0,veg,,low_carb
+Ramen,snack,47,1.8,39.8,17.4,eggetarian,gluten,high_protein
+Omelette,breakfast,294,10.6,23.6,6.8,nonveg,milk,
+Egg Curry,breakfast,222,33.2,47.6,15.7,eggetarian,soy,low_carb
+Sambar,lunch,94,35.0,19.4,0.2,nonveg,,
+Chole,dinner,226,10.9,65.9,14.3,eggetarian,eggs,
+Veg Momos,lunch,248,27.3,14.4,8.2,eggetarian,,high_protein
+Falafel,snack,138,24.4,62.1,1.4,veg,gluten,low_sodium
+Chia Pudding,lunch,305,27.1,27.9,13.4,eggetarian,eggs,low_carb
+Berry Smoothie,lunch,252,30.6,0.7,13.7,nonveg,peanuts,high_protein
+Chicken Soup,dinner,219,12.4,52.1,18.1,eggetarian,,low_carb
+Chicken Burger,dinner,365,19.8,17.3,12.9,veg,gluten,low_sodium
+Poha,dinner,269,4.5,56.1,23.2,nonveg,soy,low_sodium
+Greek Yogurt,breakfast,286,16.6,28.7,18.4,veg,eggs,low_sodium
+Ramen,dinner,255,25.7,54.7,3.7,veg,peanuts,diabetes_safe
+Chicken Pulao,lunch,47,22.8,13.3,18.0,eggetarian,gluten,diabetes_safe
+Vegetable Sandwich,dinner,346,19.5,11.2,16.1,veg,,diabetes_safe
+Rajma,dinner,102,17.6,68.3,23.7,eggetarian,eggs,
+Trail Mix,lunch,370,10.7,22.5,5.6,eggetarian,milk,diabetes_safe
+Bhindi Fry,lunch,109,30.2,43.3,14.0,eggetarian,,high_protein
+Omelette,lunch,109,29.3,40.8,2.6,nonveg,eggs,
+White Rice,lunch,146,2.7,45.6,3.4,veg,,diabetes_safe
+Roasted Peanuts,breakfast,41,19.5,27.6,14.2,nonveg,eggs,
+Soy Milk,lunch,148,12.1,18.3,14.0,nonveg,soy,diabetes_safe
+Prawn Curry,lunch,375,33.3,41.4,7.4,nonveg,eggs,
+Lentil Soup,dinner,45,22.1,37.6,6.5,nonveg,eggs,low_sodium
+Prawn Curry,snack,88,26.0,45.0,3.3,eggetarian,soy,low_carb
+Millet Khichdi,dinner,279,28.2,43.0,2.3,veg,milk,
+Chicken Curry,lunch,261,28.5,53.9,5.9,nonveg,soy,high_protein
+Chole,breakfast,181,4.3,26.5,4.3,nonveg,milk,low_carb
+Chicken Kebab,snack,158,27.1,4.5,15.8,nonveg,gluten,diabetes_safe
+Poha,lunch,341,34.7,16.8,20.3,veg,gluten,diabetes_safe
+Berry Smoothie,snack,394,32.7,27.4,4.3,eggetarian,,
+Banana,dinner,134,2.3,67.5,16.6,eggetarian,soy,low_carb
+Falafel,lunch,115,2.5,18.5,1.1,nonveg,gluten,diabetes_safe
+Tomato Salad,snack,400,28.4,33.9,12.8,eggetarian,soy,
+Pasta,snack,286,24.6,6.3,10.3,veg,gluten,diabetes_safe
+Paratha,breakfast,356,13.3,1.6,14.9,nonveg,milk,diabetes_safe
+Prawn Curry,dinner,164,15.2,65.9,13.1,eggetarian,gluten,
+Berry Smoothie,lunch,376,1.1,11.8,7.7,eggetarian,peanuts,
+Veg Burger,dinner,112,26.4,10.3,23.0,nonveg,gluten,low_carb
+Avocado Toast,dinner,120,33.4,21.4,0.5,eggetarian,peanuts,high_protein
+Berry Smoothie,snack,121,31.9,45.2,11.7,nonveg,eggs,diabetes_safe
+Pasta,lunch,100,12.0,21.3,15.2,veg,soy,
+Granola,breakfast,159,4.8,59.0,10.7,veg,gluten,high_protein
+Mango Smoothie,lunch,230,17.1,24.5,21.2,eggetarian,peanuts,low_sodium
+Fish Fry,snack,246,4.6,51.4,23.7,eggetarian,,diabetes_safe
+Chicken Kebab,breakfast,186,8.7,7.4,14.2,veg,eggs,low_sodium
+Aloo Gobi,dinner,301,9.5,13.0,0.7,nonveg,peanuts,diabetes_safe
+Chicken Tikka,snack,55,6.1,51.7,16.9,veg,eggs,
+Scrambled Eggs,snack,180,2.6,60.4,9.3,veg,peanuts,
+Cornflakes,dinner,74,15.2,51.3,24.6,eggetarian,milk,low_sodium
+Veg Burger,lunch,173,32.5,11.5,14.3,nonveg,milk,diabetes_safe
+Mango Smoothie,lunch,124,10.6,10.8,9.7,eggetarian,peanuts,low_carb
+Palak Paneer,snack,311,11.0,67.1,0.1,eggetarian,eggs,
+French Fries,lunch,332,1.3,48.6,12.2,veg,eggs,high_protein
+Chicken Biryani,lunch,148,12.7,39.1,11.0,nonveg,soy,low_sodium
+Prawn Curry,snack,352,25.4,53.0,8.3,veg,eggs,low_sodium
+Whey Protein Shake,snack,188,17.0,12.0,16.6,nonveg,,low_carb
+Chicken Soup,dinner,292,10.0,57.7,18.2,eggetarian,peanuts,diabetes_safe
+Jeera Rice,snack,254,14.1,32.1,5.2,nonveg,peanuts,low_carb
+Chicken Pulao,dinner,85,9.4,32.7,17.4,nonveg,gluten,low_sodium
+Palak Paneer,snack,178,33.9,7.4,1.6,veg,gluten,diabetes_safe
+Paratha,breakfast,209,21.5,37.9,5.7,veg,,high_protein
+Tomato Soup,breakfast,168,12.9,23.9,3.9,nonveg,soy,
+Khichdi,snack,269,25.7,3.9,7.9,nonveg,milk,
+Dosa,dinner,125,1.6,67.4,1.5,eggetarian,peanuts,diabetes_safe
+Chicken Burger,snack,137,14.6,16.2,4.9,veg,peanuts,high_protein
+Chapati,dinner,391,31.4,52.9,4.3,eggetarian,peanuts,high_protein
+Lentil Soup,lunch,44,3.9,5.9,2.6,eggetarian,soy,low_carb
+Mushroom Soup,snack,334,13.9,4.1,18.9,nonveg,milk,diabetes_safe
+Pasta,lunch,94,6.0,43.7,10.3,nonveg,gluten,diabetes_safe
+Egg Curry,dinner,371,3.5,60.0,0.4,veg,,low_sodium
+Banana,breakfast,103,29.6,37.4,23.4,eggetarian,soy,diabetes_safe
+Chicken Pulao,dinner,197,27.2,54.7,17.6,eggetarian,milk,diabetes_safe
+Ramen,snack,373,8.7,50.1,17.8,veg,,low_carb
+Grilled Fish,lunch,109,28.6,56.3,23.7,nonveg,,diabetes_safe
+Roasted Peanuts,snack,192,6.2,19.3,13.1,veg,milk,low_carb
+Falafel,lunch,389,31.2,26.8,9.9,eggetarian,eggs,high_protein
+Veg Momos,lunch,140,10.9,14.3,23.6,veg,soy,diabetes_safe
+Mixed Veg Sabzi,snack,64,34.1,24.2,19.4,veg,milk,diabetes_safe
+Vegetable Sandwich,dinner,254,24.7,0.8,7.0,eggetarian,,diabetes_safe
+Cucumber Salad,breakfast,44,12.2,60.1,23.5,veg,peanuts,
+Chicken Kebab,dinner,313,17.6,13.1,6.0,eggetarian,peanuts,low_sodium
+Cauliflower Sabzi,dinner,307,34.2,53.9,17.8,eggetarian,gluten,low_carb
+Quinoa,lunch,282,19.2,61.7,11.1,nonveg,milk,
+Banana,snack,358,13.0,58.2,23.1,veg,peanuts,low_carb
+Fried Rice,breakfast,303,4.5,11.3,6.6,veg,,
+Falafel,dinner,265,24.0,33.9,7.6,nonveg,gluten,low_carb
+Mashed Potato,snack,257,29.3,21.4,23.8,veg,milk,diabetes_safe
+Protein Shake,breakfast,203,15.2,59.6,12.1,veg,milk,
+Tortilla Wrap,snack,80,29.7,46.7,6.4,eggetarian,soy,low_carb
+Tofu Stir Fry,dinner,43,21.4,26.6,7.8,veg,peanuts,diabetes_safe
+Macaroni,breakfast,105,26.7,68.3,11.0,eggetarian,gluten,high_protein
+Berry Smoothie,lunch,51,29.2,42.0,8.9,veg,peanuts,low_sodium
+Berry Smoothie,breakfast,232,9.0,52.5,5.7,veg,milk,low_carb
+Greek Yogurt,dinner,380,13.7,4.9,4.4,eggetarian,soy,low_sodium
+Chia Pudding,lunch,129,27.2,8.1,24.8,veg,,low_sodium
+Tortilla Wrap,dinner,187,3.5,41.6,3.0,veg,peanuts,low_carb
+Roasted Peanuts,breakfast,239,16.3,69.2,24.2,nonveg,,low_carb
+Brown Bread Sandwich,dinner,87,4.9,2.6,0.2,eggetarian,,diabetes_safe
+Energy Bar,breakfast,144,13.2,16.2,13.5,eggetarian,soy,
+Chicken Sandwich,lunch,55,34.1,30.8,4.8,eggetarian,eggs,low_sodium
+Milk,snack,293,26.3,26.7,11.4,veg,eggs,diabetes_safe
+Mushroom Soup,breakfast,213,31.1,62.2,8.4,eggetarian,milk,low_sodium
+Palak Paneer,lunch,70,6.4,58.5,21.3,nonveg,soy,diabetes_safe
+Lasagna,dinner,114,19.8,52.4,18.4,veg,peanuts,high_protein
+Sprouts Salad,lunch,266,20.9,40.2,21.2,veg,peanuts,low_carb
+Peanut Butter Toast,dinner,371,8.3,69.0,18.7,veg,milk,low_sodium
+Sprouts Salad,lunch,371,30.0,50.7,6.7,eggetarian,,low_sodium
+Veg Burger,snack,203,1.3,17.9,0.9,eggetarian,gluten,low_carb
+Sprouts Salad,lunch,279,28.8,64.9,24.0,eggetarian,milk,
+Salad,dinner,135,27.7,43.3,15.6,eggetarian,peanuts,low_carb
+Dal Tadka,breakfast,295,25.4,4.4,19.3,nonveg,peanuts,
+Chicken Pulao,snack,265,12.4,41.3,5.7,veg,peanuts,diabetes_safe
+Whole Wheat Toast,breakfast,229,13.3,19.1,20.2,nonveg,eggs,low_carb
+Paneer Tikka,dinner,317,3.7,67.8,6.9,veg,eggs,
+Sprouts Salad,breakfast,338,30.2,53.5,20.0,veg,soy,low_sodium
+Roasted Chickpeas,breakfast,257,15.1,47.7,21.3,eggetarian,peanuts,diabetes_safe
+Ramen,dinner,48,20.7,17.0,14.1,eggetarian,gluten,low_carb
+Tomato Salad,lunch,272,2.1,39.6,13.3,nonveg,,low_sodium
+Mushroom Soup,dinner,167,18.1,12.1,10.2,veg,soy,
+Chicken Tikka,breakfast,112,2.0,65.2,21.6,veg,,
+Jeera Rice,lunch,346,10.7,47.5,17.7,eggetarian,peanuts,high_protein
+Paneer Bhurji,dinner,77,14.7,10.5,11.5,eggetarian,soy,low_sodium
+Chapati,lunch,356,29.7,50.7,21.2,veg,gluten,
+Paratha,snack,229,1.6,60.8,13.7,nonveg,gluten,low_sodium
+Aloo Gobi,snack,78,33.6,14.3,17.3,nonveg,eggs,
+Lentil Soup,snack,89,27.3,12.5,1.4,eggetarian,gluten,diabetes_safe
+Dal Fry,breakfast,264,24.6,23.6,14.3,nonveg,gluten,high_protein
+Whey Protein Shake,breakfast,148,11.0,35.2,11.5,nonveg,soy,diabetes_safe
+Paneer Bhurji,breakfast,180,28.2,7.4,4.6,veg,milk,low_carb
+Khichdi,snack,374,18.3,47.3,17.6,veg,,low_sodium
+Jeera Rice,snack,394,25.3,48.9,14.0,veg,peanuts,high_protein
+Jeera Rice,lunch,87,33.8,55.7,11.6,eggetarian,eggs,high_protein
+Sprouts Salad,snack,345,6.8,25.8,21.0,veg,eggs,low_sodium
+Grilled Chicken Breast,lunch,51,21.8,19.6,10.6,eggetarian,peanuts,
+Mango,breakfast,322,27.1,61.7,14.1,eggetarian,eggs,low_sodium
+Rajma,dinner,358,25.1,29.6,18.1,veg,gluten,
+Steamed Vegetables,dinner,61,23.4,24.9,13.3,veg,soy,diabetes_safe
+Rajma,dinner,269,15.0,5.0,23.0,veg,gluten,
+Noodles,lunch,394,19.0,35.2,12.0,veg,peanuts,
+Chicken Biryani,lunch,267,33.2,36.7,17.0,eggetarian,gluten,diabetes_safe
+Chapati,breakfast,197,2.6,46.5,23.6,veg,,high_protein
+Egg Fried Rice,dinner,246,2.4,61.0,8.2,eggetarian,,diabetes_safe
+Chicken Biryani,dinner,292,4.9,24.3,20.0,nonveg,milk,low_sodium
+Sprouts Salad,dinner,117,34.6,8.1,13.8,eggetarian,soy,high_protein
+Granola,snack,281,22.6,50.4,21.1,nonveg,milk,high_protein
+Cornflakes,dinner,305,3.0,60.3,8.0,nonveg,,low_sodium
+Lentil Soup,dinner,225,6.1,6.9,0.3,nonveg,milk,diabetes_safe
+Chicken Curry,breakfast,258,18.2,40.1,21.2,nonveg,soy,
+Quinoa,lunch,180,28.0,20.7,6.4,veg,gluten,high_protein
+Quinoa,lunch,150,12.1,9.7,19.5,veg,eggs,high_protein
+Spaghetti,breakfast,380,5.3,15.2,22.6,veg,soy,low_carb
+Chicken Burger,dinner,373,11.6,16.7,21.6,eggetarian,gluten,low_sodium
+Veg Momos,breakfast,359,8.7,39.7,10.7,nonveg,peanuts,high_protein
+Rajma,breakfast,396,15.6,32.9,24.4,nonveg,gluten,low_carb
+Brown Bread Sandwich,snack,172,32.2,57.3,9.7,eggetarian,soy,
+Vegetable Curry,dinner,150,15.7,60.5,15.1,veg,peanuts,diabetes_safe
+Protein Shake,breakfast,44,7.7,11.5,14.8,veg,milk,low_carb
+Almond Milk,snack,215,6.0,35.9,22.6,eggetarian,peanuts,low_carb
+Grilled Chicken Breast,snack,313,10.3,47.5,19.6,veg,milk,
+Bhindi Fry,lunch,165,25.9,55.6,18.9,eggetarian,eggs,high_protein
+Tofu Stir Fry,breakfast,301,21.3,22.5,16.9,veg,peanuts,high_protein
+Fried Rice,breakfast,313,8.1,31.1,11.2,nonveg,soy,low_carb
+Idli,breakfast,277,27.3,38.7,4.8,veg,soy,high_protein
+Macaroni,snack,308,8.8,68.1,20.1,nonveg,milk,
+Vegetable Pulao,breakfast,129,5.4,57.8,15.3,nonveg,peanuts,diabetes_safe
+Veg Burger,breakfast,275,27.2,52.7,22.1,nonveg,eggs,low_carb
+Mango,dinner,239,15.9,46.6,14.7,veg,eggs,low_sodium
+Omelette,dinner,119,7.4,22.4,6.9,nonveg,eggs,low_sodium
+Chicken Biryani,breakfast,117,17.3,22.3,19.2,eggetarian,gluten,low_carb
+Whey Protein Shake,breakfast,75,33.9,42.2,11.7,nonveg,milk,low_sodium
+Mango Smoothie,breakfast,366,31.3,55.5,11.5,veg,eggs,low_sodium
+Protein Shake,snack,136,18.5,21.5,11.8,nonveg,peanuts,high_protein
+Mango Smoothie,lunch,277,34.7,6.1,17.9,eggetarian,eggs,low_carb
+Paneer Butter Masala,lunch,235,27.6,3.3,6.1,veg,gluten,low_carb
+Egg Fried Rice,dinner,94,11.3,41.3,7.6,nonveg,gluten,diabetes_safe
+Paneer Bhurji,dinner,280,5.1,4.0,4.8,veg,milk,
+Vegetable Sandwich,breakfast,94,22.2,50.5,3.7,veg,soy,low_carb
+Dosa,lunch,112,24.4,59.2,2.3,eggetarian,eggs,high_protein
+Berry Smoothie,breakfast,235,16.8,64.3,24.5,eggetarian,eggs,
+Chicken Curry,lunch,63,26.3,11.8,4.4,eggetarian,soy,low_sodium
+Millet Khichdi,breakfast,378,15.2,40.8,1.7,veg,gluten,high_protein
+Whey Protein Shake,dinner,149,19.7,10.8,8.0,veg,gluten,low_carb
+Broccoli Stir Fry,lunch,290,29.0,19.6,23.5,eggetarian,eggs,high_protein
+Vegetable Curry,dinner,314,28.6,13.3,8.1,nonveg,eggs,high_protein
+Milk,snack,267,8.4,46.7,1.0,nonveg,gluten,
+Chicken Kebab,breakfast,115,21.0,29.8,18.6,nonveg,gluten,diabetes_safe
+Lentil Soup,breakfast,58,21.1,47.9,3.0,veg,peanuts,
+Fruit Salad,breakfast,57,28.0,12.1,6.4,eggetarian,soy,diabetes_safe
+Tomato Soup,lunch,151,19.5,40.9,8.6,nonveg,gluten,low_carb
+Cucumber Salad,dinner,64,2.7,36.5,19.0,veg,milk,low_carb
+Avocado Toast,lunch,333,24.6,3.8,22.6,veg,eggs,
+Paneer Sandwich,lunch,67,17.1,0.8,17.6,nonveg,milk,low_sodium
+Granola,lunch,140,21.6,35.0,9.6,eggetarian,eggs,low_sodium
+Trail Mix,snack,328,21.0,50.5,6.5,veg,milk,
+Mushroom Soup,breakfast,193,14.4,68.1,10.7,nonveg,,low_carb
+Cauliflower Sabzi,breakfast,294,22.3,14.8,22.1,eggetarian,,high_protein
+Brown Bread Sandwich,lunch,298,7.6,35.0,3.8,nonveg,peanuts,diabetes_safe
+Tomato Salad,lunch,123,12.0,58.2,17.0,eggetarian,eggs,low_carb
+Steamed Vegetables,dinner,307,2.4,0.2,23.8,nonveg,soy,diabetes_safe
+Brown Bread Sandwich,breakfast,326,22.6,12.6,5.0,veg,eggs,low_sodium
+Mango Smoothie,snack,358,14.9,27.1,2.0,veg,soy,low_carb
+Grilled Chicken Breast,dinner,342,3.8,5.7,21.4,veg,peanuts,diabetes_safe
+Veg Burger,snack,48,33.5,36.0,0.9,nonveg,soy,diabetes_safe
+Falafel,lunch,140,24.8,50.3,13.8,eggetarian,eggs,
+Tofu Stir Fry,lunch,238,16.7,12.2,23.5,veg,milk,diabetes_safe
+Almond Milk,lunch,291,26.5,4.7,14.7,veg,,high_protein
+Vegetable Sandwich,lunch,55,12.9,60.2,19.8,eggetarian,peanuts,diabetes_safe
+Prawn Curry,breakfast,270,1.2,21.8,10.5,veg,soy,high_protein
+Dal Fry,lunch,338,6.1,36.4,6.5,veg,peanuts,diabetes_safe
+Pita Bread,breakfast,273,12.1,24.6,3.4,eggetarian,eggs,low_carb
+Pita Bread,breakfast,298,16.3,18.7,13.1,nonveg,peanuts,low_carb
+Fried Rice,dinner,135,27.0,23.4,2.2,veg,eggs,
+Pasta,dinner,358,16.1,64.6,7.5,eggetarian,gluten,
+Chicken Pulao,dinner,239,5.6,52.3,9.5,eggetarian,,low_sodium
+Greek Yogurt,snack,163,5.9,41.5,10.1,veg,,
+Broccoli Stir Fry,snack,224,19.4,50.1,12.7,veg,peanuts,high_protein
+Chicken Momos,breakfast,393,6.0,38.4,21.0,nonveg,eggs,
+Falafel,dinner,66,8.1,37.8,10.2,veg,peanuts,low_sodium
+Milk,lunch,284,25.1,59.5,22.4,nonveg,peanuts,low_sodium
+Soy Milk,breakfast,172,26.8,65.8,1.5,eggetarian,gluten,high_protein
+Chicken Pulao,breakfast,106,18.4,5.7,0.1,nonveg,peanuts,low_carb
+Dosa,dinner,326,3.0,30.8,19.0,nonveg,peanuts,low_sodium
+Paneer Tikka,breakfast,184,1.2,63.2,19.2,veg,eggs,
+Vegetable Soup,snack,319,1.4,9.1,16.2,nonveg,,
+Veg Burger,lunch,275,4.3,15.3,14.2,eggetarian,gluten,low_sodium
+Paneer Sandwich,breakfast,88,32.7,56.7,5.2,veg,milk,
+Omelette,lunch,219,16.8,32.6,20.4,eggetarian,eggs,low_sodium
+Lentil Soup,dinner,300,14.8,43.7,10.1,eggetarian,eggs,low_sodium
+Almond Milk,dinner,40,1.9,5.9,19.0,nonveg,soy,
+Paneer Butter Masala,snack,372,5.3,27.6,19.0,veg,peanuts,high_protein
+Egg Fried Rice,dinner,193,3.5,6.3,14.8,nonveg,peanuts,low_sodium
+Brown Bread Sandwich,snack,315,30.7,3.0,9.7,veg,soy,high_protein
+Millet Khichdi,lunch,208,11.4,12.4,21.2,eggetarian,peanuts,low_carb
+Milk,dinner,108,3.0,64.1,13.3,eggetarian,,low_carb
+Oats,breakfast,356,34.9,12.3,3.4,veg,gluten,low_carb
+Protein Shake,dinner,343,21.1,24.9,18.5,eggetarian,gluten,low_carb
+Macaroni,dinner,344,1.4,65.7,11.2,nonveg,milk,high_protein
+Soy Milk,dinner,216,19.1,12.8,14.3,veg,,high_protein
+Paneer Bhurji,snack,315,11.2,39.7,21.4,eggetarian,gluten,diabetes_safe
+Idli,dinner,92,6.3,3.4,22.9,veg,eggs,high_protein
+Orange,dinner,119,31.9,12.2,0.3,nonveg,soy,low_sodium
+Millet Khichdi,breakfast,297,24.3,8.1,14.8,veg,eggs,diabetes_safe
+Chicken Biryani,dinner,345,17.1,24.7,4.1,nonveg,peanuts,diabetes_safe
+Greek Yogurt,snack,389,20.2,67.3,22.8,nonveg,peanuts,
+Grilled Chicken Breast,breakfast,62,4.7,11.2,2.8,nonveg,peanuts,high_protein
+Almond Milk,lunch,341,25.0,41.1,16.0,eggetarian,milk,high_protein
+Millet Khichdi,dinner,229,34.7,56.2,7.5,nonveg,soy,low_sodium
+Pasta,lunch,132,33.9,45.9,7.0,nonveg,gluten,
+Boiled Egg,breakfast,78,18.2,41.2,8.8,veg,peanuts,low_carb
+Noodles,snack,166,32.4,56.7,15.8,eggetarian,milk,diabetes_safe
+Grilled Fish,snack,369,26.0,25.0,16.7,nonveg,peanuts,diabetes_safe
+Dosa,breakfast,155,25.2,25.0,13.8,eggetarian,peanuts,
+Vegetable Curry,dinner,254,23.3,31.3,4.9,nonveg,milk,diabetes_safe
+Paratha,dinner,358,30.5,67.7,10.4,eggetarian,gluten,
+Tofu Stir Fry,breakfast,275,26.7,25.6,5.0,veg,milk,low_sodium
+Tomato Salad,snack,189,23.5,25.4,12.0,eggetarian,,low_carb
+Falafel,breakfast,290,17.1,54.8,24.9,eggetarian,,high_protein
+Fish Fry,breakfast,268,9.3,63.5,10.9,veg,peanuts,low_sodium
+Cauliflower Sabzi,snack,108,12.6,12.0,10.1,eggetarian,,low_sodium
+Chicken Biryani,dinner,361,15.0,57.0,15.7,eggetarian,peanuts,diabetes_safe
+White Rice,snack,383,34.3,41.3,3.5,veg,gluten,low_sodium
+Grilled Fish,breakfast,173,30.9,66.7,5.4,nonveg,soy,low_sodium
+Paneer Sandwich,snack,149,10.2,11.2,8.4,veg,eggs,
+Paneer Sandwich,dinner,253,17.0,25.5,23.5,veg,soy,low_sodium
+Lasagna,dinner,319,32.4,43.7,21.2,eggetarian,soy,low_sodium
+Roti,lunch,141,11.7,56.7,2.9,nonveg,peanuts,
+Seekh Kebab,snack,362,15.1,9.1,14.7,eggetarian,gluten,diabetes_safe
+Protein Shake,dinner,246,33.1,7.6,10.3,nonveg,soy,diabetes_safe
+Palak Paneer,snack,352,28.4,64.8,16.5,eggetarian,milk,low_sodium
+Omelette,dinner,313,12.8,40.0,6.1,eggetarian,gluten,diabetes_safe
+Upma,breakfast,123,23.0,61.6,6.7,veg,milk,
+Grilled Chicken Breast,dinner,68,33.4,5.6,20.9,veg,soy,
+Vegetable Pulao,dinner,54,31.9,13.1,24.5,veg,soy,
+Tomato Soup,breakfast,179,6.6,10.2,2.0,veg,milk,
+Veg Momos,breakfast,335,22.4,21.6,20.0,eggetarian,,low_carb
+Oats,breakfast,210,22.0,53.3,0.2,veg,milk,high_protein
+Fruit Salad,breakfast,345,33.8,33.5,23.2,nonveg,peanuts,low_sodium
+Whey Protein Shake,lunch,205,16.1,29.9,13.4,eggetarian,soy,low_carb
+Paneer Bhurji,snack,319,30.5,38.2,17.8,veg,peanuts,
+Mashed Potato,snack,125,27.1,25.4,1.7,eggetarian,peanuts,low_carb
+Brown Rice,dinner,238,3.7,42.1,17.8,nonveg,gluten,low_sodium
+Chicken Kebab,snack,145,2.2,3.0,22.8,nonveg,eggs,low_carb
+Paneer Bhurji,breakfast,235,14.9,8.4,2.5,nonveg,,
+Prawn Curry,snack,331,14.0,36.1,3.3,eggetarian,milk,high_protein
+Chicken Fried Rice,snack,154,14.8,15.7,12.3,nonveg,milk,low_carb
+Tomato Salad,lunch,318,26.0,0.9,2.6,nonveg,eggs,diabetes_safe
+Paneer Tikka,lunch,370,22.9,51.9,2.2,veg,milk,
+Upma,snack,161,8.9,43.3,7.0,veg,peanuts,diabetes_safe
+Peanut Chaat,dinner,238,29.9,18.7,3.6,nonveg,peanuts,
+White Rice,lunch,239,24.8,5.0,4.8,nonveg,,low_carb
+Bhindi Fry,dinner,340,12.4,15.9,3.3,veg,gluten,high_protein
+Tomato Salad,breakfast,150,15.1,52.7,16.0,veg,gluten,low_carb
+Chicken Curry,lunch,385,33.7,33.0,2.0,eggetarian,gluten,low_carb
+Tortilla Wrap,breakfast,125,12.2,17.8,14.4,eggetarian,milk,
+Greek Yogurt,dinner,309,25.4,31.5,20.0,veg,peanuts,diabetes_safe
+Berry Smoothie,dinner,173,5.0,44.1,21.6,veg,,diabetes_safe
+Mashed Potato,lunch,195,19.2,66.4,15.5,nonveg,,
+Omelette,lunch,187,5.3,59.9,19.7,veg,soy,low_carb
+Fried Rice,snack,42,5.9,54.6,10.7,nonveg,soy,low_sodium
+Macaroni,dinner,235,6.0,55.4,3.8,nonveg,peanuts,high_protein
+Chicken Burger,snack,298,6.1,30.8,2.8,nonveg,milk,
+Chicken Momos,snack,237,30.6,58.9,1.0,nonveg,peanuts,
+Fish Curry,lunch,228,7.0,65.4,6.7,veg,,low_sodium
+Spaghetti,breakfast,328,9.1,22.8,21.4,nonveg,eggs,diabetes_safe
+Veg Pizza,snack,82,19.0,21.3,7.1,eggetarian,milk,low_carb
+Sprouts Salad,breakfast,299,13.0,32.3,12.2,veg,peanuts,high_protein
+Veg Burger,snack,164,31.2,17.2,20.9,veg,,high_protein
+Falafel,snack,238,4.8,36.4,20.0,eggetarian,peanuts,low_sodium
+Lasagna,lunch,229,25.4,16.3,8.5,eggetarian,peanuts,
+Greek Yogurt,dinner,135,2.1,2.2,3.7,eggetarian,soy,low_carb
+Bhindi Fry,breakfast,359,6.3,42.1,4.2,eggetarian,gluten,low_carb
+Boiled Potato,snack,120,28.1,60.8,20.0,veg,peanuts,diabetes_safe
+Energy Bar,snack,142,33.2,39.3,2.2,veg,eggs,high_protein
+Tofu Stir Fry,breakfast,349,10.2,25.5,7.9,veg,peanuts,high_protein
+Cucumber Salad,breakfast,349,34.3,31.6,15.1,eggetarian,soy,low_sodium
+Chia Pudding,lunch,174,6.4,34.6,19.1,eggetarian,gluten,
+Vegetable Curry,breakfast,256,7.7,7.6,4.4,eggetarian,eggs,diabetes_safe
+Whole Wheat Toast,breakfast,227,5.4,61.1,20.4,veg,,diabetes_safe
+Omelette,lunch,320,33.3,14.4,14.7,veg,peanuts,diabetes_safe
+Chole,snack,278,1.9,60.2,13.7,nonveg,soy,low_sodium
+Omelette,lunch,247,32.6,69.7,4.7,nonveg,milk,diabetes_safe
+Cornflakes,dinner,298,21.7,30.4,1.6,veg,soy,
+Brown Rice,breakfast,69,34.2,12.4,11.7,veg,milk,
+Mango,breakfast,223,19.8,56.3,22.3,nonveg,milk,low_sodium
+Vegetable Curry,dinner,234,19.1,9.2,19.5,nonveg,soy,
+Tofu Stir Fry,dinner,44,34.1,45.3,15.2,nonveg,peanuts,low_sodium
+Naan,lunch,386,25.5,67.0,4.4,eggetarian,gluten,low_sodium
+Seekh Kebab,snack,52,34.0,13.7,24.8,veg,milk,high_protein
+Pasta,breakfast,194,32.8,16.3,5.3,eggetarian,eggs,low_sodium
+Lentil Soup,lunch,75,23.0,6.6,4.9,eggetarian,gluten,low_sodium
+Peanut Butter Toast,breakfast,146,10.6,8.4,16.5,veg,gluten,low_carb
+Rajma,lunch,175,24.3,6.3,9.6,nonveg,eggs,
+Chapati,dinner,81,33.7,45.4,4.4,eggetarian,peanuts,low_sodium
+Roasted Peanuts,dinner,346,18.5,58.8,4.6,eggetarian,,
+Grilled Chicken Breast,dinner,292,26.2,67.3,16.5,eggetarian,milk,high_protein
+Veg Pizza,breakfast,87,13.8,22.3,9.9,eggetarian,eggs,low_carb
+Granola,breakfast,279,27.1,19.5,23.0,veg,gluten,low_sodium
+Naan,breakfast,220,25.3,37.7,9.5,veg,milk,high_protein
+Sweet Potato,snack,197,4.4,43.5,19.2,eggetarian,gluten,diabetes_safe
+Chicken Curry,breakfast,357,32.4,67.5,17.5,eggetarian,soy,low_sodium
+Fried Rice,snack,366,6.1,23.0,2.2,veg,eggs,
+Papaya,breakfast,235,32.0,33.6,6.5,nonveg,eggs,
+Hummus,dinner,294,32.2,5.1,24.3,nonveg,peanuts,low_sodium
+Poha,breakfast,240,4.8,12.6,5.3,veg,gluten,
+Tomato Salad,lunch,171,17.9,18.0,19.7,nonveg,milk,
+Chicken Tikka,lunch,371,27.6,12.8,19.1,nonveg,peanuts,low_carb
+Chicken Burger,breakfast,61,23.7,28.9,20.8,veg,peanuts,diabetes_safe
+Pasta,dinner,55,5.4,60.9,14.0,veg,milk,
+Dal Tadka,dinner,261,15.4,44.5,3.9,veg,eggs,low_carb
+Tortilla Wrap,dinner,301,22.6,41.4,8.3,nonveg,peanuts,low_sodium
+Egg Fried Rice,breakfast,62,23.5,5.2,9.8,nonveg,gluten,low_sodium
+Apple,lunch,167,16.5,41.5,10.4,nonveg,peanuts,low_sodium
+Chole,lunch,384,32.9,1.8,23.3,eggetarian,milk,
+Apple,snack,43,3.2,16.6,5.5,eggetarian,soy,low_sodium
+Chicken Kebab,dinner,159,10.4,53.7,18.7,nonveg,milk,low_carb
+Cornflakes,lunch,74,31.9,55.5,4.9,eggetarian,milk,low_sodium
+Seekh Kebab,breakfast,342,34.4,31.0,0.3,eggetarian,eggs,high_protein
+Vegetable Curry,dinner,385,15.6,23.0,24.8,veg,eggs,
+Veg Momos,breakfast,314,11.0,17.9,16.8,nonveg,peanuts,diabetes_safe
+Granola,lunch,86,17.4,17.4,0.9,veg,eggs,diabetes_safe
+Chicken Pulao,lunch,359,7.6,38.3,8.5,eggetarian,gluten,diabetes_safe
+Paneer Bhurji,dinner,299,23.6,43.7,22.2,nonveg,peanuts,diabetes_safe
+Paneer Butter Masala,snack,72,18.5,61.1,6.1,veg,milk,low_sodium
+Pita Bread,dinner,69,6.5,21.0,21.4,eggetarian,,low_sodium
+Dosa,snack,205,7.0,1.9,22.8,veg,peanuts,
+Apple,lunch,136,21.3,13.5,12.5,veg,soy,high_protein
+Macaroni,lunch,189,7.8,65.3,14.8,eggetarian,soy,high_protein
+Chapati,lunch,87,29.1,12.5,15.4,eggetarian,eggs,diabetes_safe
+Vegetable Curry,breakfast,239,13.6,59.2,14.5,nonveg,,high_protein
+Peanut Butter Toast,breakfast,160,13.3,38.4,15.9,veg,milk,low_carb
+Macaroni,lunch,232,26.0,11.0,21.4,eggetarian,,diabetes_safe
+Vegetable Sandwich,lunch,70,7.3,31.1,22.3,nonveg,gluten,low_carb
+Roasted Chickpeas,breakfast,212,20.3,14.3,22.8,eggetarian,milk,low_sodium
+Lasagna,breakfast,275,21.7,64.1,24.2,eggetarian,gluten,low_carb
+Spaghetti,dinner,361,7.8,60.6,16.0,eggetarian,milk,diabetes_safe
+Dosa,breakfast,289,1.1,39.7,16.0,nonveg,peanuts,diabetes_safe
+Mashed Potato,snack,266,9.1,37.6,18.7,nonveg,milk,low_carb
+French Fries,dinner,98,23.9,52.8,8.5,veg,peanuts,high_protein
+Egg Fried Rice,dinner,214,27.9,32.1,18.4,nonveg,,
+Fish Curry,dinner,309,20.4,51.8,22.2,nonveg,eggs,diabetes_safe
+Falafel,snack,209,16.4,45.1,9.4,eggetarian,soy,
+Egg Curry,dinner,239,15.9,46.1,1.3,veg,milk,low_sodium
+Chicken Pulao,dinner,400,25.7,23.0,14.7,nonveg,gluten,low_carb
+Oats,lunch,291,12.4,60.2,21.7,veg,soy,low_carb
+Orange,dinner,362,16.4,3.0,2.4,veg,eggs,diabetes_safe
+Naan,dinner,137,24.5,21.3,17.0,veg,,diabetes_safe
+Pita Bread,breakfast,118,2.3,38.1,10.5,veg,milk,diabetes_safe
+Tofu Stir Fry,breakfast,304,5.4,53.2,20.1,nonveg,soy,diabetes_safe
+Energy Bar,breakfast,378,4.2,58.8,0.5,eggetarian,,low_sodium
+Whey Protein Shake,lunch,167,21.3,32.0,7.2,eggetarian,,low_carb
+Chicken Pizza,lunch,163,1.5,10.5,17.0,eggetarian,peanuts,
+Lasagna,lunch,331,18.5,29.8,0.0,nonveg,peanuts,high_protein
+Aloo Gobi,dinner,49,6.2,57.9,4.2,veg,milk,low_sodium
+Veg Burger,snack,120,17.1,0.4,18.3,veg,eggs,low_carb
+Egg Fried Rice,breakfast,119,10.8,25.3,1.5,nonveg,eggs,low_sodium
+Chicken Pulao,snack,90,33.3,62.8,10.2,nonveg,peanuts,
+Brown Rice,lunch,101,30.2,48.5,2.1,nonveg,eggs,low_sodium
+Sweet Potato,dinner,227,2.1,11.7,12.2,nonveg,milk,low_carb
+White Rice,snack,151,17.7,7.8,0.2,nonveg,,low_carb
+Peanut Chaat,lunch,236,24.1,33.1,21.0,nonveg,eggs,low_carb
+Granola,lunch,281,30.2,48.2,5.9,eggetarian,eggs,
+Fish Curry,breakfast,193,7.7,61.8,15.1,veg,gluten,low_sodium
+Steamed Vegetables,breakfast,304,15.7,58.7,3.3,veg,soy,low_sodium
+Chicken Kebab,breakfast,248,20.7,20.0,9.6,nonveg,milk,diabetes_safe
+Brown Rice,breakfast,177,8.9,48.6,19.5,veg,peanuts,high_protein
+White Rice,snack,168,20.0,61.0,24.4,nonveg,eggs,low_sodium
+Dal Fry,dinner,378,13.7,10.9,20.9,veg,,
+French Fries,lunch,309,4.4,7.1,16.7,veg,peanuts,diabetes_safe
+Veg Burger,dinner,101,29.3,60.3,6.6,eggetarian,gluten,
+Trail Mix,breakfast,206,5.2,28.1,15.3,eggetarian,,low_carb
+Vegetable Pulao,snack,192,23.3,27.4,23.0,eggetarian,peanuts,
+Brown Bread Sandwich,breakfast,61,25.6,33.6,5.9,nonveg,soy,
+Vegetable Sandwich,lunch,255,8.2,53.1,6.9,veg,gluten,high_protein
+Apple,lunch,104,16.4,23.1,2.8,eggetarian,peanuts,low_sodium
+Ramen,lunch,270,21.0,20.9,20.9,nonveg,peanuts,low_carb
+Steamed Vegetables,dinner,252,19.6,46.4,0.2,nonveg,soy,
+Macaroni,dinner,158,16.1,9.1,0.6,nonveg,gluten,
+Chicken Soup,breakfast,207,12.1,63.3,16.0,eggetarian,peanuts,diabetes_safe
+Chicken Sandwich,snack,173,22.6,38.8,21.5,veg,soy,low_sodium
+Mashed Potato,dinner,282,19.3,15.7,23.4,nonveg,eggs,
+Paneer Sandwich,lunch,178,13.4,50.5,2.3,nonveg,milk,low_carb
+Idli,lunch,256,23.1,41.9,16.8,eggetarian,,high_protein
+Tomato Salad,lunch,264,14.5,17.5,20.2,nonveg,eggs,high_protein
+Berry Smoothie,snack,320,30.5,5.3,18.1,nonveg,,diabetes_safe
+Brown Rice,lunch,357,15.2,12.8,23.2,veg,peanuts,low_carb
+Boiled Egg,lunch,301,4.9,54.8,19.5,veg,,low_sodium
+Berry Smoothie,breakfast,51,20.7,59.2,6.7,nonveg,milk,low_carb
+Chicken Curry,breakfast,103,10.0,46.3,16.9,eggetarian,,
+Hummus,dinner,319,29.7,25.1,16.7,nonveg,soy,
+Berry Smoothie,lunch,94,30.4,44.4,3.1,eggetarian,milk,low_carb
+Tomato Soup,breakfast,60,5.4,13.5,7.5,nonveg,milk,low_carb
+Khichdi,dinner,52,12.8,55.0,15.4,eggetarian,soy,
+Bhindi Fry,breakfast,268,3.6,51.1,18.1,nonveg,milk,high_protein
+Avocado Toast,snack,232,11.6,69.0,16.6,eggetarian,gluten,low_carb
+Sambar,lunch,239,13.1,69.3,23.6,nonveg,milk,
+Vegetable Sandwich,lunch,345,4.0,1.3,16.6,eggetarian,eggs,high_protein
+Vegetable Curry,lunch,125,30.3,49.0,19.6,nonveg,gluten,high_protein
+Veg Momos,snack,368,13.6,41.6,7.6,eggetarian,peanuts,high_protein
+Vegetable Sandwich,breakfast,283,17.6,28.9,17.9,eggetarian,peanuts,
+Energy Bar,snack,67,5.0,0.5,2.1,nonveg,soy,high_protein
+Noodles,dinner,124,33.2,22.0,17.4,nonveg,gluten,high_protein
+Lentil Soup,breakfast,284,27.5,2.6,6.9,veg,milk,
+Veg Pizza,dinner,206,32.2,6.9,7.9,veg,milk,high_protein
+Fruit Salad,snack,399,24.8,22.0,17.7,veg,,diabetes_safe
+Chicken Pulao,snack,76,27.3,46.3,7.0,eggetarian,gluten,low_sodium
+Sweet Potato,dinner,59,7.4,7.3,11.4,nonveg,milk,
+Macaroni,dinner,285,10.0,31.9,4.6,veg,,high_protein
+Brown Rice,lunch,213,21.8,6.8,12.9,eggetarian,soy,diabetes_safe
+Egg Fried Rice,dinner,123,24.3,29.8,11.5,nonveg,eggs,
+Chicken Soup,dinner,62,22.8,24.1,20.6,nonveg,,low_sodium
+Khichdi,snack,151,31.4,52.5,9.2,eggetarian,soy,diabetes_safe
+Lasagna,dinner,329,28.7,36.4,23.3,eggetarian,eggs,low_sodium
+Macaroni,lunch,227,33.8,24.4,9.4,veg,milk,
+Rajma,lunch,344,31.2,0.1,19.8,veg,soy,low_sodium
+Ramen,snack,341,10.8,51.6,18.8,eggetarian,,low_carb
+White Rice,lunch,263,13.2,8.2,11.6,eggetarian,gluten,diabetes_safe
+Mixed Veg Sabzi,snack,66,28.0,51.6,2.5,eggetarian,milk,low_carb
+Chicken Fried Rice,dinner,138,11.5,9.6,7.7,veg,gluten,diabetes_safe
+Chicken Fried Rice,lunch,149,16.5,22.2,20.7,veg,gluten,
+Grilled Chicken Breast,breakfast,118,25.6,23.5,13.4,veg,eggs,diabetes_safe
+Chicken Burger,lunch,87,33.3,65.2,0.9,nonveg,eggs,diabetes_safe
+Macaroni,lunch,270,19.5,31.1,8.9,eggetarian,eggs,diabetes_safe
+Paneer Tikka,breakfast,146,23.2,43.0,17.3,eggetarian,eggs,low_sodium
+Upma,dinner,363,5.4,35.3,23.4,nonveg,eggs,high_protein
+Quinoa,lunch,237,13.1,44.3,6.7,veg,peanuts,diabetes_safe
+Fruit Salad,snack,225,12.9,28.0,20.8,eggetarian,soy,
+Sambar,dinner,224,27.8,14.4,23.9,veg,,diabetes_safe
+Granola,lunch,221,4.9,58.3,23.2,nonveg,soy,diabetes_safe
+Chicken Sandwich,snack,346,25.2,9.3,18.9,eggetarian,eggs,
+Naan,dinner,123,8.2,5.4,11.6,nonveg,gluten,diabetes_safe
+Fish Fry,lunch,359,30.1,17.0,12.7,eggetarian,milk,diabetes_safe
+Vegetable Pulao,breakfast,47,14.2,45.0,11.9,eggetarian,peanuts,high_protein
+Chicken Burger,snack,118,9.5,67.7,8.2,veg,soy,
+Fish Curry,breakfast,91,6.9,24.5,21.4,eggetarian,milk,diabetes_safe
+Vegetable Pulao,snack,346,3.5,63.7,11.1,eggetarian,soy,high_protein
+Greek Yogurt,breakfast,345,3.2,33.0,6.7,nonveg,soy,low_carb
+Chicken Sandwich,snack,257,31.1,0.8,19.5,nonveg,,diabetes_safe
+Chicken Fried Rice,dinner,305,2.4,49.6,17.1,nonveg,gluten,diabetes_safe
+Lasagna,snack,56,22.8,67.5,6.1,eggetarian,eggs,low_sodium
+Whole Wheat Toast,snack,88,25.5,41.9,9.7,veg,eggs,high_protein
+Vegetable Curry,dinner,249,2.9,41.9,20.4,eggetarian,milk,
+Whey Protein Shake,snack,48,3.5,27.2,8.8,nonveg,milk,high_protein
+Macaroni,dinner,71,32.7,52.6,22.3,veg,eggs,diabetes_safe
+Egg Fried Rice,snack,395,13.2,63.9,13.7,veg,gluten,
+Millet Khichdi,breakfast,244,18.7,19.2,7.3,nonveg,gluten,
+Sweet Potato,lunch,324,24.6,45.7,11.6,eggetarian,gluten,high_protein
+Curd,lunch,289,31.1,15.9,19.8,eggetarian,soy,high_protein
+Protein Shake,breakfast,70,34.5,45.2,6.0,nonveg,gluten,high_protein
+Papaya,snack,64,3.6,67.1,12.3,veg,eggs,diabetes_safe
+Chicken Tikka,dinner,78,33.5,29.2,13.6,eggetarian,milk,low_sodium
+Protein Shake,snack,165,15.0,35.4,0.6,eggetarian,eggs,
+Brown Bread Sandwich,dinner,82,1.4,16.8,5.3,veg,,
+Veg Pizza,snack,145,9.4,23.0,1.8,eggetarian,gluten,low_sodium
+Mashed Potato,lunch,171,1.5,30.8,20.6,veg,peanuts,high_protein
+Quinoa,lunch,373,26.7,51.6,4.4,eggetarian,,high_protein
+Jeera Rice,dinner,127,12.3,59.8,13.9,eggetarian,milk,low_sodium
+Chicken Burger,dinner,64,17.3,12.8,1.1,veg,gluten,low_carb
+Chicken Momos,lunch,212,20.7,69.7,4.4,veg,,low_carb
+Peanut Butter Toast,lunch,71,1.2,41.0,21.6,nonveg,peanuts,low_sodium
+Cornflakes,dinner,105,22.2,1.8,2.1,veg,peanuts,high_protein
+Aloo Gobi,lunch,107,11.2,9.4,17.9,veg,,diabetes_safe
+Roasted Peanuts,breakfast,101,30.7,44.4,1.7,eggetarian,,diabetes_safe
+Tortilla Wrap,lunch,271,13.0,8.3,17.7,veg,peanuts,low_sodium
+Peanut Chaat,lunch,99,15.0,67.3,1.3,eggetarian,eggs,diabetes_safe
+Vegetable Pulao,dinner,322,16.5,20.8,5.3,veg,,high_protein
+Mango Smoothie,dinner,234,7.7,58.9,15.7,nonveg,peanuts,low_sodium
+Chicken Pulao,lunch,336,25.4,28.1,15.7,veg,milk,low_sodium
+Orange,snack,112,15.7,48.4,20.0,nonveg,milk,
+Roasted Peanuts,breakfast,347,34.9,66.6,5.0,veg,soy,diabetes_safe
+Veg Pizza,lunch,123,6.0,26.8,20.3,veg,gluten,low_carb
+Falafel,snack,116,25.1,43.4,17.3,eggetarian,peanuts,low_sodium
+Soy Milk,snack,383,16.1,23.9,15.7,veg,eggs,high_protein
+Curd,breakfast,355,13.7,55.0,23.3,veg,,
+Bhindi Fry,dinner,94,34.6,66.1,18.8,nonveg,soy,diabetes_safe
+Fish Curry,lunch,278,28.7,37.4,14.7,veg,,diabetes_safe
+Upma,breakfast,374,5.7,14.8,2.4,eggetarian,,
+Trail Mix,dinner,392,15.0,5.5,3.6,nonveg,milk,
+Tomato Soup,lunch,105,9.5,32.0,5.6,nonveg,peanuts,low_carb
+Hummus,snack,290,5.8,44.2,14.9,eggetarian,peanuts,diabetes_safe
+Tofu Stir Fry,breakfast,343,24.3,41.6,10.4,eggetarian,soy,low_sodium
+Granola,snack,108,22.4,40.9,3.6,nonveg,peanuts,
+Vegetable Soup,breakfast,218,30.9,66.8,23.3,eggetarian,peanuts,low_carb
+Omelette,breakfast,154,13.5,19.8,1.1,eggetarian,milk,low_carb
+Fried Rice,dinner,73,12.3,61.1,8.6,eggetarian,soy,low_carb
+Veg Pizza,lunch,336,13.8,56.1,9.5,veg,eggs,diabetes_safe
+Chicken Biryani,dinner,150,8.4,26.0,8.0,eggetarian,milk,low_carb
+Almond Milk,dinner,246,11.7,26.0,18.7,eggetarian,eggs,diabetes_safe
+Whole Wheat Toast,dinner,153,22.0,53.0,21.5,nonveg,eggs,high_protein
+Poha,snack,305,8.5,36.3,18.6,veg,eggs,high_protein
+Steamed Vegetables,snack,235,27.9,43.5,3.3,eggetarian,eggs,
+Oats,dinner,392,2.7,17.8,20.8,veg,eggs,diabetes_safe
+Idli,snack,334,29.1,38.7,22.0,nonveg,gluten,diabetes_safe
+Boiled Potato,lunch,47,24.2,4.1,11.2,veg,milk,high_protein
+Palak Paneer,breakfast,102,18.6,9.6,17.0,veg,,diabetes_safe
+Paneer Sandwich,snack,164,11.9,38.0,20.5,eggetarian,peanuts,diabetes_safe
+Veg Burger,dinner,267,28.1,56.2,12.7,veg,eggs,low_sodium
+Paneer Tikka,dinner,321,7.2,37.4,8.4,nonveg,eggs,low_carb
+Chicken Kebab,lunch,44,34.4,57.5,13.7,veg,gluten,high_protein
+Tofu Stir Fry,breakfast,240,30.0,39.0,8.1,eggetarian,gluten,high_protein
+Fried Rice,breakfast,341,17.4,56.2,20.0,nonveg,peanuts,diabetes_safe
+Paneer Bhurji,dinner,369,34.8,9.9,17.3,eggetarian,peanuts,high_protein
+Tortilla Wrap,lunch,197,3.9,10.1,8.5,eggetarian,eggs,high_protein
+Chicken Soup,lunch,114,31.8,30.1,5.6,eggetarian,peanuts,low_sodium
+Seekh Kebab,lunch,179,10.8,12.5,7.2,eggetarian,gluten,
+Roti,breakfast,306,30.3,8.0,21.1,nonveg,milk,low_carb
+Quinoa,dinner,181,12.9,11.8,10.5,veg,milk,low_sodium
+Fruit Salad,dinner,323,32.9,46.5,1.2,nonveg,peanuts,low_sodium
+Chicken Kebab,breakfast,363,27.8,39.9,19.2,veg,milk,
+Roasted Chickpeas,lunch,85,32.9,4.4,10.5,veg,milk,
+Sweet Potato,snack,311,13.2,36.9,5.9,nonveg,,low_carb
+Chicken Curry,dinner,388,4.8,11.3,22.8,veg,soy,high_protein
+Palak Paneer,dinner,210,19.2,23.4,7.1,nonveg,,diabetes_safe
+Fried Rice,breakfast,71,18.7,66.6,9.2,nonveg,,
+Grilled Chicken Breast,lunch,256,3.8,43.0,7.1,nonveg,eggs,diabetes_safe
+Paneer Butter Masala,breakfast,41,29.0,21.3,0.7,eggetarian,soy,
+Jeera Rice,lunch,110,1.6,43.1,13.0,nonveg,,low_carb
+Whey Protein Shake,breakfast,295,21.9,8.4,18.1,veg,soy,diabetes_safe
+Idli,snack,100,27.6,65.1,16.2,veg,soy,high_protein
+Naan,breakfast,307,23.8,18.3,19.1,eggetarian,eggs,
+French Fries,dinner,389,4.2,64.9,6.0,veg,gluten,
+Dal Fry,breakfast,174,13.2,19.9,5.0,eggetarian,milk,high_protein
+Vegetable Soup,breakfast,88,5.5,13.5,8.6,eggetarian,gluten,
+Sprouts Salad,lunch,87,25.1,43.3,21.1,eggetarian,milk,high_protein
+Paratha,snack,219,24.0,25.4,15.0,eggetarian,gluten,
+Aloo Gobi,lunch,47,27.7,15.4,7.3,nonveg,milk,
+Boiled Potato,lunch,261,14.8,16.0,8.9,veg,soy,
+Tofu Stir Fry,breakfast,226,28.8,47.0,8.8,nonveg,peanuts,low_carb
+Cauliflower Sabzi,breakfast,253,27.7,68.8,22.5,veg,peanuts,
+French Fries,dinner,300,5.9,66.0,20.9,nonveg,peanuts,
+Chicken Sandwich,lunch,121,5.5,23.6,8.0,eggetarian,gluten,low_sodium
+Paneer Sandwich,dinner,72,14.7,54.0,4.6,nonveg,eggs,low_carb
+Egg Curry,snack,224,24.5,61.0,13.9,nonveg,soy,high_protein
+Steamed Vegetables,snack,112,5.6,0.2,17.8,veg,peanuts,
+Pita Bread,snack,394,34.1,13.6,9.8,eggetarian,soy,high_protein
+Whole Wheat Toast,dinner,394,15.3,55.7,7.0,veg,gluten,diabetes_safe
+Lasagna,lunch,283,28.4,22.7,10.0,veg,eggs,diabetes_safe
+Fish Fry,lunch,157,18.8,33.5,15.5,veg,gluten,
+Falafel,breakfast,293,24.0,60.4,1.0,veg,peanuts,
+Brown Rice,snack,128,23.7,20.0,20.4,eggetarian,peanuts,low_carb
+Aloo Gobi,snack,244,3.6,46.4,6.1,eggetarian,gluten,low_carb
+Dal Fry,breakfast,68,33.3,67.1,8.1,eggetarian,milk,diabetes_safe
+Avocado Toast,dinner,78,29.5,44.8,20.7,veg,milk,low_sodium
+Banana,snack,379,8.2,68.0,1.9,veg,peanuts,diabetes_safe
+Sweet Potato,dinner,376,26.3,65.7,19.3,veg,,low_sodium
+Scrambled Eggs,lunch,392,24.6,20.9,21.1,nonveg,,low_sodium
+Apple,breakfast,324,21.2,48.5,15.2,eggetarian,soy,low_carb
+Banana,lunch,58,25.3,20.3,18.6,nonveg,eggs,low_carb
+Chicken Sandwich,breakfast,77,29.1,56.1,16.1,veg,peanuts,
+Dosa,breakfast,192,8.0,24.1,4.3,nonveg,soy,high_protein
+Lasagna,dinner,273,5.3,49.5,19.6,nonveg,gluten,low_sodium
+Palak Paneer,dinner,231,34.4,51.6,19.5,eggetarian,eggs,diabetes_safe
+Falafel,snack,203,19.8,50.0,17.6,veg,eggs,low_carb
+Tortilla Wrap,lunch,190,7.2,69.2,3.8,veg,milk,low_sodium
+Boiled Potato,breakfast,173,29.9,33.6,19.9,eggetarian,milk,diabetes_safe
+Peanut Butter Toast,lunch,68,28.3,43.8,16.2,veg,gluten,high_protein
+Omelette,dinner,154,29.2,51.5,3.8,eggetarian,peanuts,low_carb
+Mango,lunch,233,22.7,17.2,12.5,eggetarian,eggs,
+Mushroom Soup,lunch,271,30.9,2.1,15.9,eggetarian,soy,
+Sweet Potato,snack,325,8.4,44.4,3.7,nonveg,eggs,low_sodium
