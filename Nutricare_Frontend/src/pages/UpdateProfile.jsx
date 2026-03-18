@@ -21,7 +21,7 @@ export default function UpdateProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/user/getUser");
+        const res = await api.get("/users/me");
         if (res.data.data) {
           setFormData(res.data.data);
         }
@@ -52,7 +52,7 @@ export default function UpdateProfile() {
     setError("");
     setSuccess("");
     try {
-      await api.patch("/user/updateUser", {
+      await api.put("/users/me", {
         age: formData.age,
         gender: formData.gender,
         height: formData.height,

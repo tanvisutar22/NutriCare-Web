@@ -12,7 +12,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/user/getUser");
+        const res = await api.get("/users/me");
         setProfile(res.data.data);
         setFormData(res.data.data);
       } catch {
@@ -27,7 +27,7 @@ export default function Profile() {
 
   const handleUpdate = async () => {
     try {
-      const res = await api.patch("/user/updateUser", formData);
+      const res = await api.put("/users/me", formData);
       setProfile(res.data.data);
       setEditing(false);
     } catch {

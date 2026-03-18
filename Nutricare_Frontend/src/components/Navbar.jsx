@@ -24,15 +24,9 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/profile">Profile</Link>
-            {/* <Link to="/user-form">Edit</Link> */}
-            <Link to="/update-profile">Edit</Link>
-            <Link to="/diet-plan">Diet Plan</Link>
-            <Link to="/metric">Metrics</Link>
-            <Link to="/metric-charts">Metric Charts</Link>
-            <Link to="/diet-log">Diet Log</Link>
-            <Link to="/goal-history">Goal History</Link>
+            <Link to="/user">User</Link>
+            <Link to="/body-metrics">Body Metrics</Link>
+            <Link to="/diets">Diet Generation</Link>
 
             <button
               onClick={handleLogout}

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -7,16 +7,13 @@ import VerifyOtp from "./pages/VerifyOtp";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import DietPlan from "./pages/DietPlan";
+import About from "./pages/About";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import UpdateProfile from "./pages/UpdateProfile";
-import UserForm from "./pages/UserForm";
-import VariableMetrics from "./pages/VariableMetrics";
-import DietLog from "./pages/DietLog";
-import GoalHistory from "./pages/GoalHistory";
-import MetricCharts from "./pages/MetricCharts";
+
+import UserModule from "./pages/UserModule";
+import BodyMetricsModule from "./pages/BodyMetricsModule";
+import DietsModule from "./pages/DietsModule";
+
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -25,19 +22,28 @@ export default function App() {
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
 
-          {/* Protected routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* Old protected routes are disconnected from the main flow.
+              Keep URLs safe by redirecting them into the new modules. */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Navigate to="/user" replace />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={
               <ProtectedRoute>
-                <Profile />
+                <Navigate to="/user" replace />
               </ProtectedRoute>
             }
           />
@@ -45,16 +51,15 @@ export default function App() {
             path="/user-form"
             element={
               <ProtectedRoute>
-                <UserForm />
+                <Navigate to="/user" replace />
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/update-profile"
             element={
               <ProtectedRoute>
-                <UpdateProfile />
+                <Navigate to="/user" replace />
               </ProtectedRoute>
             }
           />
@@ -62,7 +67,7 @@ export default function App() {
             path="/diet-plan"
             element={
               <ProtectedRoute>
-                <DietPlan />
+                <Navigate to="/diets" replace />
               </ProtectedRoute>
             }
           />
@@ -70,7 +75,7 @@ export default function App() {
             path="/metric"
             element={
               <ProtectedRoute>
-                <VariableMetrics />
+                <Navigate to="/body-metrics" replace />
               </ProtectedRoute>
             }
           />
@@ -78,7 +83,7 @@ export default function App() {
             path="/metric-charts"
             element={
               <ProtectedRoute>
-                <MetricCharts />
+                <Navigate to="/body-metrics" replace />
               </ProtectedRoute>
             }
           />
@@ -86,7 +91,7 @@ export default function App() {
             path="/diet-log"
             element={
               <ProtectedRoute>
-                <DietLog />
+                <Navigate to="/diets" replace />
               </ProtectedRoute>
             }
           />
@@ -94,7 +99,41 @@ export default function App() {
             path="/goal-history"
             element={
               <ProtectedRoute>
-                <GoalHistory />
+                <Navigate to="/diets" replace />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* New modules (added; old flow untouched) */}
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute requireProfile={false}>
+                <UserModule />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/body-metrics"
+            element={
+              <ProtectedRoute requireProfile>
+                <BodyMetricsModule />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/diets"
+            element={
+              <ProtectedRoute requireProfile>
+                <DietsModule />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/diets"
+            element={
+              <ProtectedRoute requireProfile>
+                <DietsModule />
               </ProtectedRoute>
             }
           />

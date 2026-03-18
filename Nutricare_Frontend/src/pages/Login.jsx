@@ -122,9 +122,9 @@ export default function Login() {
     setLoading(true);
     try {
       const hasProfile = await login(email, password);
-
-      if (hasProfile) navigate("/dashboard");
-      else navigate("/user-form");
+      // New after-login flow: always land on the new User module
+      // (profile can be created/updated there).
+      navigate("/user");
     } catch (err) {
       setError(
         err.response?.data?.message || "Invalid credentials or server error",

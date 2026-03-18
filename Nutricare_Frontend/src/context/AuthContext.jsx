@@ -39,7 +39,6 @@
 
 import { createContext, useContext, useState } from "react";
 import api from "../api/axios";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -57,13 +56,14 @@ export const AuthProvider = ({ children }) => {
 
       // Step 2: check profile
       try {
-        const res = await api.get("/user/getUser");
-        setUser(res.data.data);
+        const res = await api.get("/users/me");
+        // Keep logged-in state + profile together
+        setUser({ hasProfile: true, profile: res.data.data });
         return true; // ✅ profile exists
       } catch (err) {
         if (err.response?.status === 404) {
-          // ✅ no profile yet
-          setUser(null);
+          // ✅ logged in, but no profile yet
+          setUser({ hasProfile: false, profile: null });
           return false;
         }
         throw err;

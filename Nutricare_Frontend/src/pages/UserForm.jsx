@@ -37,7 +37,7 @@ export default function UserForm() {
     setError("");
     setSuccess("");
     try {
-      await api.post("/user/createUser", formData); //  create new profile
+      await api.post("/users", formData); // create profile (upsert)
       setSuccess("Profile created successfully!");
       navigate("/dashboard"); // redirect to dashboard after creation
     } catch (err) {
