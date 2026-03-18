@@ -220,10 +220,9 @@ export default function BodyMetricsModule() {
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-teal-600">Body Metrics</h2>
+          <h2 className="text-3xl font-bold text-teal-600">Body metrics</h2>
           <p className="text-slate-600 mt-1">
-            Backend: <span className="font-medium">/api/v1/body-metrics</span> (supports filter{" "}
-            <span className="font-mono">?metricType=</span>).
+            Track your weight and activity. We’ll automatically keep BMI, BMR and TDEE in sync.
           </p>
         </div>
 

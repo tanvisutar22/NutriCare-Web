@@ -86,8 +86,7 @@ function DietDetailCard({ diet, onClose, onStatusSave, savingStatus }) {
             Diet Plan Detail
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            Full plan information from{" "}
-            <span className="font-medium">GET /api/v1/diets/:id</span>
+            Full details of the selected diet plan for this period.
           </p>
         </div>
 
@@ -342,10 +341,9 @@ export default function DietsModule() {
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-teal-600">Diet Generation</h2>
+          <h2 className="text-3xl font-bold text-teal-600">Diet generation</h2>
           <p className="mt-1 text-slate-600">
-            Create and manage diet plans from{" "}
-            <span className="font-medium">/api/v1/diets</span>.
+            Generate daily diet plans based on your profile and body metrics.
           </p>
         </div>
 

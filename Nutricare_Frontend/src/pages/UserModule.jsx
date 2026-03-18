@@ -154,15 +154,13 @@ export default function UserModule() {
       <div className="max-w-5xl mx-auto px-6 py-10">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900">
-              User Profile <span className="text-teal-600">(Backend)</span>
-            </h2>
+            <h2 className="text-3xl font-bold text-slate-900">Your health profile</h2>
             <p className="text-slate-600 mt-1">
-              Connected to <span className="font-medium">/api/v1/users</span> (cookies required).
+              We use this information to personalize your metrics and diet plans.
             </p>
           </div>
           <div className="text-xs text-slate-500">
-            {profileExists ? "Profile found" : "No profile yet"}
+            {profileExists ? "Profile saved" : "Profile incomplete"}
           </div>
         </div>
 
@@ -308,26 +306,14 @@ export default function UserModule() {
           </div>
 
           <div className="bg-white border border-gray-100 rounded-3xl shadow-lg p-6">
-            <h3 className="text-lg font-semibold text-slate-900">What this page calls</h3>
-            <div className="mt-3 space-y-2 text-sm text-slate-700">
-              <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
-                <div className="font-medium text-slate-900">GET</div>
-                <div className="text-slate-600">/api/v1/users/me</div>
-              </div>
-              <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
-                <div className="font-medium text-slate-900">POST</div>
-                <div className="text-slate-600">/api/v1/users</div>
-              </div>
-              <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
-                <div className="font-medium text-slate-900">PUT</div>
-                <div className="text-slate-600">/api/v1/users/me</div>
-              </div>
-            </div>
-
-            <div className="mt-4 text-sm text-slate-600">
-              If you see <span className="font-medium">Unauthorized</span>, it means backend
-              cookies aren’t present for this browser session.
-            </div>
+            <h3 className="text-lg font-semibold text-slate-900">Why this matters</h3>
+            <p className="mt-2 text-sm text-slate-600">
+              Accurate profile details help us calculate BMI, BMR, TDEE and build better diet
+              plans for you.
+            </p>
+            <p className="mt-3 text-sm text-slate-600">
+              You can update this information at any time as your lifestyle or health changes.
+            </p>
           </div>
         </div>
       </div>

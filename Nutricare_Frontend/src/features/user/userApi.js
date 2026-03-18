@@ -2,6 +2,7 @@ import { http } from "../../shared/api/http";
 
 export async function getMyProfile() {
   const res = await http.get("/users/me");
+  console.log(res.data);
   return res.data;
 }
 

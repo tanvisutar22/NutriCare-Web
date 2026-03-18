@@ -37,55 +37,30 @@
 
 // export const useAuth = () => useContext(AuthContext);
 
-import { createContext, useContext, useState } from "react";
-import api from "../api/axios";
+import { createContext, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk, logoutThunk } from "../store/slices/authSlice";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { data: profile, hasProfile } = useSelector((state) => state.profile);
 
   const login = async (email, password) => {
-    try {
-      // Step 1: authenticate
-      await api.post("/auth/login", {
-        email: email.trim().toLowerCase(),
-        password,
-        userType: "User",
-      });
-
-      // Step 2: check profile
-      try {
-        const res = await api.get("/users/me");
-        // Keep logged-in state + profile together
-        setUser({ hasProfile: true, profile: res.data.data });
-        return true; // ✅ profile exists
-      } catch (err) {
-        if (err.response?.status === 404) {
-          // ✅ logged in, but no profile yet
-          setUser({ hasProfile: false, profile: null });
-          return false;
-        }
-        throw err;
-      }
-    } catch (err) {
-      console.error("Login failed:", err.response?.data || err.message);
-      throw err;
+    const resultAction = await dispatch(loginThunk({ email, password }));
+    if (loginThunk.rejected.match(resultAction)) {
+      throw resultAction.payload || new Error("Login failed");
     }
+    return hasProfile;
   };
 
-  // const logout = async () => {
-  //   await api.get("/auth/logout");
-  //   setUser(null);
-  // };
   const logout = async () => {
-    try {
-      await api.get("/auth/logout");
-      setUser(null); // ✅ clear user state
-    } catch (err) {
-      console.error("Logout failed:", err.response?.data || err.message);
-    }
+    await dispatch(logoutThunk());
   };
+
+  const user = isAuthenticated ? { hasProfile, profile } : null;
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
