@@ -45,7 +45,10 @@ const dietSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-
+  Day:{
+    type:String,
+    required:true
+  },
   calorieTarget: Number,
   proteinTarget: Number,
   carbTarget: Number,

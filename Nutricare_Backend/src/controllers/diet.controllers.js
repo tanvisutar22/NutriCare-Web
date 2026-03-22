@@ -50,9 +50,9 @@ export const createDietPlan = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const { startDate, endDate } = req.body || {};
-
-    if (!startDate || !endDate) {
+    const { startDate } = req.body || {};
+    console.log("Received createDietPlan request with startDate:", startDate);
+    if (!startDate) {
       return res
         .status(400)
         .json(new ApiError(400, "startDate and endDate are required"));
@@ -92,44 +92,49 @@ export const createDietPlan = async (req, res) => {
     }
 
     const targets = getMacroTargetsFromTdee(tdee, weightKg);
+    const start = new Date(startDate);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6); // 7 days total
+const plans = [];
 
-    const built = await buildMealsFromFoodCsv(user, targets, {
-      breakfast: 5,
-      lunch: 7,
-      dinner: 7,
-    });
-    if (!built) {
-      return res
-        .status(400)
-        .json(
-          new ApiError(
-            400,
-            "No suitable foods found in food.csv for this user",
-          ),
-        );
-    }
+for (let i = 0; i < 7; i++) {
+  const currentDate = new Date(start);
+  currentDate.setDate(start.getDate() + i);
 
-    const { meals, mealGoals, mealOptions } = built;
+  const dayName = currentDate.toLocaleDateString("en-US", {
+    weekday: "long",
+  });
 
-    const plan = await DietPlan.create({
-      userId: user._id,
-      authId,
-      startDate,
-      endDate,
-      calorieTarget: targets.calorieTarget,
-      proteinTarget: targets.proteinTarget,
-      carbTarget: targets.carbTarget,
-      fatTarget: targets.fatTarget,
-      meals,
-      mealGoals,
-      mealOptions,
-      createdBy: "ai",
-      status: "active",
-    });
+  // generate meals (random each time)
+  const built = await buildMealsFromFoodCsv(user, targets);
 
+  const { meals, mealGoals } = built;
+
+  const plan = await DietPlan.create({
+    userId: user._id,
+    authId,
+    startDate: currentDate,
+    endDate: currentDate, // same day
+    Day: dayName,
+
+    calorieTarget: targets.calorieTarget,
+    proteinTarget: targets.proteinTarget,
+    carbTarget: targets.carbTarget,
+    fatTarget: targets.fatTarget,
+
+    meals,
+    mealGoals,
+
+    createdBy: "ai",
+    status: "active",
+  });
+
+  plans.push(plan);
+}
+   
     return res
       .status(201)
-      .json(new ApiResponse(201, plan, "Diet plan created successfully"));
+      .json(new ApiResponse(201, plans, "Diet plan created successfully"));
   } catch (error) {
     console.error("Error in createDietPlan:", error);
     return res

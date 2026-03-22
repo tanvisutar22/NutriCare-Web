@@ -6,7 +6,7 @@ import otpRouter from "./routes/otp.routes.js";
 import userRouter from "./routes/user.routes.js";
 import bodyMetricsRouter from "./routes/bodyMetrics.routes.js";
 import dietRouter from "./routes/diet.routes.js";
-
+import recipeRouter from "./routes/recipe.routes.js";
 const app = Express();
 
 app.use(
@@ -28,5 +28,6 @@ app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/body-metrics", bodyMetricsRouter);
 app.use("/api/v1/diets", dietRouter);
+app.use("/api/v1/recipe", recipeRouter);
 
 export default app;

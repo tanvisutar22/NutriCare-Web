@@ -38,7 +38,7 @@ const parseCsvLine = (line) => {
   return line.split(",").map((value) => value.trim());
 };
 
-const loadFoodData = async () => {
+export const  loadFoodData = async () => {
   if (cachedFoods) return cachedFoods;
 
   try {
@@ -104,7 +104,7 @@ const loadFoodData = async () => {
   }
 };
 
-const filterFoodsForUser = (foods, user) => {
+export const filterFoodsForUser = (foods, user) => {
   const toStringList = (value) => {
     if (!value) return [];
     if (Array.isArray(value)) return value.flat().map((v) => String(v));
@@ -117,42 +117,67 @@ const filterFoodsForUser = (foods, user) => {
       .toLowerCase()
       .replace(/\s+/g, "_");
 
+  // ✅ USER DATA
   const preferenceList = toStringList(user.foodPreference)
     .map(norm)
     .filter(Boolean);
   const preference = preferenceList[0] || null;
 
-  const allergies = toStringList(user.allergies).map(norm).filter(Boolean);
+  const allergies = toStringList(user.allergies)
+    .map(norm)
+    .filter(Boolean);
+
   const medicalConditions = toStringList(user.medicalConditions)
     .map(norm)
     .filter(Boolean);
 
+  // 🔥 Preference mapping
+ const preferenceMap = {
+  veg: ["veg"],
+  eggetarian: ["veg", "eggetarian"],
+  nonveg: ["veg", "eggetarian", "nonveg"]
+};
+
+  const allowedPreferences = preference
+    ? preferenceMap[preference] || [preference]
+    : null;
+
   return foods.filter((food) => {
-    // console.log("Food:", food);
-    const foodPreference = food.foodPreference ? norm(food.foodPreference) : null;
+    const foodPreference = food.foodPreference
+      ? norm(food.foodPreference)
+      : null;
+
     const foodAllergens = Array.isArray(food.allergens)
       ? food.allergens.map(norm).filter(Boolean)
       : [];
+
     const foodMedicalTags = Array.isArray(food.medicalTags)
       ? food.medicalTags.map(norm).filter(Boolean)
       : [];
 
-    if (preference && foodPreference && foodPreference !== preference)
-      return false;
-
+    // 🔹 1. Preference (hierarchy-based)
     if (
-      allergies.length > 0 &&
-      foodAllergens.some((a) => allergies.includes(a))
+      allowedPreferences &&
+      foodPreference &&
+      !allowedPreferences.includes(foodPreference)
     ) {
       return false;
     }
 
-    if (medicalConditions.length > 0 && foodMedicalTags.length > 0) {
-      const conditionKeywords = medicalConditions.map((c) => `${c}_safe`);
-      const matchesCondition = conditionKeywords.some((kw) =>
-        foodMedicalTags.includes(norm(kw)),
+    // 🔹 2. Allergies (REMOVE unsafe foods)
+    if (allergies.length > 0) {
+      const hasAllergen = foodAllergens.some((tag) =>
+        allergies.some((a) => tag.includes(a))
       );
-      if (!matchesCondition) return false;
+      if (hasAllergen) return false;
+    }
+
+    // 🔹 3. Medical Conditions (REMOVE unsafe foods)
+    if (medicalConditions.length > 0) {
+      const hasBadTag = foodMedicalTags.some((tag) =>
+        medicalConditions.some((cond) => tag.includes(cond))
+      );
+      if (hasBadTag) return false;
     }
 
     return true;
@@ -160,7 +185,9 @@ const filterFoodsForUser = (foods, user) => {
 };
 
 const pickFoodsForMeal = (foods, targetCals) => {
-  const sorted = [...foods].sort((a, b) => a.calories - b.calories);
+   const shuffled = shuffle(foods);
+const subset = shuffled.slice(0, 15);
+const sorted = subset.sort((a, b) => a.calories - b.calories);
   const result = [];
   let total = 0;
 
@@ -295,19 +322,19 @@ export const buildMealsFromFoodCsv = async (
   const dinnerPool = preferMealCategory(userFoods, "dinner");
 
   const breakfastPicked = pickFoodsAvoidingRepeats(
-    breakfastPool,
+    shuffle(breakfastPool),
     mealGoals.breakfast.calories,
     usedNames,
     0,
   );
   const lunchPicked = pickFoodsAvoidingRepeats(
-    lunchPool,
+    shuffle(lunchPool),
     mealGoals.lunch.calories,
     usedNames,
     1, // allow 1 overlap total if needed
   );
   const dinnerPicked = pickFoodsAvoidingRepeats(
-    dinnerPool,
+    shuffle(dinnerPool),
     mealGoals.dinner.calories,
     usedNames,
     1,
@@ -337,22 +364,7 @@ export const buildMealsFromFoodCsv = async (
     return opts.slice(0, desired);
   };
 
-  const mealOptions = {
-    breakfast: buildOptions(
-      "breakfast",
-      breakfastPool,
-      mealGoals.breakfast.calories,
-      optionsCount.breakfast,
-    ),
-    lunch: buildOptions("lunch", lunchPool, mealGoals.lunch.calories, optionsCount.lunch),
-    dinner: buildOptions(
-      "dinner",
-      dinnerPool,
-      mealGoals.dinner.calories,
-      optionsCount.dinner,
-    ),
-  };
 
-  return { meals, mealGoals, mealOptions };
+  return { meals, mealGoals };
 };
 
