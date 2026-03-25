@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import api from "../shared/api/http";
 import Loader from "../components/Loader";
 
 export default function Register() {
@@ -30,7 +30,7 @@ export default function Register() {
       console.log("Verifying OTP for email:", email); // Debug log
       console.log("OTP entered:", otp); // Debug log
       // Step 1: Verify OTP
-     const data1= await api.post("/otp/verifyOtp", { email, otp });
+      const data1 = await api.post("/otp/verifyOtp", { email, otp });
       console.log("OTP verification response:", data1); // Debug log
       // Step 2: Register user
       await api.post("/auth/register", {

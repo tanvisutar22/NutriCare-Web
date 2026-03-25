@@ -1,26 +1,38 @@
 @import "tailwindcss";
-/* index.css */
 
-/* Reusable input style */
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+  font-family: "Segoe UI", "Inter", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
 .input {
-  @apply w-full rounded-xl border border-gray-300 px-4 py-3
-         focus:outline-none focus:ring-2 focus:ring-teal-500
-         text-gray-800 placeholder-gray-400;
+  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-100;
 }
 
-/* Primary button */
 .btn-primary {
-  @apply w-full bg-teal-600 text-white py-3 rounded-xl font-medium
-         hover:bg-teal-700 hover:scale-[1.02] transition transform;
+  @apply inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:-translate-y-0.5 hover:from-emerald-600 hover:to-teal-700 disabled:cursor-not-allowed disabled:opacity-60;
 }
 
-/* Secondary button */
 .btn-secondary {
-  @apply w-full border border-teal-600 text-teal-600 py-3 rounded-xl
-         font-medium hover:bg-teal-50 transition;
+  @apply inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50;
 }
 
-/* Card style */
 .card {
-  @apply bg-white rounded-2xl shadow-sm p-6;
+  @apply rounded-3xl border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur;
+}
+
+.section-title {
+  @apply text-2xl font-bold tracking-tight text-slate-900;
+}
+
+.section-copy {
+  @apply mt-2 max-w-2xl text-sm leading-6 text-slate-600;
 }

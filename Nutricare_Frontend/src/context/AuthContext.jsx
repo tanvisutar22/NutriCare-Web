@@ -1,72 +1,51 @@
-// import { createContext, useContext, useState } from "react";
-// import api from "../api/axios";
-
-// const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-
-//   const login = async (email, password) => {
-//     try {
-//       console.log("Attempting login with email:", email); // Debug log
-//       console.log("Password entered:", password); // Debug log
-//       await api.post("/auth/login", {
-//         email,
-//         password,
-//         userType: "User", // ✅ required by backend
-//       });
-//       // const res = await api.get("/user/getUser");
-//       // setUser(res.data.data);
-//     } catch (err) {
-//       console.error("Login failed:", err.response?.data || err.message);
-//       throw err;
-//     }
-//   };
-
-//   const logout = async () => {
-//     await api.get("/auth/logout");
-//     setUser(null);
-//   };
-
-//   return (
-//     <AuthContext.Provider value={{ user, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
-
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginThunk, logoutThunk } from "../store/slices/authSlice";
+import { checkSessionThunk, loginThunk, logoutThunk } from "../store/slices/authSlice";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const { data: profile, hasProfile } = useSelector((state) => state.profile);
+  const auth = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    dispatch(checkSessionThunk());
+  }, [dispatch]);
 
   const login = async (email, password) => {
     const resultAction = await dispatch(loginThunk({ email, password }));
+
     if (loginThunk.rejected.match(resultAction)) {
       throw resultAction.payload || new Error("Login failed");
     }
-    return hasProfile;
+
+    return true;
   };
 
   const logout = async () => {
     await dispatch(logoutThunk());
   };
 
-  const user = isAuthenticated ? { hasProfile, profile } : null;
+  const value = {
+    user: auth.isAuthenticated
+      ? {
+          name: profile.data?.name || "",
+          email: profile.data?.email || "",
+          hasProfile: profile.hasProfile,
+          profile: profile.data,
+        }
+      : null,
+    login,
+    logout,
+    isAuthenticated: auth.isAuthenticated,
+    initialized: auth.initialized,
+    authLoading: auth.loading,
+    hasProfile: profile.hasProfile,
+    profile: profile.data,
+  };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
 export const useAuth = () => useContext(AuthContext);

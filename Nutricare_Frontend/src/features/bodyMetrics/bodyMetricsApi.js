@@ -21,4 +21,3 @@ export async function deleteBodyMetric(id) {
   const res = await http.delete(`/body-metrics/${id}`);
   return res.data; // ApiResponse
 }
-

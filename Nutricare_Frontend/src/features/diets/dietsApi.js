@@ -15,7 +15,7 @@ export async function getDietPlanById(id) {
   return res.data;
 }
 
-export async function updateDietPlanStatus(id, payload) {
-  const res = await http.patch(`/diets/${id}`, payload);
+export async function updateDietStatus(id, status) {
+  const res = await http.patch(`/diets/${id}`, { status });
   return res.data;
 }

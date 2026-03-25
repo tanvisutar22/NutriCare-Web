@@ -1,489 +1,304 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
-import {
-  createDietPlan,
-  getDietPlanById,
-  listDietPlans,
-  updateDietPlanStatus,
-} from "../features/diets/dietsApi";
-import {
-  DEFAULT_CREATE_FORM,
-  DIET_STATUS_OPTIONS,
-} from "../features/diets/dietsConstants";
+import { listDietPlans, createDietPlan, updateDietStatus } from "../features/diets/dietsApi";
+import { listBodyMetrics } from "../features/bodyMetrics/bodyMetricsApi";
+import { getMyProfile } from "../features/user/userApi";
+import { getLatestMetricsMap } from "../features/bodyMetrics/bodyMetricsHelpers";
+import { DIET_STATUS_OPTIONS } from "../features/diets/dietsConstants";
 
-function InlineAlert({ variant = "info", children }) {
-  const styles = {
-    info: "bg-slate-50 border-slate-200 text-slate-700",
-    error: "bg-red-50 border-red-200 text-red-700",
-    success: "bg-emerald-50 border-emerald-200 text-emerald-700",
-    warning: "bg-amber-50 border-amber-200 text-amber-700",
-  };
-
+function MealBlock({ title, foods }) {
   return (
-    <div
-      className={`mt-4 rounded-xl border p-3 text-sm ${styles[variant] || styles.info}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function formatDate(value) {
-  if (!value) return "—";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return "—";
-  return d.toLocaleDateString();
-}
-
-function formatDateTime(value) {
-  if (!value) return "—";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return "—";
-  return d.toLocaleString();
-}
-
-function StatusBadge({ status }) {
-  const styles = {
-    active: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    paused: "bg-amber-50 text-amber-700 border-amber-200",
-    completed: "bg-slate-100 text-slate-700 border-slate-200",
-  };
-
-  return (
-    <span
-      className={[
-        "inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold",
-        styles[status] || "bg-slate-50 text-slate-700 border-slate-200",
-      ].join(" ")}
-    >
-      {status || "unknown"}
-    </span>
-  );
-}
-
-function DietDetailCard({ diet, onClose, onStatusSave, savingStatus }) {
-  const [nextStatus, setNextStatus] = useState(diet?.status || "active");
-
-  useEffect(() => {
-    setNextStatus(diet?.status || "active");
-  }, [diet]);
-
-  if (!diet) return null;
-
-  const meals = Array.isArray(diet?.meals)
-    ? diet.meals
-    : Array.isArray(diet?.dietPlan)
-      ? diet.dietPlan
-      : Array.isArray(diet?.plan)
-        ? diet.plan
-        : [];
-
-  return (
-    <div className="card">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900">
-            Diet Plan Detail
-          </h3>
-          <p className="mt-1 text-sm text-slate-600">
-            Full details of the selected diet plan for this period.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50"
-          onClick={onClose}
-        >
-          Close
-        </button>
-      </div>
-
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">Plan ID</div>
-          <div className="mt-1 break-all text-sm font-medium text-slate-900">
-            {diet?._id || "—"}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">Status</div>
-          <div className="mt-2">
-            <StatusBadge status={diet?.status} />
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">Start Date</div>
-          <div className="mt-1 text-sm font-medium text-slate-900">
-            {formatDate(diet?.startDate)}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">End Date</div>
-          <div className="mt-1 text-sm font-medium text-slate-900">
-            {formatDate(diet?.endDate)}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">Created At</div>
-          <div className="mt-1 text-sm font-medium text-slate-900">
-            {formatDateTime(diet?.createdAt)}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="text-sm text-slate-500">Updated At</div>
-          <div className="mt-1 text-sm font-medium text-slate-900">
-            {formatDateTime(diet?.updatedAt)}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
-        <h4 className="text-base font-semibold text-slate-900">
-          Update Status
-        </h4>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
-          <div className="w-full sm:max-w-xs">
-            <label className="text-sm font-medium text-slate-700">Status</label>
-            <select
-              className="input mt-2"
-              value={nextStatus}
-              onChange={(e) => setNextStatus(e.target.value)}
-            >
-              {DIET_STATUS_OPTIONS.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button
-            type="button"
-            className="btn-primary"
-            disabled={savingStatus}
-            onClick={() => onStatusSave(diet._id, nextStatus)}
-          >
-            {savingStatus ? "Saving..." : "Update Status"}
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
-        <h4 className="text-base font-semibold text-slate-900">Plan Content</h4>
-
-        {meals.length === 0 ? (
-          <p className="mt-3 text-sm text-slate-600">
-            No meal array found in response. This is okay if your backend
-            returns the plan in another format.
-          </p>
-        ) : (
-          <div className="mt-4 space-y-3">
-            {meals.map((meal, index) => (
-              <div
-                key={meal?._id || index}
-                className="rounded-xl border border-slate-200 bg-slate-50 p-4"
-              >
-                <div className="font-medium text-slate-900">
-                  {meal?.mealType ||
-                    meal?.title ||
-                    meal?.name ||
-                    `Meal ${index + 1}`}
-                </div>
-                <div className="mt-1 text-sm text-slate-600">
-                  {meal?.description ||
-                    meal?.food ||
-                    meal?.items ||
-                    "No extra description"}
-                </div>
-                {"calories" in (meal || {}) ? (
-                  <div className="mt-2 text-sm text-slate-700">
-                    Calories: {meal.calories}
-                  </div>
-                ) : null}
+    <div className="rounded-2xl bg-slate-50 p-4">
+      <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+      {foods?.length ? (
+        <div className="mt-3 space-y-2">
+          {foods.map((food, index) => (
+            <div key={`${food.foodName}-${index}`} className="rounded-xl bg-white p-3">
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-medium text-slate-800">{food.foodName}</p>
+                <p className="text-sm text-slate-500">{food.calories} kcal</p>
               </div>
-            ))}
-          </div>
-        )}
-
-        {!meals.length && diet?.notes ? (
-          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-            {diet.notes}
-          </div>
-        ) : null}
-      </div>
+              <p className="mt-1 text-xs text-slate-500">
+                Protein {food.protein}g • Carbs {food.carbs}g • Fat {food.fat}g
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-3 text-sm text-slate-500">No foods for this meal.</p>
+      )}
     </div>
   );
 }
 
 export default function DietsModule() {
-  const [rows, setRows] = useState([]);
+  const [diets, setDiets] = useState([]);
+  const [metrics, setMetrics] = useState([]);
+  const [profileExists, setProfileExists] = useState(false);
+  const [startDate, setStartDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
-  const [loadingDetail, setLoadingDetail] = useState(false);
-  const [savingStatus, setSavingStatus] = useState(false);
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const [createForm, setCreateForm] = useState(DEFAULT_CREATE_FORM);
-
-  const [selectedId, setSelectedId] = useState("");
-  const [selectedDiet, setSelectedDiet] = useState(null);
-
-  const hasRows = useMemo(() => rows.length > 0, [rows]);
-
-  const loadDiets = async () => {
+  async function loadPage() {
     setLoading(true);
     setError("");
 
     try {
-      const res = await listDietPlans();
-      setRows(Array.isArray(res?.data) ? res.data : []);
-    } catch (err) {
-      setRows([]);
-      setError(getApiErrorMessage(err));
+      const [profileRes, metricRes, dietRes] = await Promise.allSettled([
+        getMyProfile(),
+        listBodyMetrics(),
+        listDietPlans(),
+      ]);
+
+      if (profileRes.status === "fulfilled") {
+        setProfileExists(true);
+      } else if (profileRes.reason?.response?.status === 404) {
+        setProfileExists(false);
+      }
+
+      if (metricRes.status === "fulfilled") {
+        setMetrics(Array.isArray(metricRes.value?.data) ? metricRes.value.data : []);
+      }
+
+      if (dietRes.status === "fulfilled") {
+        setDiets(Array.isArray(dietRes.value?.data) ? dietRes.value.data : []);
+      }
+    } catch (loadError) {
+      setError(getApiErrorMessage(loadError));
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
-    loadDiets();
+    loadPage();
   }, []);
 
-  const onCreate = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  const latestMetrics = useMemo(() => getLatestMetricsMap(metrics), [metrics]);
+  const canGenerateDiet =
+    profileExists &&
+    Boolean(latestMetrics.weight) &&
+    Boolean(latestMetrics.activityLevel || latestMetrics.tdee);
 
-    if (!createForm.startDate) {
-      setError("Start date is required.");
-      return;
-    }
+  const readinessMessage = !profileExists
+    ? "Create your profile before generating a diet."
+    : !latestMetrics.weight
+      ? "Add a weight metric before generating a diet."
+      : !latestMetrics.activityLevel && !latestMetrics.tdee
+        ? "Add activity level or let the backend resolve TDEE first."
+        : "";
 
-    if (!createForm.endDate) {
-      setError("End date is required.");
-      return;
-    }
+  const groupedByDate = useMemo(() => {
+    return [...diets].sort((a, b) => {
+      const aTime = new Date(a?.startDate || 0).getTime();
+      const bTime = new Date(b?.startDate || 0).getTime();
+      return aTime - bTime;
+    });
+  }, [diets]);
 
-    if (new Date(createForm.endDate) < new Date(createForm.startDate)) {
-      setError("End date cannot be before start date.");
+  const handleCreateDiet = async () => {
+    if (!startDate) {
+      setError("Select a start date.");
       return;
     }
 
     setCreating(true);
+    setError("");
+    setSuccess("");
 
     try {
-      const payload = {
-        startDate: createForm.startDate,
-        endDate: createForm.endDate,
-      };
-
-      const res = await createDietPlan(payload);
+      const res = await createDietPlan({ startDate });
       setSuccess(res?.message || "Diet plan created successfully.");
-      setCreateForm(DEFAULT_CREATE_FORM);
-      await loadDiets();
-    } catch (err) {
-      setError(getApiErrorMessage(err));
+      setStartDate("");
+      await loadPage();
+    } catch (createError) {
+      setError(getApiErrorMessage(createError));
     } finally {
       setCreating(false);
     }
   };
 
-  const onViewDetail = async (id) => {
-    if (!id) return;
-
-    setSelectedId(id);
-    setSelectedDiet(null);
-    setLoadingDetail(true);
-    setError("");
-    setSuccess("");
-
+  const handleStatusChange = async (id, status) => {
     try {
-      const res = await getDietPlanById(id);
-      setSelectedDiet(res?.data || null);
-    } catch (err) {
-      setError(getApiErrorMessage(err));
-    } finally {
-      setLoadingDetail(false);
-    }
-  };
-
-  const onStatusSave = async (id, status) => {
-    if (!id) return;
-
-    setSavingStatus(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      const res = await updateDietPlanStatus(id, { status });
-      setSuccess(res?.message || "Diet plan status updated.");
-
-      const detailRes = await getDietPlanById(id);
-      setSelectedDiet(detailRes?.data || null);
-
-      await loadDiets();
-    } catch (err) {
-      setError(getApiErrorMessage(err));
-    } finally {
-      setSavingStatus(false);
+      await updateDietStatus(id, status);
+      await loadPage();
+    } catch (statusError) {
+      setError(getApiErrorMessage(statusError));
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div className="mx-auto max-w-7xl px-4 py-10">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-teal-600">Diet generation</h2>
-          <p className="mt-1 text-slate-600">
-            Generate daily diet plans based on your profile and body metrics.
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-600">
+            Diet Plans
+          </p>
+          <h1 className="section-title mt-2">Generate and manage 7-day meal plans</h1>
+          <p className="section-copy">
+            The backend creates one document per day with macro targets and meals
+            for breakfast, lunch, and dinner.
           </p>
         </div>
-
-        <button
-          type="button"
-          className="btn-secondary"
-          onClick={loadDiets}
-          disabled={loading || creating || savingStatus}
-        >
-          {loading ? "Refreshing..." : "Refresh"}
-        </button>
+        <Link to="/recipes" className="btn-secondary">
+          Browse recipes
+        </Link>
       </div>
 
-      <div className="card">
-        <h3 className="text-lg font-semibold text-slate-900">
-          Create Diet Plan
-        </h3>
-        <p className="mt-1 text-sm text-slate-600">
-          Make sure profile and body metrics are already completed before
-          creating a diet plan.
-        </p>
+      <div className="mt-8 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <section className="space-y-6">
+          <div className="card">
+            <h2 className="text-lg font-semibold text-slate-900">Diet generation</h2>
+            <p className="mt-2 text-sm text-slate-500">
+              Send only the backend-supported payload: <code>{`{ startDate }`}</code>.
+            </p>
 
-        <form
-          onSubmit={onCreate}
-          className="mt-5 grid gap-4 md:grid-cols-3 items-end"
-        >
-          <div>
-            <label className="text-sm font-medium text-slate-700">
-              Start Date
-            </label>
-            <input
-              className="input mt-2"
-              type="date"
-              value={createForm.startDate}
-              onChange={(e) =>
-                setCreateForm((prev) => ({
-                  ...prev,
-                  startDate: e.target.value,
-                }))
-              }
-            />
+            <div className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+              {canGenerateDiet
+                ? "Profile and metric prerequisites are ready."
+                : readinessMessage}
+            </div>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <label className="text-sm font-medium text-slate-700">Start date</label>
+                <input
+                  className="input mt-2"
+                  type="date"
+                  value={startDate}
+                  onChange={(event) => setStartDate(event.target.value)}
+                />
+              </div>
+              <button
+                className="btn-primary w-full"
+                disabled={!canGenerateDiet || creating}
+                onClick={handleCreateDiet}
+              >
+                {creating ? "Generating..." : "Generate 7-day plan"}
+              </button>
+            </div>
+
+            {error ? (
+              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                {error}
+              </div>
+            ) : null}
+            {success ? (
+              <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {success}
+              </div>
+            ) : null}
           </div>
 
-          <div>
-            <label className="text-sm font-medium text-slate-700">
-              End Date
-            </label>
-            <input
-              className="input mt-2"
-              type="date"
-              value={createForm.endDate}
-              onChange={(e) =>
-                setCreateForm((prev) => ({ ...prev, endDate: e.target.value }))
-              }
-            />
+          <div className="card">
+            <h2 className="text-lg font-semibold text-slate-900">Future-ready planner</h2>
+            <div className="mt-4 grid gap-3">
+              <div className="rounded-2xl border border-dashed border-slate-200 p-4">
+                <p className="font-medium text-slate-800">Snacks</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  Optional placeholder only. Backend currently returns breakfast,
+                  lunch, and dinner.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-dashed border-slate-200 p-4">
+                <p className="font-medium text-slate-800">AI optimization</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  Future slot for chatbot-led meal swaps and plan improvements.
+                </p>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div>
-            <button type="submit" className="btn-primary" disabled={creating}>
-              {creating ? "Creating..." : "Generate Diet Plan"}
-            </button>
-          </div>
-        </form>
+        <section className="space-y-6">
+          {loading ? (
+            <div className="card text-sm text-slate-500">Loading diet plans...</div>
+          ) : groupedByDate.length === 0 ? (
+            <div className="card text-sm text-slate-500">
+              No diet plans generated yet.
+            </div>
+          ) : (
+            groupedByDate.map((diet) => (
+              <article key={diet._id} className="card">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      {diet.Day || "Diet day"}
+                    </p>
+                    <h2 className="mt-1 text-xl font-semibold text-slate-900">
+                      {new Date(diet.startDate).toLocaleDateString()}
+                    </h2>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Created by {diet.createdBy || "ai"}
+                    </p>
+                  </div>
 
-        {error ? <InlineAlert variant="error">{error}</InlineAlert> : null}
-        {success ? (
-          <InlineAlert variant="success">{success}</InlineAlert>
-        ) : null}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-medium capitalize text-emerald-700">
+                      {diet.status}
+                    </span>
+                    <select
+                      className="input max-w-[180px]"
+                      value={diet.status}
+                      onChange={(event) =>
+                        handleStatusChange(diet._id, event.target.value)
+                      }
+                    >
+                      {DIET_STATUS_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-4">
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">Calories</p>
+                    <p className="mt-1 text-lg font-semibold text-slate-900">
+                      {diet.calorieTarget}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">Protein</p>
+                    <p className="mt-1 text-lg font-semibold text-slate-900">
+                      {diet.proteinTarget}g
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">Carbs</p>
+                    <p className="mt-1 text-lg font-semibold text-slate-900">
+                      {diet.carbTarget}g
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">Fat</p>
+                    <p className="mt-1 text-lg font-semibold text-slate-900">
+                      {diet.fatTarget}g
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-4 lg:grid-cols-4">
+                  <MealBlock title="Breakfast" foods={diet.meals?.breakfast} />
+                  <MealBlock title="Lunch" foods={diet.meals?.lunch} />
+                  <MealBlock title="Dinner" foods={diet.meals?.dinner} />
+                  <div className="rounded-2xl border border-dashed border-slate-200 p-4">
+                    <h3 className="text-sm font-semibold text-slate-900">Snacks</h3>
+                    <p className="mt-3 text-sm text-slate-500">
+                      Optional future section. No snack data comes from the backend.
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))
+          )}
+        </section>
       </div>
-
-      <div className="card">
-        <h3 className="text-lg font-semibold text-slate-900">Diet Plans</h3>
-
-        {loading ? (
-          <div className="mt-5 text-sm text-slate-700">
-            Loading diet plans...
-          </div>
-        ) : !hasRows ? (
-          <div className="mt-5 text-sm text-slate-600">
-            No diet plans found. Create one above to get started.
-          </div>
-        ) : (
-          <div className="mt-5 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-slate-600">
-                  <th className="py-2 pr-3">Start Date</th>
-                  <th className="py-2 pr-3">End Date</th>
-                  <th className="py-2 pr-3">Status</th>
-                  <th className="py-2 pr-3">Created</th>
-                  <th className="py-2 pr-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((diet) => (
-                  <tr key={diet?._id} className="border-t border-slate-100">
-                    <td className="py-3 pr-3 text-slate-900">
-                      {formatDate(diet?.startDate)}
-                    </td>
-                    <td className="py-3 pr-3 text-slate-900">
-                      {formatDate(diet?.endDate)}
-                    </td>
-                    <td className="py-3 pr-3">
-                      <StatusBadge status={diet?.status} />
-                    </td>
-                    <td className="py-3 pr-3 text-slate-600">
-                      {formatDateTime(diet?.createdAt)}
-                    </td>
-                    <td className="py-3 pr-3">
-                      <button
-                        type="button"
-                        className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50"
-                        onClick={() => onViewDetail(diet?._id)}
-                      >
-                        View Detail
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      {loadingDetail ? (
-        <div className="card">
-          <div className="text-sm text-slate-700">Loading diet detail...</div>
-        </div>
-      ) : selectedId && selectedDiet ? (
-        <DietDetailCard
-          diet={selectedDiet}
-          onClose={() => {
-            setSelectedId("");
-            setSelectedDiet(null);
-          }}
-          onStatusSave={onStatusSave}
-          savingStatus={savingStatus}
-        />
-      ) : null}
     </div>
   );
 }

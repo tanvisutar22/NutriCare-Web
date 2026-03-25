@@ -15,4 +15,3 @@ export async function updateMyProfile(payload) {
   const res = await http.put("/users/me", payload);
   return res.data;
 }
-

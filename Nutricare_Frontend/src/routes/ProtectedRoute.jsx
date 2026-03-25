@@ -1,26 +1,22 @@
-// import { Navigate } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
-
-// export default function ProtectedRoute({ children }) {
-//   const { user } = useAuth();
-//   return user ? children : <Navigate to="/login" />;
-// }
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import GlobalLoader from "../components/GlobalLoader";
 
 export default function ProtectedRoute({ children, requireProfile = false }) {
-  const { user } = useAuth();
+  const location = useLocation();
+  const { initialized, isAuthenticated, hasProfile } = useAuth();
 
-  // Not logged in → go to login
-  if (!user) {
-    return <Navigate to="/login" />;
+  if (!initialized) {
+    return <GlobalLoader show />;
   }
 
-  // Logged in but no profile → send to new profile module
-  if (requireProfile && user?.hasProfile === false) {
-    return <Navigate to="/user" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
-  // Otherwise → allow access
+  if (requireProfile && !hasProfile) {
+    return <Navigate to="/profile" replace />;
+  }
+
   return children;
 }

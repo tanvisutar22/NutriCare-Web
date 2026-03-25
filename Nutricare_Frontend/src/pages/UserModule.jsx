@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
 import { createUserProfile, getMyProfile, updateMyProfile } from "../features/user/userApi";
 import {
@@ -18,113 +19,124 @@ const initialForm = {
   allergies: [],
 };
 
-function toggleFromList(list, value) {
-  const set = new Set(Array.isArray(list) ? list : []);
-  if (set.has(value)) set.delete(value);
-  else set.add(value);
-  return Array.from(set);
+function toggleItem(items, value) {
+  return items.includes(value)
+    ? items.filter((item) => item !== value)
+    : [...items, value];
 }
 
-function FieldLabel({ children }) {
-  return <label className="text-sm text-slate-700 font-medium">{children}</label>;
-}
-
-function InlineAlert({ variant = "info", children }) {
-  const styles = {
-    info: "bg-slate-50 border-slate-200 text-slate-700",
-    error: "bg-red-50 border-red-200 text-red-700",
-    success: "bg-emerald-50 border-emerald-200 text-emerald-700",
-  };
+function ChipGroup({ options, value, onChange }) {
   return (
-    <div className={`mt-4 border rounded-xl p-3 text-sm ${styles[variant] || styles.info}`}>
-      {children}
+    <div className="flex flex-wrap gap-2">
+      {options.map((option) => {
+        const active = value.includes(option.value);
+
+        return (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(toggleItem(value, option.value))}
+            className={[
+              "rounded-full border px-4 py-2 text-sm transition",
+              active
+                ? "border-emerald-500 bg-emerald-500 text-white"
+                : "border-slate-200 bg-white text-slate-700 hover:border-emerald-200 hover:bg-emerald-50",
+            ].join(" ")}
+          >
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
 export default function UserModule() {
+  const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [profileExists, setProfileExists] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [form, setForm] = useState(initialForm);
-
-  const requiredMissing = useMemo(() => {
-    // Backend controller requires name/gender/age/height.
-    // Backend schema also expects foodPreference/medicalConditions/allergies,
-    // so we treat them as required here to avoid validator failures.
-    const missing = [];
-    if (!form.name.trim()) missing.push("name");
-    if (!form.gender) missing.push("gender");
-    if (!String(form.age).trim()) missing.push("age");
-    if (!String(form.height).trim()) missing.push("height");
-    if (!form.foodPreference) missing.push("foodPreference");
-    if (!form.medicalConditions?.length) missing.push("medicalConditions");
-    if (!form.allergies?.length) missing.push("allergies");
-    return missing;
-  }, [form]);
 
   useEffect(() => {
-    let alive = true;
-    const load = async () => {
+    let active = true;
+
+    async function loadProfile() {
       setLoading(true);
       setError("");
-      setSuccess("");
-      try {
-        const res = await getMyProfile(); // ApiResponse
-        const data = res?.data;
-        if (!alive) return;
 
+      try {
+        const res = await getMyProfile();
+        if (!active) return;
+
+        const data = res?.data || {};
         setProfileExists(true);
         setForm({
-          name: data?.name || "",
-          gender: data?.gender || "",
-          age: data?.age ?? "",
-          height: data?.height ?? "",
-          foodPreference: data?.foodPreference || "",
-          medicalConditions: Array.isArray(data?.medicalConditions)
+          name: data.name || "",
+          gender: data.gender || "",
+          age: data.age ?? "",
+          height: data.height ?? "",
+          foodPreference: data.foodPreference || "",
+          medicalConditions: Array.isArray(data.medicalConditions)
             ? data.medicalConditions
-            : data?.medicalConditions
+            : data.medicalConditions
               ? [String(data.medicalConditions)]
               : [],
-          allergies: Array.isArray(data?.allergies)
+          allergies: Array.isArray(data.allergies)
             ? data.allergies
-            : data?.allergies
+            : data.allergies
               ? [String(data.allergies)]
               : [],
         });
-      } catch (e) {
-        if (!alive) return;
-        // If profile doesn't exist yet, backend returns 404.
-        const status = e?.response?.status;
-        if (status === 404) {
+      } catch (loadError) {
+        if (!active) return;
+
+        if (loadError?.response?.status === 404) {
           setProfileExists(false);
           setForm(initialForm);
         } else {
-          setError(getApiErrorMessage(e));
+          setError(getApiErrorMessage(loadError));
         }
       } finally {
-        if (alive) setLoading(false);
+        if (active) setLoading(false);
       }
-    };
-    load();
+    }
+
+    loadProfile();
     return () => {
-      alive = false;
+      active = false;
     };
   }, []);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const validationErrors = useMemo(() => {
+    const issues = [];
+    if (!form.name.trim()) issues.push("Name is required");
+    if (!form.gender) issues.push("Gender is required");
+    if (!String(form.age).trim()) issues.push("Age is required");
+    if (!String(form.height).trim()) issues.push("Height is required");
+    if (!form.foodPreference) issues.push("Food preference is required");
+    if (form.medicalConditions.length === 0) {
+      issues.push("Select at least one medical condition");
+    }
+    if (form.allergies.length === 0) {
+      issues.push("Select at least one allergy");
+    }
+    return issues;
+  }, [form]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError("");
     setSuccess("");
 
-    if (requiredMissing.length) {
-      setError(`Please fill: ${requiredMissing.join(", ")}`);
+    if (validationErrors.length > 0) {
+      setError(validationErrors[0]);
       return;
     }
 
     setSaving(true);
+
     try {
       const payload = {
         name: form.name.trim(),
@@ -136,188 +148,229 @@ export default function UserModule() {
         allergies: form.allergies,
       };
 
-      const res = profileExists
+      const response = profileExists
         ? await updateMyProfile(payload)
         : await createUserProfile(payload);
 
       setProfileExists(true);
-      setSuccess(res?.message || "Profile saved successfully.");
-    } catch (e2) {
-      setError(getApiErrorMessage(e2));
+      setSuccess(response?.message || "Profile saved successfully.");
+    } catch (submitError) {
+      setError(getApiErrorMessage(submitError));
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-teal-50 via-white to-white">
-      <div className="max-w-5xl mx-auto px-6 py-10">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-slate-900">Your health profile</h2>
-            <p className="text-slate-600 mt-1">
-              We use this information to personalize your metrics and diet plans.
-            </p>
+    <div className="mx-auto max-w-7xl px-4 py-10">
+      <div className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
+        <section className="card">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
+                Profile Module
+              </p>
+              <h1 className="section-title mt-2">Build your health identity</h1>
+              <p className="section-copy">
+                NutriCare uses your saved profile to personalize food filtering,
+                metric calculations, and diet generation.
+              </p>
+            </div>
+            <Link to="/metrics" className="btn-secondary">
+              Next: Metrics
+            </Link>
           </div>
-          <div className="text-xs text-slate-500">
-            {profileExists ? "Profile saved" : "Profile incomplete"}
-          </div>
-        </div>
 
-        <div className="mt-8 grid md:grid-cols-2 gap-6 items-start">
-          <div className="bg-white border border-gray-100 rounded-3xl shadow-lg p-6">
-            <h3 className="text-lg font-semibold text-slate-900">
-              {profileExists ? "Update profile" : "Create profile"}
-            </h3>
-            <p className="text-sm text-slate-600 mt-1">
-              Please keep details accurate for diet generation and metric calculations.
-            </p>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="text-sm font-medium text-slate-700">Name</label>
+                <input
+                  className="input mt-2"
+                  value={form.name}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, name: event.target.value }))
+                  }
+                  placeholder="Enter your full name"
+                />
+              </div>
 
-            {loading ? (
-              <div className="mt-5 text-sm text-slate-700">Loading profile…</div>
-            ) : (
-              <form onSubmit={onSubmit} className="mt-5 space-y-4">
+              <div>
+                <label className="text-sm font-medium text-slate-700">Gender</label>
+                <select
+                  className="input mt-2"
+                  value={form.gender}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, gender: event.target.value }))
+                  }
+                >
+                  <option value="">Select gender</option>
+                  {GENDER_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <div>
+                <label className="text-sm font-medium text-slate-700">Age</label>
+                <input
+                  type="number"
+                  min="1"
+                  className="input mt-2"
+                  value={form.age}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, age: event.target.value }))
+                  }
+                  placeholder="Years"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-slate-700">Height (cm)</label>
+                <input
+                  type="number"
+                  min="1"
+                  className="input mt-2"
+                  value={form.height}
+                  onChange={(event) =>
+                    setForm((prev) => ({ ...prev, height: event.target.value }))
+                  }
+                  placeholder="Centimeters"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-slate-700">
+                  Food preference
+                </label>
+                <select
+                  className="input mt-2"
+                  value={form.foodPreference}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      foodPreference: event.target.value,
+                    }))
+                  }
+                >
+                  <option value="">Select preference</option>
+                  {FOOD_PREFERENCE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-slate-700">
+                  Medical conditions
+                </label>
+                <span className="text-xs text-slate-400">
+                  Send only backend-supported values
+                </span>
+              </div>
+              <div className="mt-3">
+                <ChipGroup
+                  options={MEDICAL_CONDITION_OPTIONS}
+                  value={form.medicalConditions}
+                  onChange={(next) =>
+                    setForm((prev) => ({ ...prev, medicalConditions: next }))
+                  }
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-slate-700">Allergies</label>
+              <div className="mt-3">
+                <ChipGroup
+                  options={ALLERGY_OPTIONS}
+                  value={form.allergies}
+                  onChange={(next) =>
+                    setForm((prev) => ({ ...prev, allergies: next }))
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-5">
+              <div className="grid gap-4 md:grid-cols-3">
                 <div>
-                  <FieldLabel>Name</FieldLabel>
-                  <input
-                    className="input mt-2"
-                    value={form.name}
-                    onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                    placeholder="Your name"
-                  />
+                  <p className="text-sm font-semibold text-slate-800">Weight goal</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Future UI section only. Saved weight comes from the metrics
+                    module.
+                  </p>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <FieldLabel>Gender</FieldLabel>
-                    <select
-                      className="input mt-2"
-                      value={form.gender}
-                      onChange={(e) => setForm((p) => ({ ...p, gender: e.target.value }))}
-                    >
-                      <option value="">Select gender</option>
-                      {GENDER_OPTIONS.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <FieldLabel>Age</FieldLabel>
-                    <input
-                      className="input mt-2"
-                      type="number"
-                      min={0}
-                      value={form.age}
-                      onChange={(e) => setForm((p) => ({ ...p, age: e.target.value }))}
-                      placeholder="Years"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <FieldLabel>Height (cm)</FieldLabel>
-                    <input
-                      className="input mt-2"
-                      type="number"
-                      min={0}
-                      value={form.height}
-                      onChange={(e) => setForm((p) => ({ ...p, height: e.target.value }))}
-                      placeholder="e.g. 170"
-                    />
-                  </div>
-                  <div>
-                    <FieldLabel>Food preference</FieldLabel>
-                    <select
-                      className="input mt-2"
-                      value={form.foodPreference}
-                      onChange={(e) =>
-                        setForm((p) => ({ ...p, foodPreference: e.target.value }))
-                      }
-                    >
-                      <option value="">Select preference</option>
-                      {FOOD_PREFERENCE_OPTIONS.map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
                 <div>
-                  <FieldLabel>Medical conditions</FieldLabel>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {MEDICAL_CONDITION_OPTIONS.map((o) => (
-                      <label
-                        key={o.value}
-                        className="flex items-center gap-2 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2 text-sm text-slate-700"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={form.medicalConditions.includes(o.value)}
-                          onChange={() =>
-                            setForm((p) => ({
-                              ...p,
-                              medicalConditions: toggleFromList(p.medicalConditions, o.value),
-                            }))
-                          }
-                        />
-                        {o.label}
-                      </label>
-                    ))}
-                  </div>
+                  <p className="text-sm font-semibold text-slate-800">Sleep schedule</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Future insight field. Not sent to backend.
+                  </p>
                 </div>
-
                 <div>
-                  <FieldLabel>Allergies</FieldLabel>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {ALLERGY_OPTIONS.map((o) => (
-                      <label
-                        key={o.value}
-                        className="flex items-center gap-2 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2 text-sm text-slate-700"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={form.allergies.includes(o.value)}
-                          onChange={() =>
-                            setForm((p) => ({
-                              ...p,
-                              allergies: toggleFromList(p.allergies, o.value),
-                            }))
-                          }
-                        />
-                        {o.label}
-                      </label>
-                    ))}
-                  </div>
+                  <p className="text-sm font-semibold text-slate-800">Goal setting</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Future section for fat loss, gain, or maintenance flows.
+                  </p>
                 </div>
+              </div>
+            </div>
 
-                <button type="submit" className="btn-primary" disabled={saving || loading}>
-                  {saving ? "Saving..." : profileExists ? "Update profile" : "Create profile"}
-                </button>
+            {error ? (
+              <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                {error}
+              </div>
+            ) : null}
 
-                {error ? <InlineAlert variant="error">{error}</InlineAlert> : null}
-                {success ? <InlineAlert variant="success">{success}</InlineAlert> : null}
-              </form>
-            )}
+            {success ? (
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {success}
+              </div>
+            ) : null}
+
+            <button type="submit" disabled={saving || loading} className="btn-primary">
+              {loading ? "Loading..." : saving ? "Saving..." : profileExists ? "Update profile" : "Create profile"}
+            </button>
+          </form>
+        </section>
+
+        <aside className="space-y-6">
+          <div className="card">
+            <h2 className="text-lg font-semibold text-slate-900">Profile roadmap</h2>
+            <div className="mt-4 space-y-4 text-sm text-slate-600">
+              <div className="rounded-2xl bg-emerald-50 p-4">
+                <p className="font-semibold text-emerald-700">1. Save your profile</p>
+                <p className="mt-1">Required before diet personalization starts.</p>
+              </div>
+              <div className="rounded-2xl bg-sky-50 p-4">
+                <p className="font-semibold text-sky-700">2. Add weight and activity</p>
+                <p className="mt-1">This unlocks BMI, BMR, and TDEE on the backend.</p>
+              </div>
+              <div className="rounded-2xl bg-violet-50 p-4">
+                <p className="font-semibold text-violet-700">3. Generate a diet plan</p>
+                <p className="mt-1">Backend creates seven daily diet documents.</p>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white border border-gray-100 rounded-3xl shadow-lg p-6">
-            <h3 className="text-lg font-semibold text-slate-900">Why this matters</h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Accurate profile details help us calculate BMI, BMR, TDEE and build better diet
-              plans for you.
-            </p>
-            <p className="mt-3 text-sm text-slate-600">
-              You can update this information at any time as your lifestyle or health changes.
-            </p>
+          <div className="card">
+            <h2 className="text-lg font-semibold text-slate-900">Demo notes</h2>
+            <ul className="mt-4 space-y-3 text-sm text-slate-600">
+              <li>Only backend-supported fields are submitted.</li>
+              <li>Weight is captured in the metrics module, not in this form.</li>
+              <li>Vegan, keto, and low-carb can be discussed as future scope only.</li>
+            </ul>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   );
 }
-
