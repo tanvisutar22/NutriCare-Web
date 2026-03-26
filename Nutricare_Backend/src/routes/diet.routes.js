@@ -6,6 +6,8 @@ import {
   listDietPlans,
   getDietPlanById,
   updateDietPlanStatus,
+  getTodayDietPlan,
+  getWeeklyDietPlan
 } from "../controllers/diet.controllers.js";
 
 const dietRouter = Router();
@@ -13,7 +15,11 @@ const dietRouter = Router();
 dietRouter.use(Auth, authorizeRole("User"));
 
 dietRouter.route("/").get(listDietPlans).post(createDietPlan);
+dietRouter.route("/today").get(getTodayDietPlan);
+dietRouter.route("/weekly").get(getWeeklyDietPlan);
 dietRouter.route("/:id").get(getDietPlanById).patch(updateDietPlanStatus);
+
+
 
 export default dietRouter;
 

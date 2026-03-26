@@ -33,6 +33,10 @@ const userSchema=new mongoose.Schema({
         type:["milk","peanuts","tree_nuts","eggs","soy","gluten","seafood"],
         required:true,
     },
+    goal:{
+        type:["weight_loss","muscle_gain","maintenance"],
+        required:true,
+    }
 },{timestamps:true})
 const User=mongoose.model("User",userSchema);
 export default mongoose.model("User", userSchema);

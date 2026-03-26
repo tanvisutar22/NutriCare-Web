@@ -7,6 +7,8 @@ import userRouter from "./routes/user.routes.js";
 import bodyMetricsRouter from "./routes/bodyMetrics.routes.js";
 import dietRouter from "./routes/diet.routes.js";
 import recipeRouter from "./routes/recipe.routes.js";
+import aiRouter from "./routes/ai.routes.js";
+import dashboardRouter from "./routes/dashboard.routes.js";
 const app = Express();
 
 app.use(
@@ -29,5 +31,6 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/body-metrics", bodyMetricsRouter);
 app.use("/api/v1/diets", dietRouter);
 app.use("/api/v1/recipe", recipeRouter);
-
+app.use("/api/v1/ai", aiRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 export default app;
