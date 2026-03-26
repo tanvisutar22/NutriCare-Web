@@ -12,6 +12,8 @@ import doctorPatientRoutes from "./routes/doctorPatient.routes.js";
 import doctorDashboardRoutes from "./routes/doctorDashboard.routes.js";
 import aiRouter from "./routes/ai.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
+import subscriptionRouter from "./routes/subscription.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 const app = Express();
 
 app.use(
@@ -34,6 +36,8 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/body-metrics", bodyMetricsRouter);
 app.use("/api/v1/diets", dietRouter);
 app.use("/api/v1/recipe", recipeRouter);
+app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/doctors", doctorRoutes);
 app.use("/api/v1/doctors", doctorPatientRoutes);
 app.use("/api/v1/doctors", doctorDashboardRoutes);

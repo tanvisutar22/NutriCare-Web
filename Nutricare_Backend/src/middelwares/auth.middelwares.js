@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { auth as AuthModel } from "../models/auth.model.js";
 async function Auth(req, res, next) {
   try {
     const refreshToken = req.cookies?.refreshToken;
@@ -27,7 +28,7 @@ async function Auth(req, res, next) {
           process.env.REFRESH_TOKEN_SECRET,
         );
 
-        const existedUser = await auth
+        const existedUser = await AuthModel
           .findById(decoded._id)
           .select("-password -refreshToken");
 

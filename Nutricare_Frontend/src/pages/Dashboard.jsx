@@ -16,6 +16,8 @@ import { getMyProfile } from "../features/user/userApi";
 import { listBodyMetrics } from "../features/bodyMetrics/bodyMetricsApi";
 import { listDietPlans } from "../features/diets/dietsApi";
 import { getLatestMetricsMap, sortMetricsByDate } from "../features/bodyMetrics/bodyMetricsHelpers";
+import { getHealthRisk } from "../features/dashboard/dashboardApi";
+import { listMyDoctorNotes } from "../features/notes/notesApi";
 
 ChartJS.register(
   CategoryScale,
@@ -41,6 +43,8 @@ export default function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [metrics, setMetrics] = useState([]);
   const [diets, setDiets] = useState([]);
+  const [risk, setRisk] = useState(null);
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -52,10 +56,12 @@ export default function Dashboard() {
       setError("");
 
       try {
-        const [profileRes, metricsRes, dietsRes] = await Promise.allSettled([
+        const [profileRes, metricsRes, dietsRes, riskRes, notesRes] = await Promise.allSettled([
           getMyProfile(),
           listBodyMetrics(),
           listDietPlans(),
+          getHealthRisk(),
+          listMyDoctorNotes(),
         ]);
 
         if (!active) return;
@@ -68,6 +74,12 @@ export default function Dashboard() {
         }
         if (dietsRes.status === "fulfilled") {
           setDiets(Array.isArray(dietsRes.value?.data) ? dietsRes.value.data : []);
+        }
+        if (riskRes.status === "fulfilled") {
+          setRisk(riskRes.value?.data || null);
+        }
+        if (notesRes.status === "fulfilled") {
+          setNotes(Array.isArray(notesRes.value?.data) ? notesRes.value.data : []);
         }
 
         if (
@@ -258,6 +270,12 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold text-slate-900">Health insight panel</h2>
             <div className="mt-4 grid gap-3">
               <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm font-medium text-slate-800">Risk level</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  {risk?.riskLevel ? String(risk.riskLevel) : "—"}
+                </p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-medium text-slate-800">TDEE</p>
                 <p className="mt-1 text-sm text-slate-500">
                   {latestMetrics.tdee ? `${latestMetrics.tdee.value} kcal/day` : "Add activity level to derive TDEE."}
@@ -279,6 +297,44 @@ export default function Dashboard() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <div className="card">
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-xl font-semibold text-slate-900">Latest doctor notes</h2>
+            <Link to="/notes" className="text-sm font-medium text-emerald-600">
+              View all
+            </Link>
+          </div>
+          {notes.length === 0 ? (
+            <p className="mt-4 text-sm text-slate-500">No notes yet.</p>
+          ) : (
+            <div className="mt-4 space-y-3">
+              {notes.slice(0, 3).map((n) => (
+                <div key={n._id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="text-sm font-semibold text-slate-900">{n.title}</div>
+                  <div className="mt-1 text-xs text-slate-500">
+                    {n.doctorAuthId?.email || "—"} • {n.createdAt ? new Date(n.createdAt).toLocaleString() : "—"}
+                  </div>
+                  <div className="mt-2 text-sm text-slate-700 line-clamp-3">{n.note}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="card">
+          <h2 className="text-xl font-semibold text-slate-900">Subscription</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Manage your active plan and enable doctor reviews.
+          </p>
+          <div className="mt-4">
+            <Link to="/billing" className="btn-primary">
+              Open billing
+            </Link>
           </div>
         </div>
       </section>
@@ -348,9 +404,6 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <button className="fixed bottom-6 right-6 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-xl">
-        AI Coach Coming Soon
-      </button>
     </div>
   );
 }

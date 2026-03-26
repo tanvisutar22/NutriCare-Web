@@ -78,10 +78,28 @@ export default function Navbar() {
                 Diets
               </NavLink>
               <NavLink
+                to="/billing"
+                className={({ isActive }) => navClass(isActive)}
+              >
+                Billing
+              </NavLink>
+              <NavLink
                 to="/recipes"
                 className={({ isActive }) => navClass(isActive)}
               >
                 Recipes
+              </NavLink>
+              <NavLink
+                to="/notes"
+                className={({ isActive }) => navClass(isActive)}
+              >
+                Notes
+              </NavLink>
+              <NavLink
+                to="/daily-log"
+                className={({ isActive }) => navClass(isActive)}
+              >
+                Daily log
               </NavLink>
               <div className="ml-3 text-right">
                 <p className="text-sm font-semibold text-slate-900">
@@ -139,8 +157,17 @@ export default function Navbar() {
                 <NavLink to="/diets" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
                   Diets
                 </NavLink>
+                <NavLink to="/billing" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
+                  Billing
+                </NavLink>
                 <NavLink to="/recipes" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
                   Recipes
+                </NavLink>
+                <NavLink to="/notes" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
+                  Notes
+                </NavLink>
+                <NavLink to="/daily-log" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
+                  Daily log
                 </NavLink>
                 <button onClick={handleLogout} className="btn-secondary">
                   Logout

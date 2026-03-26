@@ -22,6 +22,11 @@ const doctorSchema = new mongoose.Schema(
     hospital: {
       type: String,
     },
+    isApproved: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   { timestamps: true },
 );

@@ -5,9 +5,34 @@ import User from "../models/user.model.js";
 import BodyMetrics from "../models/bodyMetrics.model.js";
 import { buildMealsFromFoodCsv } from "../utils/foodSelector.js";
 import manageWeeklyCycle from "../utils/weekly Score/manageWeeklyCycle.js";
+import Subscription from "../models/subscription.model.js";
+import Doctor from "../models/doctor.model.js";
+import DoctorReviewRequest from "../models/doctorReviewRequest.model.js";
+import DoctorPatient from "../models/doctorPatient.model.js";
 
 const getLatestMetric = async (authId, metricType) => {
   return BodyMetrics.findOne({ authId, metricType }).sort({ recordedAt: -1 });
+};
+
+const planDaysForType = (planType) => (planType === "monthly" ? 30 : 7);
+
+const getLatestNumberMetricValue = async (authId, metricType) => {
+  const m = await getLatestMetric(authId, metricType);
+  if (!m) return null;
+  const n = Number(m.value);
+  return Number.isFinite(n) ? n : null;
+};
+
+const getActiveSubscriptionForPlan = async (patientAuthId, planType, start, end) => {
+  const now = new Date();
+  return Subscription.findOne({
+    patientAuthId,
+    planType,
+    status: "active",
+    endDate: { $gte: now },
+    startDate: { $lte: end },
+    endDate: { $gte: start },
+  }).sort({ endDate: -1 });
 };
 
 const resolveTdee = async (authId) => {
@@ -51,12 +76,17 @@ export const createDietPlan = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const { startDate } = req.body || {};
+    const { startDate, planType = "weekly" } = req.body || {};
 
     if (!startDate) {
       return res
         .status(400)
         .json(new ApiError(400, "startDate is required"));
+    }
+    if (!["weekly", "monthly"].includes(planType)) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "planType must be weekly or monthly"));
     }
 
     const user = await User.findOne({ authId });
@@ -92,19 +122,20 @@ export const createDietPlan = async (req, res) => {
 
     // ✅ Start date
     const start = new Date(startDate);
-    const endDate = new Date(startDate); // 7 days total
+    const endDate = new Date(startDate);
     if (isNaN(start.getTime())) {
       return res
         .status(400)
         .json(new ApiError(400, "Invalid startDate format"));
     }
-    endDate.setDate(start.getDate() + 6); // 7-day plan
+    const days = planDaysForType(planType);
+    endDate.setDate(start.getDate() + (days - 1));
     endDate.setHours(0, 0, 0, 0);
     console.log(endDate);
     const plans = [];
 
-    // 🔥 7-day loop
-    for (let i = 0; i < 7; i++) {
+    // 🔥 weekly/monthly loop
+    for (let i = 0; i < days; i++) {
       const currentDate = new Date(start);
       currentDate.setDate(start.getDate() + i);
 
@@ -150,10 +181,57 @@ export const createDietPlan = async (req, res) => {
 
       plans.push(plan);
     }
+
+    // Create doctor review requests only if user has an active subscription
+    const activeSub = await getActiveSubscriptionForPlan(
+      authId,
+      planType,
+      start,
+      endDate,
+    );
+
+    if (activeSub) {
+      const approvedDoctors = await Doctor.find({ isApproved: true }).select(
+        "authId",
+      );
+
+      const weight = await getLatestNumberMetricValue(authId, "weight");
+      const bmi = await getLatestNumberMetricValue(authId, "bmi");
+      const bmr = await getLatestNumberMetricValue(authId, "bmr");
+      const tdee = await getLatestNumberMetricValue(authId, "tdee");
+
+      const representativeDietPlanId = plans?.[0]?._id;
+
+      for (const d of approvedDoctors) {
+        const doctorAuthId = d.authId;
+        if (!doctorAuthId) continue;
+
+        // Ensure mapping exists
+        await DoctorPatient.findOneAndUpdate(
+          { doctorAuthId, patientAuthId: authId },
+          { $set: { status: "active" } },
+          { upsert: true, new: true },
+        );
+
+        await DoctorReviewRequest.create({
+          doctorAuthId,
+          patientAuthId: authId,
+          subscriptionId: activeSub._id,
+          dietPlanId: representativeDietPlanId,
+          snapshot: { weight, bmi, bmr, tdee },
+          status: "pending",
+        });
+      }
+    }
+
     const result=await manageWeeklyCycle(user._id, plans[0]._id);
     // console.log("Weekly cycle managed:", result);
     return res.status(201).json(
-      new ApiResponse(201, plans, "7-day diet plan created/updated successfully")
+      new ApiResponse(
+        201,
+        { plans, subscription: activeSub || null },
+        `${days}-day diet plan created/updated successfully`,
+      )
     );
 
   } catch (error) {

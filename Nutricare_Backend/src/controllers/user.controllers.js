@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import User from "../models/user.model.js";
+import DoctorNote from "../models/doctorNote.model.js";
 
 // Create or overwrite the profile for the logged-in auth user
 export const createUserProfile = async (req, res) => {
@@ -101,6 +102,27 @@ export const updateMyProfile = async (req, res) => {
     return res
       .status(500)
       .json(new ApiError(500, "Internal Server Error while updating profile"));
+  }
+};
+
+export const getMyDoctorNotes = async (req, res) => {
+  try {
+    const authId = req.user?._id;
+    if (!authId) {
+      return res.status(401).json(new ApiError(401, "Unauthorized"));
+    }
+
+    const notes = await DoctorNote.find({ patientAuthId: authId })
+      .sort({ createdAt: -1 })
+      .limit(200)
+      .populate("doctorAuthId", "email userType");
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, notes, "Doctor notes fetched successfully"));
+  } catch (error) {
+    console.error("Error in getMyDoctorNotes:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 };
 

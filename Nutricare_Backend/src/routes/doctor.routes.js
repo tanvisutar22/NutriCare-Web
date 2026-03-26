@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyDoctor } from "../middelwares/doctor.middelwares.js";
+import verifyJWT from "../middelwares/auth.middelwares.js";
 import {
   createDoctorProfile,
   getDoctorProfile,
@@ -7,7 +8,9 @@ import {
 
 const router = express.Router();
 
-router.post("/profile", verifyDoctor, createDoctorProfile);
-router.get("/profile", verifyDoctor, getDoctorProfile);
+router.use(verifyJWT, verifyDoctor);
+
+router.post("/profile", createDoctorProfile);
+router.get("/profile", getDoctorProfile);
 
 export default router;

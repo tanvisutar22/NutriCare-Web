@@ -153,6 +153,53 @@ export default function Home() {
           </div>
         </div>
 
+        {/* PORTALS */}
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+            <h3 className="font-semibold text-slate-900">User portal</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Register with OTP, complete your profile, track metrics, and generate diets.
+            </p>
+            <div className="mt-5 flex gap-3">
+              <Link to="/register" className="btn-primary">
+                Register
+              </Link>
+              <Link to="/login" className="btn-secondary">
+                Login
+              </Link>
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+            <h3 className="font-semibold text-slate-900">Doctor portal</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Review patient diet requests and add notes and recommendations.
+            </p>
+            <div className="mt-5">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link to="/doctor/login" className="btn-primary">
+                  Doctor login
+                </Link>
+                <Link to="/doctor/register" className="btn-secondary">
+                  Doctor signup
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+            <h3 className="font-semibold text-slate-900">Admin portal</h3>
+            <p className="text-slate-600 text-sm mt-2">
+              Approve doctors and process monthly payouts. (Admin accounts are created via Postman.)
+            </p>
+            <div className="mt-5">
+              <Link to="/admin/login" className="btn-primary">
+                Admin login
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* FOOTER */}
         <div className="mt-14 text-center text-sm text-slate-500">
           © {new Date().getFullYear()} NutriCare AI • Wellness & Diet Management

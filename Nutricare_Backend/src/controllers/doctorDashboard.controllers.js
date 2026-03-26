@@ -3,6 +3,7 @@ import DoctorNote from "../models/doctorNote.model.js";
 import User from "../models/user.model.js";
 import BodyMetrics from "../models/bodyMetrics.model.js";
 import DietPlan from "../models/diet.model.js";
+import DoctorWalletTransaction from "../models/doctorWalletTransaction.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -93,3 +94,30 @@ const getPatientFullDetails = async (req, res) => {
 };
 
 export { getDoctorDashboardSummary, getPatientFullDetails };
+
+export const getDoctorWallet = async (req, res) => {
+  try {
+    const doctorAuthId = req.user?._id;
+    if (!doctorAuthId) {
+      return res.status(401).json(new ApiError(401, "Unauthorized"));
+    }
+
+    const txs = await DoctorWalletTransaction.find({ doctorAuthId })
+      .sort({ createdAt: -1 })
+      .limit(200);
+
+    const balance = txs.reduce((acc, t) => {
+      const amt = Number(t.amount) || 0;
+      if (t.type === "credit_payout") return acc + amt;
+      if (t.type === "debit_withdrawal") return acc - amt;
+      return acc;
+    }, 0);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { balance, transactions: txs }, "Wallet fetched"));
+  } catch (error) {
+    console.error("Error in getDoctorWallet:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+};

@@ -78,6 +78,40 @@ export default function DietsModule() {
   }, []);
 
   const latestMetrics = useMemo(() => getLatestMetricsMap(metrics), [metrics]);
+
+  const latestDiet = useMemo(() => {
+    return [...diets].sort((a, b) => {
+      const aTime = new Date(a?.endDate || a?.startDate || 0).getTime();
+      const bTime = new Date(b?.endDate || b?.startDate || 0).getTime();
+      return bTime - aTime;
+    })[0];
+  }, [diets]);
+
+  const planEnded = useMemo(() => {
+    if (!latestDiet?.endDate) return false;
+    const end = new Date(latestDiet.endDate);
+    const now = new Date();
+    return Number.isFinite(end.getTime()) && now > end;
+  }, [latestDiet]);
+
+  const hasRecentVariableMetrics = useMemo(() => {
+    if (!planEnded) return true;
+    const end = latestDiet?.endDate ? new Date(latestDiet.endDate) : null;
+    if (!end || Number.isNaN(end.getTime())) return false;
+    const weightDate = latestMetrics.weight?.recordedAt
+      ? new Date(latestMetrics.weight.recordedAt)
+      : null;
+    const activityDate = latestMetrics.activityLevel?.recordedAt
+      ? new Date(latestMetrics.activityLevel.recordedAt)
+      : null;
+
+    const weightOk =
+      weightDate && !Number.isNaN(weightDate.getTime()) && weightDate > end;
+    const activityOk =
+      activityDate && !Number.isNaN(activityDate.getTime()) && activityDate > end;
+
+    return Boolean(weightOk && activityOk);
+  }, [planEnded, latestDiet, latestMetrics]);
   const canGenerateDiet =
     profileExists &&
     Boolean(latestMetrics.weight) &&
@@ -89,6 +123,8 @@ export default function DietsModule() {
       ? "Add a weight metric before generating a diet."
       : !latestMetrics.activityLevel && !latestMetrics.tdee
         ? "Add activity level or let the backend resolve TDEE first."
+        : planEnded && !hasRecentVariableMetrics
+          ? "Your last plan ended. Please update weight and activity level before generating a new plan."
         : "";
 
   const groupedByDate = useMemo(() => {
@@ -174,11 +210,21 @@ export default function DietsModule() {
               </div>
               <button
                 className="btn-primary w-full"
-                disabled={!canGenerateDiet || creating}
+                disabled={!canGenerateDiet || creating || (planEnded && !hasRecentVariableMetrics)}
                 onClick={handleCreateDiet}
               >
                 {creating ? "Generating..." : "Generate 7-day plan"}
               </button>
+
+              {planEnded && !hasRecentVariableMetrics ? (
+                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                  Your previous plan has ended. Update your{" "}
+                  <Link className="font-medium underline" to="/metrics">
+                    weight & activity level
+                  </Link>{" "}
+                  first.
+                </div>
+              ) : null}
             </div>
 
             {error ? (

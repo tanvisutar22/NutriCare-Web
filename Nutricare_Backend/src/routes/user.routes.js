@@ -4,6 +4,7 @@ import { authorizeRole } from "../middelwares/authorizeRole.middelwares.js";
 import {
   createUserProfile,
   getMyProfile,
+  getMyDoctorNotes,
   updateMyProfile,
 } from "../controllers/user.controllers.js";
 
@@ -13,6 +14,7 @@ const userRouter = Router();
 userRouter.use(Auth, authorizeRole("User"));
 
 userRouter.route("/me").get(getMyProfile).put(updateMyProfile);
+userRouter.route("/notes").get(getMyDoctorNotes);
 userRouter.route("/").post(createUserProfile);
 
 export default userRouter;

@@ -13,8 +13,21 @@ import BodyMetricsModule from "./pages/BodyMetricsModule";
 import DietsModule from "./pages/DietsModule";
 import RecipesPage from "./pages/RecipesPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Billing from "./pages/Billing";
+import Notes from "./pages/Notes";
+import ChatWidget from "./components/ChatWidget";
+import DailyLog from "./pages/DailyLog";
+import DoctorLogin from "./doctor/DoctorLogin";
+import DoctorDashboard from "./doctor/DoctorDashboard";
+import DoctorProtectedRoute from "./doctor/DoctorProtectedRoute";
+import DoctorRegister from "./pages/DoctorRegister";
+import AdminLogin from "./admin/AdminLogin";
+import AdminPanel from "./admin/AdminPanel";
+import AdminProtectedRoute from "./admin/AdminProtectedRoute";
+import { useAuth } from "./context/AuthContext";
 
 export default function App() {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#dcfce7_0%,#eff6ff_35%,#f8fafc_70%)] text-slate-900">
       <Navbar />
@@ -67,13 +80,61 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/billing"
+            element={
+              <ProtectedRoute requireProfile>
+                <Billing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notes"
+            element={
+              <ProtectedRoute requireProfile>
+                <Notes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/daily-log"
+            element={
+              <ProtectedRoute requireProfile>
+                <DailyLog />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="/user" element={<Navigate to="/profile" replace />} />
           <Route path="/body-metrics" element={<Navigate to="/metrics" replace />} />
+
+          <Route path="/doctor/login" element={<DoctorLogin />} />
+          <Route
+            path="/doctor"
+            element={
+              <DoctorProtectedRoute>
+                <DoctorDashboard />
+              </DoctorProtectedRoute>
+            }
+          />
+
+          <Route path="/doctor/register" element={<DoctorRegister />} />
+
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminPanel />
+              </AdminProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <Footer />
+      {isAuthenticated ? <ChatWidget /> : null}
     </div>
   );
 }
