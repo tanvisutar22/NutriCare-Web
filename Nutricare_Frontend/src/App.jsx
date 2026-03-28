@@ -73,7 +73,12 @@ function AppContent() {
 
           <Route path="/doctor/login" element={<DoctorLogin />} />
           <Route path="/doctor/register" element={<DoctorRegister />} />
-          <Route path="/doctor" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
+          <Route path="/doctor" element={<Navigate to="/doctor/dashboard" replace />} />
+          <Route path="/doctor/dashboard" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
+          <Route path="/doctor/patients" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
+          <Route path="/doctor/patients/:patientAuthId" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
+          <Route path="/doctor/notes" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
+          <Route path="/doctor/profile" element={<DoctorProtectedRoute><DoctorDashboard /></DoctorProtectedRoute>} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminProtectedRoute><AdminPanel /></AdminProtectedRoute>} />
@@ -81,7 +86,7 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <Footer />
+      {!location.pathname.startsWith("/doctor") && !location.pathname.startsWith("/admin") ? <Footer /> : null}
       {showUserChat ? <ChatWidget /> : null}
     </div>
   );

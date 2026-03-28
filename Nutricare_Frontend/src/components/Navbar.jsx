@@ -84,13 +84,18 @@ const userItems = [
   { to: "/metrics", label: "Body Metrics" },
   { to: "/diets", label: "Diet" },
   { to: "/recipes", label: "Recipes" },
-  { to: "/doctor-booking", label: "Doctor / My Doctor" },
+  { to: "/doctor-booking", label: "Doctor" },
   { to: "/notes", label: "Notes" },
   { to: "/daily-log", label: "Chat Assistant" },
   { to: "/billing", label: "Upgrade / Subscription" },
 ];
 
-const doctorItems = [{ to: "/doctor", label: "Doctor Dashboard", end: true }];
+const doctorItems = [
+  { to: "/doctor/dashboard", label: "Dashboard", end: true },
+  { to: "/doctor/patients", label: "Patients" },
+  { to: "/doctor/notes", label: "Notes / Suggestions" },
+  { to: "/doctor/profile", label: "Profile" },
+];
 const adminItems = [{ to: "/admin", label: "Admin Dashboard", end: true }];
 
 export default function Navbar() {
@@ -152,7 +157,7 @@ export default function Navbar() {
           </button>
 
           <Link
-            to={showAdminNav ? "/admin" : showDoctorNav ? "/doctor" : showUserNav ? "/dashboard" : "/"}
+            to={showAdminNav ? "/admin" : showDoctorNav ? "/doctor/dashboard" : showUserNav ? "/dashboard" : "/"}
             className="flex items-center gap-3 text-right"
           >
             <div>

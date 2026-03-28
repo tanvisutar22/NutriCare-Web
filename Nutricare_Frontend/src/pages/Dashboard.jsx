@@ -29,6 +29,18 @@ import { listMyDoctorNotes } from "../features/notes/notesApi";
 import { getMealLogSummary } from "../features/mealLogs/mealLogsApi";
 import { getMySubscription } from "../features/subscriptions/subscriptionsApi";
 
+const startOfToday = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+};
+
+const isCurrentOrUpcomingActiveDiet = (diet) => {
+  if (!diet || diet.status !== "active" || !diet.startDate) return false;
+  const startDate = new Date(diet.startDate);
+  return !Number.isNaN(startDate.getTime()) && startDate >= startOfToday();
+};
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -136,8 +148,13 @@ export default function Dashboard() {
 
         if (profileRes.status === "fulfilled") setProfile(profileRes.value?.data || null);
         if (metricsRes.status === "fulfilled") setMetrics(Array.isArray(metricsRes.value?.data) ? metricsRes.value.data : []);
-        if (dietsRes.status === "fulfilled") setDiets(Array.isArray(dietsRes.value?.data) ? dietsRes.value.data : []);
-        if (todayDietRes.status === "fulfilled") setTodayDiet(todayDietRes.value?.data || null);
+        if (dietsRes.status === "fulfilled") {
+          const rows = Array.isArray(dietsRes.value?.data) ? dietsRes.value.data : [];
+          setDiets(rows.filter(isCurrentOrUpcomingActiveDiet));
+        }
+        if (todayDietRes.status === "fulfilled" && isCurrentOrUpcomingActiveDiet(todayDietRes.value?.data)) {
+          setTodayDiet(todayDietRes.value?.data || null);
+        }
         if (streakRes.status === "fulfilled") {
           setStreaks({
             currentStreak: streakRes.value?.data?.currentStreak || 0,
@@ -168,13 +185,7 @@ export default function Dashboard() {
     () => sortMetricsByDate(metrics.filter((metric) => metric.metricType === "weight")).reverse(),
     [metrics],
   );
-  const latestDiet = useMemo(() => {
-    return [...diets].sort((a, b) => {
-      const aTime = new Date(a?.createdAt || a?.startDate || 0).getTime();
-      const bTime = new Date(b?.createdAt || b?.startDate || 0).getTime();
-      return bTime - aTime;
-    })[0];
-  }, [diets]);
+  const latestDiet = useMemo(() => todayDiet || diets[0] || null, [diets, todayDiet]);
 
   const chartData = useMemo(() => ({
     labels: sortedWeights.map((metric) => new Date(metric.recordedAt).toLocaleDateString()),
@@ -366,7 +377,7 @@ export default function Dashboard() {
             <div>
               <h2 className="text-xl font-semibold text-slate-900">Today's Diet Plan</h2>
               <p className="mt-1 text-sm text-slate-500">
-                Breakfast, lunch, dinner, and snacks if available.
+                Breakfast, lunch, and dinner for the current local date.
               </p>
             </div>
             <Link to="/diets" className="text-sm font-medium text-emerald-600">View Full Diet</Link>
@@ -392,7 +403,6 @@ export default function Dashboard() {
                 <MealPreview title="Breakfast" foods={todayDiet.meals?.breakfast} />
                 <MealPreview title="Lunch" foods={todayDiet.meals?.lunch} />
                 <MealPreview title="Dinner" foods={todayDiet.meals?.dinner} />
-                <MealPreview title="Snacks" foods={todayDiet.meals?.snacks} />
               </div>
             </>
           )}

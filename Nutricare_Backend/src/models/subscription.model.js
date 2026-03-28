@@ -50,6 +50,13 @@ const subscriptionSchema = new mongoose.Schema(
 );
 
 subscriptionSchema.index({ patientAuthId: 1, status: 1, endDate: -1 });
+subscriptionSchema.index(
+  { patientAuthId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { status: "active" },
+  },
+);
 
 export default mongoose.model("Subscription", subscriptionSchema);
 

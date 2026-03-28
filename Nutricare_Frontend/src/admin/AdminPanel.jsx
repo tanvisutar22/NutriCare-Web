@@ -14,6 +14,7 @@ function InlineAlert({ variant = "info", children }) {
     error: "bg-red-50 border-red-200 text-red-700",
     success: "bg-emerald-50 border-emerald-200 text-emerald-700",
   };
+
   return (
     <div className={`mt-4 rounded-xl border p-3 text-sm ${styles[variant] || styles.info}`}>
       {children}
@@ -42,6 +43,7 @@ function Pill({ children, variant = "neutral" }) {
     good: "border-emerald-200 bg-emerald-50 text-emerald-700",
     warn: "border-amber-200 bg-amber-50 text-amber-800",
   };
+
   return (
     <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${styles[variant] || styles.neutral}`}>
       {children}
@@ -60,7 +62,7 @@ export default function AdminPanel() {
   const [success, setSuccess] = useState("");
 
   const approvedCount = useMemo(
-    () => doctors.filter((doctor) => doctor.isApproved).length,
+    () => doctors.filter((row) => row.doctor?.isApproved).length,
     [doctors],
   );
 
@@ -68,6 +70,7 @@ export default function AdminPanel() {
     setLoading(true);
     setError("");
     setSuccess("");
+
     try {
       const [doctorsRes, walletRes] = await Promise.all([
         listDoctorsAdmin(),
@@ -90,6 +93,7 @@ export default function AdminPanel() {
     setBusy(true);
     setError("");
     setSuccess("");
+
     try {
       const response = await setDoctorApprovalAdmin(doctorAuthId, isApproved);
       setSuccess(response?.message || "Doctor approval updated");
@@ -105,6 +109,7 @@ export default function AdminPanel() {
     setBusy(true);
     setError("");
     setSuccess("");
+
     try {
       const response = await computePayouts(monthKey);
       setPayouts(Array.isArray(response?.data) ? response.data : []);
@@ -120,6 +125,7 @@ export default function AdminPanel() {
     setBusy(true);
     setError("");
     setSuccess("");
+
     try {
       const response = await payDoctor(doctorAuthId, monthKey, "Admin payout processed");
       setSuccess(response?.message || "Doctor payout completed");
@@ -137,7 +143,7 @@ export default function AdminPanel() {
         <div>
           <h2 className="text-3xl font-bold text-slate-900">Admin panel</h2>
           <p className="mt-1 text-slate-600">
-            Review pending doctors, track collections, and process doctor payouts.
+            Review doctors, wallet collections, and doctor payouts based on assigned subscribed patients.
           </p>
         </div>
         <button className="btn-secondary" type="button" onClick={load} disabled={loading || busy}>
@@ -172,32 +178,32 @@ export default function AdminPanel() {
                 <tr className="text-left text-slate-600">
                   <th className="py-2 pr-3">Doctor</th>
                   <th className="py-2 pr-3">Specialization</th>
-                  <th className="py-2 pr-3">Qualification</th>
-                  <th className="py-2 pr-3">Profile</th>
+                  <th className="py-2 pr-3">Assigned patients</th>
+                  <th className="py-2 pr-3">Total earned</th>
+                  <th className="py-2 pr-3">Unpaid</th>
                   <th className="py-2 pr-3">Approval</th>
                   <th className="py-2 pr-3">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {doctors.map((doctor) => (
-                  <tr key={doctor._id} className="border-t border-slate-100">
-                    <td className="py-3 pr-3 text-slate-900">{doctor.name}</td>
-                    <td className="py-3 pr-3 text-slate-700">{doctor.specialization || "-"}</td>
-                    <td className="py-3 pr-3 text-slate-700">{doctor.qualification || "-"}</td>
+                {doctors.map((row) => (
+                  <tr key={row.doctor?._id || row.doctorAuthId} className="border-t border-slate-100">
+                    <td className="py-3 pr-3 text-slate-900">{row.doctor?.name || "-"}</td>
+                    <td className="py-3 pr-3 text-slate-700">{row.doctor?.specialization || "-"}</td>
+                    <td className="py-3 pr-3">{row.assignedPatientsCount ?? 0}</td>
+                    <td className="py-3 pr-3">Rs. {row.totalEarned ?? 0}</td>
+                    <td className="py-3 pr-3">Rs. {row.unpaidAmount ?? 0}</td>
                     <td className="py-3 pr-3">
-                      {doctor.profileComplete ? <Pill variant="good">Complete</Pill> : <Pill variant="warn">Incomplete</Pill>}
-                    </td>
-                    <td className="py-3 pr-3">
-                      {doctor.isApproved ? <Pill variant="good">Approved</Pill> : <Pill variant="warn">Pending</Pill>}
+                      {row.doctor?.isApproved ? <Pill variant="good">Approved</Pill> : <Pill variant="warn">Pending</Pill>}
                     </td>
                     <td className="py-3 pr-3">
                       <button
                         type="button"
-                        className={doctor.isApproved ? "btn-secondary" : "btn-primary"}
+                        className={row.doctor?.isApproved ? "btn-secondary" : "btn-primary"}
                         disabled={busy}
-                        onClick={() => toggleApproval(doctor.authId, !doctor.isApproved)}
+                        onClick={() => toggleApproval(row.doctorAuthId, !row.doctor?.isApproved)}
                       >
-                        {doctor.isApproved ? "Revoke" : "Approve"}
+                        {row.doctor?.isApproved ? "Revoke" : "Approve"}
                       </button>
                     </td>
                   </tr>
@@ -214,7 +220,7 @@ export default function AdminPanel() {
             <div>
               <h3 className="text-lg font-semibold text-slate-900">Monthly payouts</h3>
               <p className="mt-1 text-sm text-slate-600">
-                Compute doctor earnings from monthly patient review activity.
+                Compute doctor payouts from paid subscriptions linked to each selected doctor.
               </p>
             </div>
             <div className="flex items-end gap-3">
@@ -241,8 +247,10 @@ export default function AdminPanel() {
                 <thead>
                   <tr className="text-left text-slate-600">
                     <th className="py-2 pr-3">Doctor</th>
-                    <th className="py-2 pr-3">Patients</th>
-                    <th className="py-2 pr-3">Total</th>
+                    <th className="py-2 pr-3">Assigned</th>
+                    <th className="py-2 pr-3">Monthly patients</th>
+                    <th className="py-2 pr-3">Monthly payout</th>
+                    <th className="py-2 pr-3">Paid total</th>
                     <th className="py-2 pr-3">Status</th>
                     <th className="py-2 pr-3">Action</th>
                   </tr>
@@ -251,8 +259,10 @@ export default function AdminPanel() {
                   {payouts.map((row) => (
                     <tr key={String(row.doctorAuthId)} className="border-t border-slate-100">
                       <td className="py-3 pr-3 text-slate-900">{row.doctor?.name || "-"}</td>
+                      <td className="py-3 pr-3">{row.assignedPatientsCount ?? 0}</td>
                       <td className="py-3 pr-3">{row.payout?.patientCount ?? 0}</td>
                       <td className="py-3 pr-3">Rs. {row.payout?.totalAmount ?? 0}</td>
+                      <td className="py-3 pr-3">Rs. {row.paidAmount ?? 0}</td>
                       <td className="py-3 pr-3">
                         {row.payout?.status === "paid" ? <Pill variant="good">Paid</Pill> : <Pill variant="warn">Pending</Pill>}
                       </td>
@@ -260,7 +270,7 @@ export default function AdminPanel() {
                         <button
                           type="button"
                           className="btn-primary"
-                          disabled={busy || row.payout?.status === "paid"}
+                          disabled={busy || row.payout?.status === "paid" || !row.payout?.totalAmount}
                           onClick={() => pay(row.doctorAuthId)}
                         >
                           {row.payout?.status === "paid" ? "Paid" : "Pay"}

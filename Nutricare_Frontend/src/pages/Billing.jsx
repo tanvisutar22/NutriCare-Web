@@ -98,6 +98,12 @@ export default function Billing() {
     return `${subscription.remainingDays} days remaining`;
   }, [subscription]);
 
+  const hasActiveSubscription = useMemo(() => {
+    if (!subscription?.endDate || subscription?.status !== "active") return false;
+    const endDate = new Date(subscription.endDate);
+    return !Number.isNaN(endDate.getTime()) && endDate >= new Date();
+  }, [subscription]);
+
   const openGateway = async () => {
     if (!selectedPlan) return;
     setProcessing(true);
@@ -183,8 +189,18 @@ export default function Billing() {
           <div className="card">
             <h3 className="text-lg font-semibold text-slate-900">Choose your plan</h3>
             <p className="mt-1 text-sm text-slate-600">
-              Repeated purchases extend validity from the current expiry if your premium plan is still active.
+              You can purchase a new plan after your current active subscription ends.
             </p>
+
+            {hasActiveSubscription ? (
+              <div className="mt-4">
+                <InlineAlert variant="info">
+                  You already have an active subscription until{" "}
+                  {subscription?.endDate ? new Date(subscription.endDate).toLocaleDateString() : "-"}.
+                  Upgrade will be available after the current plan ends.
+                </InlineAlert>
+              </div>
+            ) : null}
 
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               {plans.map((plan) => (
@@ -231,7 +247,7 @@ export default function Billing() {
                 className="btn-primary"
                 type="button"
                 onClick={openGateway}
-                disabled={processing || !selectedPlan}
+                disabled={processing || !selectedPlan || hasActiveSubscription}
               >
                 {processing ? "Preparing..." : "Pay Now"}
               </button>

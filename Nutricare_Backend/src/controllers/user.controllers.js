@@ -6,6 +6,10 @@ import DoctorNote from "../models/doctorNote.model.js";
 import DoctorPatient from "../models/doctorPatient.model.js";
 import Payment from "../models/payment.model.js";
 import Subscription from "../models/subscription.model.js";
+import {
+  getDoctorSelectionForPatient,
+  getDoctorSelectionsForPatients,
+} from "../utils/doctorSelection.js";
 
 export const createUserProfile = async (req, res) => {
   try {
@@ -144,12 +148,19 @@ export const listApprovedDoctorsForUsers = async (_req, res) => {
       profileComplete: true,
     }).sort({ createdAt: -1 });
 
+    const activeMappings = await DoctorPatient.find({ status: "active" });
+    const selections = await getDoctorSelectionsForPatients(
+      activeMappings.map((mapping) => mapping.patientAuthId),
+    );
+
     const doctorsWithCapacity = await Promise.all(
       doctors.map(async (doctor) => {
-        const activePatients = await DoctorPatient.countDocuments({
-          doctorAuthId: doctor.authId,
-          status: "active",
-        });
+        const activePatients = activeMappings.filter(
+          (mapping) =>
+            String(mapping.doctorAuthId) === String(doctor.authId) &&
+            selections.get(String(mapping.patientAuthId))?.doctorAuthId === String(doctor.authId),
+        ).length;
+
         return {
           ...doctor.toObject(),
           activePatients,
@@ -170,24 +181,45 @@ export const listApprovedDoctorsForUsers = async (_req, res) => {
 export const getMyAssignedDoctor = async (req, res) => {
   try {
     const patientAuthId = req.user?._id;
-    const assignment = await DoctorPatient.findOne({
-      patientAuthId,
-      status: "active",
-    });
+    const [selection, assignment] = await Promise.all([
+      getDoctorSelectionForPatient(patientAuthId),
+      DoctorPatient.findOne({
+        patientAuthId,
+        status: "active",
+      }),
+    ]);
 
-    if (!assignment) {
+    if (!selection?.doctorAuthId) {
       return res
         .status(200)
         .json(new ApiResponse(200, null, "No doctor assigned yet"));
     }
 
-    const doctor = await Doctor.findOne({ authId: assignment.doctorAuthId });
+    const selectedDoctorAuthId = selection.doctorAuthId;
+    const doctor = await Doctor.findOne({ authId: selectedDoctorAuthId });
+
+    if (!doctor) {
+      return res
+        .status(200)
+        .json(new ApiResponse(200, null, "No doctor assigned yet"));
+    }
+
+    const activeAssignment =
+      assignment && String(assignment.doctorAuthId) === String(selectedDoctorAuthId)
+        ? assignment
+        : await DoctorPatient.findOne({
+            patientAuthId,
+            doctorAuthId: selectedDoctorAuthId,
+            status: "active",
+          });
+
     return res.status(200).json(
       new ApiResponse(
         200,
         {
-          assignment,
+          assignment: activeAssignment,
           doctor,
+          paymentSelection: selection,
         },
         "Assigned doctor fetched successfully",
       ),
@@ -207,7 +239,7 @@ export const bookDoctorForUser = async (req, res) => {
       return res.status(400).json(new ApiError(400, "doctorAuthId is required"));
     }
 
-    const [existingAssignment, activeSubscription, doctor] = await Promise.all([
+    const [existingAssignment, activeSubscription, doctor, currentSelection] = await Promise.all([
       DoctorPatient.findOne({ patientAuthId, status: "active" }),
       Subscription.findOne({
         patientAuthId,
@@ -220,9 +252,19 @@ export const bookDoctorForUser = async (req, res) => {
         approvalStatus: "approved",
         profileComplete: true,
       }),
+      getDoctorSelectionForPatient(patientAuthId),
     ]);
 
-    if (existingAssignment) {
+    if (
+      currentSelection?.doctorAuthId &&
+      String(currentSelection.doctorAuthId) === String(doctorAuthId)
+    ) {
+      return res
+        .status(200)
+        .json(new ApiResponse(200, { assignment: existingAssignment, doctor }, "Doctor already selected"));
+    }
+
+    if (currentSelection?.doctorAuthId && String(currentSelection.doctorAuthId) !== String(doctorAuthId)) {
       return res
         .status(409)
         .json(new ApiError(409, "User is already assigned to another doctor"));
@@ -240,10 +282,16 @@ export const bookDoctorForUser = async (req, res) => {
         .json(new ApiError(404, "Selected doctor is not available"));
     }
 
-    const activePatients = await DoctorPatient.countDocuments({
+    const activeMappings = await DoctorPatient.find({
       doctorAuthId,
       status: "active",
     });
+    const selections = await getDoctorSelectionsForPatients(
+      activeMappings.map((mapping) => mapping.patientAuthId),
+    );
+    const activePatients = activeMappings.filter(
+      (mapping) => selections.get(String(mapping.patientAuthId))?.doctorAuthId === String(doctorAuthId),
+    ).length;
 
     if (activePatients >= (doctor.patientCapacity || 3)) {
       return res
@@ -251,11 +299,18 @@ export const bookDoctorForUser = async (req, res) => {
         .json(new ApiError(400, "This doctor is currently unavailable"));
     }
 
-    const assignment = await DoctorPatient.create({
-      doctorAuthId,
-      patientAuthId,
-      status: "active",
-    });
+    let assignment;
+    if (existingAssignment) {
+      existingAssignment.doctorAuthId = doctorAuthId;
+      existingAssignment.status = "active";
+      assignment = await existingAssignment.save();
+    } else {
+      assignment = await DoctorPatient.create({
+        doctorAuthId,
+        patientAuthId,
+        status: "active",
+      });
+    }
 
     const latestPayment = await Payment.findOne({
       payerAuthId: patientAuthId,

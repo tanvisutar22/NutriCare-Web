@@ -23,8 +23,7 @@ const normalizeEndOfDay = (value = new Date()) => {
 };
 
 const getPlanConfig = (planType) => PLAN_DETAILS[planType] || null;
-
-const buildValidityWindow = (planType, currentSubscription) => {
+const buildValidityWindow = (planType, currentSubscription = null) => {
   const plan = getPlanConfig(planType);
   if (!plan) return null;
 
@@ -73,6 +72,20 @@ const markExpiredSubscriptions = async (patientAuthId) => {
   );
 };
 
+const getActiveSubscription = async (patientAuthId) => {
+  await markExpiredSubscriptions(patientAuthId);
+  return Subscription.findOne({
+    patientAuthId,
+    status: "active",
+    endDate: { $gte: new Date() },
+  }).sort({ endDate: -1 });
+};
+
+const getActiveSubscriptionConflictMessage = (subscription) =>
+  subscription?.endDate
+    ? `You already have an active subscription until ${new Date(subscription.endDate).toLocaleDateString()}. Upgrade will be available after the current plan ends.`
+    : "You already have an active subscription.";
+
 export const listSubscriptionPlans = async (_req, res) => {
   const plans = Object.entries(PLAN_DETAILS).map(([planType, config]) => ({
     planType,
@@ -99,6 +112,13 @@ export const createMockPaymentIntent = async (req, res) => {
 
     if (!plan) {
       return res.status(400).json(new ApiError(400, "Invalid subscription plan"));
+    }
+
+    const activeSubscription = await getActiveSubscription(payerAuthId);
+    if (activeSubscription) {
+      return res
+        .status(409)
+        .json(new ApiError(409, getActiveSubscriptionConflictMessage(activeSubscription)));
     }
 
     const payment = await Payment.create({
@@ -179,18 +199,14 @@ export const verifyAndActivateSubscription = async (req, res) => {
         .json(new ApiError(400, "Payment details do not match the plan"));
     }
 
-    await markExpiredSubscriptions(payerAuthId);
+    const activeSubscription = await getActiveSubscription(payerAuthId);
+    if (activeSubscription) {
+      return res
+        .status(409)
+        .json(new ApiError(409, getActiveSubscriptionConflictMessage(activeSubscription)));
+    }
 
-    const activeSubscription = await Subscription.findOne({
-      patientAuthId: payerAuthId,
-      status: "active",
-      endDate: { $gte: new Date() },
-    }).sort({ endDate: -1 });
-
-    const { validityStart, validityEnd } = buildValidityWindow(
-      payment.planType,
-      activeSubscription,
-    );
+    const { validityStart, validityEnd } = buildValidityWindow(payment.planType, null);
 
     payment.status = "verified";
     payment.verificationStatus = "verified";
@@ -203,30 +219,16 @@ export const verifyAndActivateSubscription = async (req, res) => {
     };
     await payment.save();
 
-    let subscription;
-    if (activeSubscription) {
-      activeSubscription.planType = payment.planType;
-      activeSubscription.endDate = validityEnd;
-      activeSubscription.paymentId = payment._id;
-      activeSubscription.paymentIds = [
-        ...(activeSubscription.paymentIds || []),
-        payment._id,
-      ];
-      activeSubscription.totalPaidAmount =
-        Number(activeSubscription.totalPaidAmount || 0) + Number(payment.amount || 0);
-      subscription = await activeSubscription.save();
-    } else {
-      subscription = await Subscription.create({
-        patientAuthId: payerAuthId,
-        planType: payment.planType,
-        startDate: validityStart,
-        endDate: validityEnd,
-        status: "active",
-        paymentId: payment._id,
-        paymentIds: [payment._id],
-        totalPaidAmount: Number(payment.amount || 0),
-      });
-    }
+    const subscription = await Subscription.create({
+      patientAuthId: payerAuthId,
+      planType: payment.planType,
+      startDate: validityStart,
+      endDate: validityEnd,
+      status: "active",
+      paymentId: payment._id,
+      paymentIds: [payment._id],
+      totalPaidAmount: Number(payment.amount || 0),
+    });
 
     const adminAuthId = await getAdminAuthId();
     if (adminAuthId) {
@@ -272,6 +274,13 @@ export const purchaseSubscription = async (req, res) => {
     const plan = getPlanConfig(planType);
     if (!plan) {
       return res.status(400).json(new ApiError(400, "Invalid subscription plan"));
+    }
+
+    const activeSubscription = await getActiveSubscription(payerAuthId);
+    if (activeSubscription) {
+      return res
+        .status(409)
+        .json(new ApiError(409, getActiveSubscriptionConflictMessage(activeSubscription)));
     }
 
     const payment = await Payment.create({
