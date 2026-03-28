@@ -61,18 +61,18 @@ export default function MealDetails() {
   const steps = useMemo(() => formatSteps(recipe?.steps), [recipe]);
 
   return (
-    <MainLayout title="Recipe Details">
+    <MainLayout title="Smart Meal Preparation Details">
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="flex items-center justify-between gap-4">
           <Link
             to="/recipes"
             className="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50"
           >
-            Back to Recipes
+            Back to Smart Meal Preparation
           </Link>
         </div>
 
-        {loading ? <Loader label="Loading recipe details..." /> : null}
+        {loading ? <Loader label="Loading smart meal details..." /> : null}
 
         {!loading && error ? (
           <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -81,9 +81,9 @@ export default function MealDetails() {
         ) : null}
 
         {!loading && !error && !recipe ? (
-          <Card title="Recipe Details" subtitle="Recipe data could not be loaded">
+          <Card title="Smart Meal Preparation Details" subtitle="Meal data could not be loaded">
             <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
-              Select a recipe from the recipes page to view full details.
+              Select a smart meal from the Smart Meal Preparation page to view full details.
             </div>
           </Card>
         ) : null}
@@ -94,10 +94,10 @@ export default function MealDetails() {
               <div className="flex flex-wrap items-start justify-between gap-6">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
-                    Recipe
+                    Smart Meal Preparation
                   </p>
                   <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-900">
-                    {recipe.foodName || "Recipe Details"}
+                    {recipe.foodName || "Smart Meal Preparation Details"}
                   </h1>
                   <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
                     Cleanly formatted ingredients and preparation steps, even when
@@ -107,7 +107,7 @@ export default function MealDetails() {
                 <div className="rounded-3xl border border-white/70 bg-white/80 px-5 py-4 shadow-sm">
                   <div className="text-sm font-semibold text-slate-900">Ready to cook</div>
                   <div className="mt-1 text-sm text-slate-500">
-                    Structured like a real recipes app
+                    Structured like a smart meal planner
                   </div>
                 </div>
               </div>

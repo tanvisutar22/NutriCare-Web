@@ -83,7 +83,7 @@ const userItems = [
   { to: "/profile", label: "Profile" },
   { to: "/metrics", label: "Body Metrics" },
   { to: "/diets", label: "Diet" },
-  { to: "/recipes", label: "Recipes" },
+  { to: "/recipes", label: "Smart Meal Preparation" },
   { to: "/doctor-booking", label: "Doctor" },
   { to: "/notes", label: "Notes" },
   { to: "/daily-log", label: "Chat Assistant" },
@@ -109,8 +109,11 @@ export default function Navbar() {
 
   const isDoctorArea = location.pathname.startsWith("/doctor");
   const isAdminArea = location.pathname.startsWith("/admin");
-  const showDoctorNav = doctorAuth.isAuthenticated && isDoctorArea;
-  const showAdminNav = adminAuth.isAuthenticated && isAdminArea;
+  const isDoctorWorkspace =
+    isDoctorArea && location.pathname !== "/doctor/login" && location.pathname !== "/doctor/register";
+  const isAdminWorkspace = isAdminArea && location.pathname !== "/admin/login";
+  const showDoctorNav = isDoctorWorkspace;
+  const showAdminNav = !showDoctorNav && isAdminWorkspace;
   const showUserNav = isAuthenticated && !isDoctorArea && !isAdminArea;
 
   let title = "Public Navigation";
@@ -128,19 +131,23 @@ export default function Navbar() {
   } else if (showDoctorNav) {
     title = "Doctor Navigation";
     items = doctorItems;
-    onLogout = async () => {
-      await dispatch(doctorLogoutThunk());
-      navigate("/doctor/login", { replace: true });
-      setOpen(false);
-    };
+    onLogout = doctorAuth.isAuthenticated
+      ? async () => {
+          await dispatch(doctorLogoutThunk());
+          navigate("/doctor/login", { replace: true });
+          setOpen(false);
+        }
+      : null;
   } else if (showAdminNav) {
     title = "Admin Navigation";
     items = adminItems;
-    onLogout = async () => {
-      await dispatch(adminLogoutThunk());
-      navigate("/admin/login", { replace: true });
-      setOpen(false);
-    };
+    onLogout = adminAuth.isAuthenticated
+      ? async () => {
+          await dispatch(adminLogoutThunk());
+          navigate("/admin/login", { replace: true });
+          setOpen(false);
+        }
+      : null;
   }
 
   return (

@@ -23,7 +23,8 @@ export default function RecipesPage() {
   const navigate = useNavigate();
   const [dietRecipes, setDietRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchedRecipe, setSearchedRecipe] = useState(null);
+  const [searchedRecipes, setSearchedRecipes] = useState([]);
+  const [searchContext, setSearchContext] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState("");
@@ -84,25 +85,38 @@ export default function RecipesPage() {
   const handleSearch = async (event) => {
     event.preventDefault();
     if (!searchQuery.trim()) {
-      setSearchedRecipe(null);
+      setSearchedRecipes([]);
+      setSearchContext(null);
+      setError("");
       return;
     }
 
     setSearching(true);
     setError("");
+
     try {
       const result = await getRecipeByName(searchQuery.trim());
-      setSearchedRecipe({
-        foodName: result.foodName,
-        calories: result.nutrition?.calories ?? null,
-        protein: result.nutrition?.protein ?? null,
-        carbs: result.nutrition?.carbs ?? null,
-        fat: result.nutrition?.fat ?? null,
-        ingredients: result.recipe?.ingredients || "",
-        steps: result.recipe?.steps || "",
+      setSearchedRecipes([
+        {
+          foodName: result.foodName,
+          calories: result.nutrition?.calories ?? null,
+          protein: result.nutrition?.protein ?? null,
+          carbs: result.nutrition?.carbs ?? null,
+          fat: result.nutrition?.fat ?? null,
+          ingredients: result.recipe?.ingredients || "",
+          steps: result.recipe?.steps || "",
+        },
+      ]);
+      setSearchContext({
+        type: "text",
+        query: searchQuery.trim(),
       });
     } catch (requestError) {
-      setSearchedRecipe(null);
+      setSearchedRecipes([]);
+      setSearchContext({
+        type: "text",
+        query: searchQuery.trim(),
+      });
       setError(getApiErrorMessage(requestError));
     } finally {
       setSearching(false);
@@ -110,34 +124,34 @@ export default function RecipesPage() {
   };
 
   const visibleRecipes = useMemo(() => {
-    if (searchedRecipe) return [searchedRecipe];
+    if (searchContext) return searchedRecipes;
     return dietRecipes;
-  }, [dietRecipes, searchedRecipe]);
+  }, [dietRecipes, searchContext, searchedRecipes]);
 
-  const emptyTitle = searchedRecipe ? "No search result" : "No diet-linked recipes";
-  const emptyDescription = searchedRecipe
-    ? "Try another recipe name using the search bar."
+  const emptyTitle = searchContext ? "No matching smart meals" : "No diet-linked smart meals";
+  const emptyDescription = searchContext
+    ? "Try another smart meal name using the search bar."
     : "No recipe could be matched from the current diet plan, but you can still search manually.";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-600">
-          Recipes
+          Smart Meal Preparation
         </p>
-        <h1 className="section-title mt-2">Recipes from your current diet plan first</h1>
+        <h1 className="section-title mt-2">Smart Meal Preparation from your current diet plan first</h1>
         <p className="section-copy">
-          The page now defaults to recipes tied to your active diet plan. Search only when you want a different recipe.
+          The page defaults to smart meals tied to your active diet plan. You can still search by meal name whenever you want a different option.
         </p>
       </div>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
         <section className="card">
-          <h2 className="text-lg font-semibold text-slate-900">Find another recipe</h2>
+          <h2 className="text-lg font-semibold text-slate-900">Find another smart meal</h2>
           <form className="mt-4 flex gap-3" onSubmit={handleSearch}>
             <input
               className="input"
-              placeholder="Search recipe by name"
+              placeholder="Search by meal or recipe name"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
             />
@@ -153,9 +167,9 @@ export default function RecipesPage() {
           ) : null}
 
           <div className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-            {searchedRecipe
-              ? `Showing search result for "${searchedRecipe.foodName}".`
-              : "Showing recipe ideas based on your active diet plan."}
+            {searchContext?.type === "text"
+              ? `Showing smart meal result for "${searchContext.query}".`
+              : "Showing smart meal ideas based on your active diet plan."}
           </div>
         </section>
 
@@ -172,7 +186,7 @@ export default function RecipesPage() {
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                      {searchedRecipe ? "Search result" : "Current diet recipe"}
+                      {searchContext ? "Search result" : "Current diet smart meal"}
                     </p>
                     <h2 className="mt-2 text-2xl font-semibold text-slate-900">{recipe.foodName}</h2>
                   </div>
@@ -184,7 +198,7 @@ export default function RecipesPage() {
                       })
                     }
                   >
-                    Open full recipe
+                    Open full smart meal
                   </button>
                 </div>
 

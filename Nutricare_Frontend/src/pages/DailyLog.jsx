@@ -43,7 +43,7 @@ export default function DailyLog() {
       <div>
         <h2 className="text-3xl font-bold text-slate-900">Daily log</h2>
         <p className="mt-1 text-slate-600">
-          Log meals and activities in one message. We’ll extract and save them for today.
+          Log meals and activities in one message. We&apos;ll extract and save them for today.
         </p>
       </div>
 
@@ -73,4 +73,3 @@ export default function DailyLog() {
     </div>
   );
 }
-
