@@ -29,7 +29,7 @@ const MealLogSchema = new mongoose.Schema({
 
   mealType: {
     type: String,
-    enum: ["breakfast", "lunch", "dinner", "snack"],
+    enum: ["breakfast", "lunch", "dinner", "snack", "snacks"],
     required: true,
     index: true
   },
@@ -54,5 +54,7 @@ const MealLogSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
+MealLogSchema.index({ authId: 1, date: 1, mealType: 1 }, { unique: true });
 
 export default mongoose.model("MealLog", MealLogSchema);

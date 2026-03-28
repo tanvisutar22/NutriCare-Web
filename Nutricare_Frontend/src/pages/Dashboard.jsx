@@ -14,10 +14,20 @@ import { Doughnut, Line } from "react-chartjs-2";
 import { getApiErrorMessage } from "../shared/api/http";
 import { getMyProfile } from "../features/user/userApi";
 import { listBodyMetrics } from "../features/bodyMetrics/bodyMetricsApi";
-import { listDietPlans } from "../features/diets/dietsApi";
-import { getLatestMetricsMap, sortMetricsByDate } from "../features/bodyMetrics/bodyMetricsHelpers";
+import {
+  getDietStreakStats,
+  getTodayDietPlan,
+  listDietPlans,
+  markTodayDietAsFollowed,
+} from "../features/diets/dietsApi";
+import {
+  getLatestMetricsMap,
+  sortMetricsByDate,
+} from "../features/bodyMetrics/bodyMetricsHelpers";
 import { getHealthRisk } from "../features/dashboard/dashboardApi";
 import { listMyDoctorNotes } from "../features/notes/notesApi";
+import { getMealLogSummary } from "../features/mealLogs/mealLogsApi";
+import { getMySubscription } from "../features/subscriptions/subscriptionsApi";
 
 ChartJS.register(
   CategoryScale,
@@ -39,13 +49,55 @@ function StatCard({ title, value, subtitle }) {
   );
 }
 
+function MealPreview({ title, foods }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+        <span className="text-xs text-slate-500">{Array.isArray(foods) ? foods.length : 0} items</span>
+      </div>
+      {foods?.length ? (
+        <div className="mt-3 space-y-2">
+          {foods.slice(0, 2).map((food, index) => (
+            <div
+              key={`${title}-${food.foodName || "meal"}-${index}`}
+              className="rounded-xl bg-white px-3 py-2"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <p className="text-sm font-medium text-slate-800">
+                  {food.foodName || "Meal item"}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {food.calories ? `${food.calories} kcal` : ""}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-3 text-sm text-slate-500">No meal items available.</p>
+      )}
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [metrics, setMetrics] = useState([]);
   const [diets, setDiets] = useState([]);
+  const [todayDiet, setTodayDiet] = useState(null);
+  const [streaks, setStreaks] = useState({
+    currentStreak: 0,
+    longestStreak: 0,
+    totalFollowedDays: 0,
+    todayFollowed: false,
+  });
   const [risk, setRisk] = useState(null);
   const [notes, setNotes] = useState([]);
+  const [mealSummary, setMealSummary] = useState({ totals: {}, rows: [] });
+  const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [followLoading, setFollowLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -56,41 +108,50 @@ export default function Dashboard() {
       setError("");
 
       try {
-        const [profileRes, metricsRes, dietsRes, riskRes, notesRes] = await Promise.allSettled([
+        const results = await Promise.allSettled([
           getMyProfile(),
           listBodyMetrics(),
           listDietPlans(),
+          getTodayDietPlan(),
+          getDietStreakStats(),
           getHealthRisk(),
           listMyDoctorNotes(),
+          getMealLogSummary(),
+          getMySubscription(),
         ]);
 
         if (!active) return;
 
-        if (profileRes.status === "fulfilled") {
-          setProfile(profileRes.value?.data || null);
-        }
-        if (metricsRes.status === "fulfilled") {
-          setMetrics(Array.isArray(metricsRes.value?.data) ? metricsRes.value.data : []);
-        }
-        if (dietsRes.status === "fulfilled") {
-          setDiets(Array.isArray(dietsRes.value?.data) ? dietsRes.value.data : []);
-        }
-        if (riskRes.status === "fulfilled") {
-          setRisk(riskRes.value?.data || null);
-        }
-        if (notesRes.status === "fulfilled") {
-          setNotes(Array.isArray(notesRes.value?.data) ? notesRes.value.data : []);
-        }
+        const [
+          profileRes,
+          metricsRes,
+          dietsRes,
+          todayDietRes,
+          streakRes,
+          riskRes,
+          notesRes,
+          mealSummaryRes,
+          subscriptionRes,
+        ] = results;
 
-        if (
-          profileRes.status === "rejected" &&
-          metricsRes.status === "rejected" &&
-          dietsRes.status === "rejected"
-        ) {
-          throw profileRes.reason;
+        if (profileRes.status === "fulfilled") setProfile(profileRes.value?.data || null);
+        if (metricsRes.status === "fulfilled") setMetrics(Array.isArray(metricsRes.value?.data) ? metricsRes.value.data : []);
+        if (dietsRes.status === "fulfilled") setDiets(Array.isArray(dietsRes.value?.data) ? dietsRes.value.data : []);
+        if (todayDietRes.status === "fulfilled") setTodayDiet(todayDietRes.value?.data || null);
+        if (streakRes.status === "fulfilled") {
+          setStreaks({
+            currentStreak: streakRes.value?.data?.currentStreak || 0,
+            longestStreak: streakRes.value?.data?.longestStreak || 0,
+            totalFollowedDays: streakRes.value?.data?.totalFollowedDays || 0,
+            todayFollowed: Boolean(streakRes.value?.data?.todayFollowed),
+          });
         }
-      } catch (loadError) {
-        if (active) setError(getApiErrorMessage(loadError));
+        if (riskRes.status === "fulfilled") setRisk(riskRes.value?.data || null);
+        if (notesRes.status === "fulfilled") setNotes(Array.isArray(notesRes.value?.data) ? notesRes.value.data : []);
+        if (mealSummaryRes.status === "fulfilled") setMealSummary(mealSummaryRes.value?.data || { totals: {}, rows: [] });
+        if (subscriptionRes.status === "fulfilled") setSubscription(subscriptionRes.value?.data || null);
+      } catch (requestError) {
+        if (active) setError(getApiErrorMessage(requestError));
       } finally {
         if (active) setLoading(false);
       }
@@ -115,40 +176,55 @@ export default function Dashboard() {
     })[0];
   }, [diets]);
 
-  const chartData = useMemo(() => {
-    return {
-      labels: sortedWeights.map((metric) =>
-        new Date(metric.recordedAt).toLocaleDateString(),
-      ),
-      datasets: [
-        {
-          label: "Weight (kg)",
-          data: sortedWeights.map((metric) => Number(metric.value)),
-          borderColor: "#0f766e",
-          backgroundColor: "rgba(15,118,110,0.18)",
-          fill: true,
-          tension: 0.35,
-        },
-      ],
-    };
-  }, [sortedWeights]);
+  const chartData = useMemo(() => ({
+    labels: sortedWeights.map((metric) => new Date(metric.recordedAt).toLocaleDateString()),
+    datasets: [
+      {
+        label: "Weight (kg)",
+        data: sortedWeights.map((metric) => Number(metric.value)),
+        borderColor: "#0f766e",
+        backgroundColor: "rgba(15,118,110,0.18)",
+        fill: true,
+        tension: 0.35,
+      },
+    ],
+  }), [sortedWeights]);
 
-  const macroChartData = useMemo(() => {
-    return {
-      labels: ["Protein", "Carbs", "Fat"],
-      datasets: [
-        {
-          data: [
-            latestDiet?.proteinTarget || 0,
-            latestDiet?.carbTarget || 0,
-            latestDiet?.fatTarget || 0,
-          ],
-          backgroundColor: ["#10b981", "#38bdf8", "#f59e0b"],
-          borderWidth: 0,
-        },
-      ],
-    };
-  }, [latestDiet]);
+  const macroChartData = useMemo(() => ({
+    labels: ["Protein", "Carbs", "Fat"],
+    datasets: [
+      {
+        data: [
+          latestDiet?.proteinTarget || 0,
+          latestDiet?.carbTarget || 0,
+          latestDiet?.fatTarget || 0,
+        ],
+        backgroundColor: ["#10b981", "#38bdf8", "#f59e0b"],
+        borderWidth: 0,
+      },
+    ],
+  }), [latestDiet]);
+
+  const handleFollowToday = async () => {
+    setFollowLoading(true);
+    setError("");
+    try {
+      const response = await markTodayDietAsFollowed();
+      const updatedDiet = response?.data?.diet || response?.data || null;
+      setTodayDiet(updatedDiet);
+      if (response?.data?.streaks) {
+        setStreaks((current) => ({
+          ...current,
+          ...response.data.streaks,
+          todayFollowed: true,
+        }));
+      }
+    } catch (requestError) {
+      setError(getApiErrorMessage(requestError));
+    } finally {
+      setFollowLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -174,18 +250,16 @@ export default function Dashboard() {
               Welcome back{profile?.name ? `, ${profile.name}` : ""}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-              Track your body metrics, review your daily diet plans, and showcase
-              future-ready health intelligence from one polished workspace.
+              Review your daily diet, recent meal activity, streak progress, and
+              latest doctor guidance from one clean workspace.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <Link to="/profile" className="btn-primary">
-              Update profile
-            </Link>
-            <Link to="/metrics" className="btn-secondary">
-              Log metrics
-            </Link>
+            <Link to="/meal-log" className="btn-primary">Log Meal</Link>
+            <Link to="/daily-log" className="btn-secondary">Open Chat Assistant</Link>
+            <Link to="/diets" className="btn-secondary">View Diet</Link>
+            <Link to="/billing" className="btn-secondary">Upgrade</Link>
           </div>
         </div>
       </section>
@@ -197,47 +271,55 @@ export default function Dashboard() {
       ) : null}
 
       <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          title="Latest Weight"
-          value={latestMetrics.weight ? `${latestMetrics.weight.value} kg` : "—"}
-          subtitle="Most recent saved weight"
-        />
-        <StatCard
-          title="Current BMI"
-          value={latestMetrics.bmi ? latestMetrics.bmi.value : "—"}
-          subtitle="Calculated from backend metrics"
-        />
-        <StatCard
-          title="BMR"
-          value={latestMetrics.bmr ? `${latestMetrics.bmr.value} kcal` : "—"}
-          subtitle="Resting energy estimate"
-        />
-        <StatCard
-          title="Diet Plans"
-          value={String(diets.length)}
-          subtitle={latestDiet ? `Latest status: ${latestDiet.status}` : "No diet plans yet"}
-        />
+        <StatCard title="Latest Weight" value={latestMetrics.weight ? `${latestMetrics.weight.value} kg` : "-"} subtitle="Most recent saved weight" />
+        <StatCard title="Current BMI" value={latestMetrics.bmi ? latestMetrics.bmi.value : "-"} subtitle="Calculated from backend metrics" />
+        <StatCard title="BMR" value={latestMetrics.bmr ? `${latestMetrics.bmr.value} kcal` : "-"} subtitle="Resting energy estimate" />
+        <StatCard title="Premium" value={subscription?.planType || "Free"} subtitle={subscription?.remainingDays ? `${subscription.remainingDays} days remaining` : "Upgrade for premium access"} />
+      </section>
+
+      <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <div className="card">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900">Diet streaks</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Start following your diet today to build a streak.
+              </p>
+            </div>
+            <Link to="/diets" className="text-sm font-medium text-emerald-600">Open Diet</Link>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <StatCard title="Current Streak" value={streaks.currentStreak} subtitle="Days in a row" />
+            <StatCard title="Longest Streak" value={streaks.longestStreak} subtitle="Best run" />
+            <StatCard title="Total Followed" value={streaks.totalFollowedDays} subtitle="Completed days" />
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900">Meal log summary</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Today's logged calories and macros.
+              </p>
+            </div>
+            <Link to="/meal-log" className="text-sm font-medium text-emerald-600">Log Meal</Link>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs text-slate-500">Calories</p><p className="mt-2 text-2xl font-bold text-slate-900">{mealSummary?.totals?.calories || 0}</p></div>
+            <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs text-slate-500">Protein</p><p className="mt-2 text-2xl font-bold text-slate-900">{mealSummary?.totals?.protein || 0}g</p></div>
+            <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs text-slate-500">Carbs</p><p className="mt-2 text-2xl font-bold text-slate-900">{mealSummary?.totals?.carbs || 0}g</p></div>
+            <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs text-slate-500">Fat</p><p className="mt-2 text-2xl font-bold text-slate-900">{mealSummary?.totals?.fat || 0}g</p></div>
+          </div>
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="card">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-semibold text-slate-900">Weight progress</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Latest-by-type transformation is used before charting.
-              </p>
-            </div>
-          </div>
+          <h2 className="text-xl font-semibold text-slate-900">Weight progress</h2>
           <div className="mt-6 h-[320px]">
             {sortedWeights.length > 0 ? (
-              <Line
-                data={chartData}
-                options={{
-                  maintainAspectRatio: false,
-                  plugins: { legend: { display: false } },
-                }}
-              />
+              <Line data={chartData} options={{ maintainAspectRatio: false, plugins: { legend: { display: false } } }} />
             ) : (
               <div className="grid h-full place-items-center rounded-2xl bg-slate-50 text-sm text-slate-500">
                 Add weight metrics to unlock the progress chart.
@@ -251,13 +333,7 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold text-slate-900">Diet macro split</h2>
             <div className="mt-6 h-[260px]">
               {latestDiet ? (
-                <Doughnut
-                  data={macroChartData}
-                  options={{
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: "bottom" } },
-                  }}
-                />
+                <Doughnut data={macroChartData} options={{ maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }} />
               ) : (
                 <div className="grid h-full place-items-center rounded-2xl bg-slate-50 text-sm text-slate-500">
                   Generate a diet plan to see macro targets.
@@ -267,33 +343,16 @@ export default function Dashboard() {
           </div>
 
           <div className="card">
-            <h2 className="text-xl font-semibold text-slate-900">Health insight panel</h2>
+            <h2 className="text-xl font-semibold text-slate-900">Health insights</h2>
             <div className="mt-4 grid gap-3">
               <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-medium text-slate-800">Risk level</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  {risk?.riskLevel ? String(risk.riskLevel) : "—"}
-                </p>
+                <p className="mt-1 text-sm text-slate-500">{risk?.riskLevel ? String(risk.riskLevel) : "-"}</p>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-medium text-slate-800">TDEE</p>
                 <p className="mt-1 text-sm text-slate-500">
                   {latestMetrics.tdee ? `${latestMetrics.tdee.value} kcal/day` : "Add activity level to derive TDEE."}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <p className="text-sm font-medium text-slate-800">Medical conditions</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  {profile?.medicalConditions?.length
-                    ? profile.medicalConditions.join(", ")
-                    : "No saved profile data yet."}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <p className="text-sm font-medium text-slate-800">Lifestyle hints</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Future-ready demo area for water, steps, streaks, and emotional
-                  eating patterns. Not backed by API yet.
                 </p>
               </div>
             </div>
@@ -304,106 +363,70 @@ export default function Dashboard() {
       <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
         <div className="card">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-slate-900">Latest doctor notes</h2>
-            <Link to="/notes" className="text-sm font-medium text-emerald-600">
-              View all
-            </Link>
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900">Today's Diet Plan</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Breakfast, lunch, dinner, and snacks if available.
+              </p>
+            </div>
+            <Link to="/diets" className="text-sm font-medium text-emerald-600">View Full Diet</Link>
+          </div>
+          {!todayDiet ? (
+            <div className="mt-5 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 text-sm text-slate-500">
+              No diet plan available for today.
+            </div>
+          ) : (
+            <>
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                {todayDiet.isFollowed || streaks.todayFollowed ? (
+                  <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+                    Today's diet completed
+                  </span>
+                ) : (
+                  <button type="button" className="btn-primary" onClick={handleFollowToday} disabled={followLoading}>
+                    {followLoading ? "Saving..." : "Mark as Followed"}
+                  </button>
+                )}
+              </div>
+              <div className="mt-5 grid gap-4 lg:grid-cols-2">
+                <MealPreview title="Breakfast" foods={todayDiet.meals?.breakfast} />
+                <MealPreview title="Lunch" foods={todayDiet.meals?.lunch} />
+                <MealPreview title="Dinner" foods={todayDiet.meals?.dinner} />
+                <MealPreview title="Snacks" foods={todayDiet.meals?.snacks} />
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="card">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900">Recent Doctor Notes</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Latest recommendations added to your account.
+              </p>
+            </div>
+            <Link to="/notes" className="text-sm font-medium text-emerald-600">View All Notes</Link>
           </div>
           {notes.length === 0 ? (
-            <p className="mt-4 text-sm text-slate-500">No notes yet.</p>
+            <div className="mt-5 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 text-sm text-slate-500">
+              No doctor notes yet.
+            </div>
           ) : (
-            <div className="mt-4 space-y-3">
-              {notes.slice(0, 3).map((n) => (
-                <div key={n._id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="text-sm font-semibold text-slate-900">{n.title}</div>
-                  <div className="mt-1 text-xs text-slate-500">
-                    {n.doctorAuthId?.email || "—"} • {n.createdAt ? new Date(n.createdAt).toLocaleString() : "—"}
-                  </div>
-                  <div className="mt-2 text-sm text-slate-700 line-clamp-3">{n.note}</div>
+            <div className="mt-5 space-y-3">
+              {notes.slice(0, 3).map((note) => (
+                <div key={note._id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <h3 className="text-sm font-semibold text-slate-900">{note.title || "Doctor recommendation"}</h3>
+                  <p className="mt-1 text-xs text-slate-500">
+                    {note.doctorAuthId?.email || "NutriCare doctor"} | {note.createdAt ? new Date(note.createdAt).toLocaleDateString() : "Recently added"}
+                  </p>
+                  <p className="mt-3 line-clamp-3 text-sm text-slate-600">{note.note}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
-
-        <div className="card">
-          <h2 className="text-xl font-semibold text-slate-900">Subscription</h2>
-          <p className="mt-2 text-sm text-slate-600">
-            Manage your active plan and enable doctor reviews.
-          </p>
-          <div className="mt-4">
-            <Link to="/billing" className="btn-primary">
-              Open billing
-            </Link>
-          </div>
-        </div>
       </section>
-
-      <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-        <div className="card">
-          <h2 className="text-xl font-semibold text-slate-900">Quick path</h2>
-          <div className="mt-4 space-y-3">
-            <Link to="/profile" className="block rounded-2xl bg-emerald-50 p-4">
-              <p className="font-medium text-emerald-700">1. Profile summary</p>
-              <p className="mt-1 text-sm text-emerald-600">
-                {profile?.name
-                  ? `Saved for ${profile.name}`
-                  : "Create or update your health profile"}
-              </p>
-            </Link>
-            <Link to="/metrics" className="block rounded-2xl bg-sky-50 p-4">
-              <p className="font-medium text-sky-700">2. Metrics and metabolism</p>
-              <p className="mt-1 text-sm text-sky-600">
-                Save weight and activity to keep BMI, BMR, and TDEE current.
-              </p>
-            </Link>
-            <Link to="/diets" className="block rounded-2xl bg-violet-50 p-4">
-              <p className="font-medium text-violet-700">3. Diet plan overview</p>
-              <p className="mt-1 text-sm text-violet-600">
-                Review daily meals and status updates across the 7-day plan.
-              </p>
-            </Link>
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-slate-900">Recent diet documents</h2>
-            <Link to="/diets" className="text-sm font-medium text-emerald-600">
-              View all
-            </Link>
-          </div>
-          {diets.length === 0 ? (
-            <p className="mt-5 text-sm text-slate-500">No diet documents available yet.</p>
-          ) : (
-            <div className="mt-5 overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead className="border-b border-slate-200 text-slate-500">
-                  <tr>
-                    <th className="px-3 py-3">Date</th>
-                    <th className="px-3 py-3">Day</th>
-                    <th className="px-3 py-3">Status</th>
-                    <th className="px-3 py-3">Calories</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {diets.slice(0, 6).map((diet) => (
-                    <tr key={diet._id} className="border-b border-slate-100">
-                      <td className="px-3 py-3">
-                        {new Date(diet.startDate).toLocaleDateString()}
-                      </td>
-                      <td className="px-3 py-3">{diet.Day}</td>
-                      <td className="px-3 py-3 capitalize">{diet.status}</td>
-                      <td className="px-3 py-3">{diet.calorieTarget}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </section>
-
     </div>
   );
 }

@@ -21,6 +21,14 @@ const doctorPatientSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+doctorPatientSchema.index(
+  { patientAuthId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { status: "active" },
+  },
+);
+
 const DoctorPatient = mongoose.model("DoctorPatient", doctorPatientSchema);
 
 export default DoctorPatient;

@@ -7,7 +7,9 @@ import {
   getDietPlanById,
   updateDietPlanStatus,
   getTodayDietPlan,
-  getWeeklyDietPlan
+  getWeeklyDietPlan,
+  markTodayDietAsFollowed,
+  getDietStreakStats,
 } from "../controllers/diet.controllers.js";
 
 const dietRouter = Router();
@@ -17,6 +19,8 @@ dietRouter.use(Auth, authorizeRole("User"));
 dietRouter.route("/").get(listDietPlans).post(createDietPlan);
 dietRouter.route("/today").get(getTodayDietPlan);
 dietRouter.route("/weekly").get(getWeeklyDietPlan);
+dietRouter.route("/today/follow").post(markTodayDietAsFollowed);
+dietRouter.route("/streaks").get(getDietStreakStats);
 dietRouter.route("/:id").get(getDietPlanById).patch(updateDietPlanStatus);
 
 

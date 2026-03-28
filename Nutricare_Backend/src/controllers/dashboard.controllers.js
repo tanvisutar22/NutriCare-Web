@@ -3,7 +3,7 @@ import BodyMetrics from "../models/bodyMetrics.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 async function getMonthlyDayWise(authId, year, month) {
-  // month: 1–12
+  // month: 1â€“12
 
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
@@ -37,7 +37,7 @@ async function getMonthlyDayWise(authId, year, month) {
 
     result.push({
       date: currentDate,
-      day, // 1–31
+      day, // 1â€“31
       isTracked: record ? record.isTracked : false,
       score: record ? record.finalScore : 0
     });
@@ -46,14 +46,14 @@ async function getMonthlyDayWise(authId, year, month) {
   return result;
 }
 async function getMonthlyWeight(authId, year, month) {
-  // month: 1–12
+  // month: 1â€“12
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
   startDate.setHours(0, 0, 0, 0);
   endDate.setHours(0, 0, 0, 0);
     console.log("Fetching BodyMetrics for authId:", authId, "from", startDate, "to", endDate);
-  // 1️⃣ Get records inside month
+  // 1ï¸âƒ£ Get records inside month
 //   console.log( await BodyMetrics.find({
 //     authId
 //   }));
@@ -63,13 +63,13 @@ async function getMonthlyWeight(authId, year, month) {
 
   }).sort({ recordedAt: 1 });
 //   console.log("BodyMetrics records for month:", records);
-  // 2️⃣ Get last weight BEFORE this month
+  // 2ï¸âƒ£ Get last weight BEFORE this month
   const lastRecord = await BodyMetrics.findOne({
     authId,
     recordedAt: { $lt: startDate }
   }).sort({ recordedAt: -1 });
 
-  // 3️⃣ Map for quick lookup
+  // 3ï¸âƒ£ Map for quick lookup
   const map = new Map();
   
  records.forEach(r => {
@@ -83,17 +83,17 @@ async function getMonthlyWeight(authId, year, month) {
   const result = [];
   const totalDays = endDate.getDate();
 //   console.log(map);
-  // 4️⃣ Start with previous weight
+  // 4ï¸âƒ£ Start with previous weight
   let lastWeight = lastRecord ? lastRecord.weight : null;
 
-  // 5️⃣ Loop all days
+  // 5ï¸âƒ£ Loop all days
   for (let day = 1; day <= totalDays; day++) {
     const currentDate = new Date(year, month - 1, day);
     currentDate.setHours(0, 0, 0, 0);
 
     const key = currentDate.toISOString().split("T")[0];
     // console.log("Checking weight for date:", currentDate, "key:", key);
-    // If weight exists for this day → update lastWeight
+    // If weight exists for this day â†’ update lastWeight
     if (map.has(key)) {
       lastWeight = map.get(key);
     }
@@ -158,7 +158,7 @@ const tdeeValues = records
   if (lastBMI > firstBMI + 0.5) bmiTrend = "increasing";
   else if (lastBMI < firstBMI - 0.5) bmiTrend = "decreasing";
 
-  // 🔥 risk detection
+  // ðŸ”¥ risk detection
   let risks = [];
 
   // BMI risks
@@ -207,7 +207,7 @@ const tdeeValues = records
 }
 // create utility functions for monthly day-wise protein and calorie intake and activity score
 async function getMonthlyIntakeAndActivity(authId, year, month) {
-    // month: 1–12
+    // month: 1â€“12
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
 

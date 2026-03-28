@@ -97,6 +97,16 @@ const dietSchema = new mongoose.Schema({
     type: String,
     enum: ["active", "completed"],
     default: "active"
+  },
+
+  isFollowed: {
+    type: Boolean,
+    default: false
+  },
+
+  followedAt: {
+    type: Date,
+    default: null
   }
 
 }, { timestamps: true });

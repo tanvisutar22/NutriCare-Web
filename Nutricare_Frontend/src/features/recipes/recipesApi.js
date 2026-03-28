@@ -11,3 +11,8 @@ export async function getRecipeByName(name) {
   });
   return res.data;
 }
+
+export async function getRecipeDetails(params) {
+  const res = await http.get("/recipe/details", { params });
+  return res.data;
+}

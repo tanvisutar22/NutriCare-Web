@@ -69,6 +69,56 @@ const getMacroTargetsFromTdee = (tdee, weightKg) => {
   };
 };
 
+const startOfDay = (value = new Date()) => {
+  const date = new Date(value);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
+const calculateDietStreakStats = async (authId) => {
+  const plans = await DietPlan.find({ authId, isFollowed: true }).sort({ startDate: 1 });
+  const today = startOfDay(new Date());
+
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let running = 0;
+  let previous = null;
+
+  for (const plan of plans) {
+    const current = startOfDay(plan.startDate);
+    if (!previous) {
+      running = 1;
+    } else {
+      const diffDays = Math.round((current - previous) / 86400000);
+      running = diffDays === 1 ? running + 1 : 1;
+    }
+    if (running > longestStreak) longestStreak = running;
+    previous = current;
+  }
+
+  if (plans.length > 0) {
+    let cursor = today;
+    const followedKeys = new Set(plans.map((plan) => startOfDay(plan.startDate).toISOString()));
+    while (followedKeys.has(cursor.toISOString())) {
+      currentStreak += 1;
+      cursor = startOfDay(new Date(cursor.getTime() - 86400000));
+    }
+  }
+
+  const todayPlan = await DietPlan.findOne({
+    authId,
+    startDate: today,
+  });
+
+  return {
+    currentStreak,
+    longestStreak,
+    totalFollowedDays: plans.length,
+    todayFollowed: Boolean(todayPlan?.isFollowed),
+    todayPlanId: todayPlan?._id || null,
+  };
+};
+
 export const createDietPlan = async (req, res) => {
   try {
     const authId = req.user?._id;
@@ -407,3 +457,64 @@ export const getWeeklyDietPlan = async (req, res) => {
     return res.status(500).json(new ApiError(500, "Internal Server Error while fetching weekly diet plans"));
   }
 }
+
+export const markTodayDietAsFollowed = async (req, res) => {
+  try {
+    const authId = req.user?._id;
+    if (!authId) {
+      return res.status(401).json(new ApiError(401, "Unauthorized"));
+    }
+
+    const today = startOfDay(new Date());
+    const plan = await DietPlan.findOne({
+      authId,
+      startDate: today,
+    });
+
+    if (!plan) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "No diet plan available for today"));
+    }
+
+    if (plan.isFollowed) {
+      return res
+        .status(200)
+        .json(new ApiResponse(200, plan, "Today's diet was already marked as followed"));
+    }
+
+    plan.isFollowed = true;
+    plan.followedAt = new Date();
+    await plan.save();
+
+    const streaks = await calculateDietStreakStats(authId);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { plan, streaks }, "Today's diet marked as followed"));
+  } catch (error) {
+    console.error("Error in markTodayDietAsFollowed:", error);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error while marking today's diet"));
+  }
+};
+
+export const getDietStreakStats = async (req, res) => {
+  try {
+    const authId = req.user?._id;
+    if (!authId) {
+      return res.status(401).json(new ApiError(401, "Unauthorized"));
+    }
+
+    const streaks = await calculateDietStreakStats(authId);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, streaks, "Diet streak stats fetched successfully"));
+  } catch (error) {
+    console.error("Error in getDietStreakStats:", error);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error while fetching diet streaks"));
+  }
+};

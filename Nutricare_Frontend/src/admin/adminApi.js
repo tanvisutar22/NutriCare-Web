@@ -12,6 +12,11 @@ export async function setDoctorApprovalAdmin(doctorAuthId, isApproved) {
   return res.data;
 }
 
+export async function getAdminWalletOverview() {
+  const res = await http.get("/admin/wallet");
+  return res.data;
+}
+
 export async function computePayouts(monthKey) {
   const res = await http.get("/admin/payouts", {
     params: { monthKey },
@@ -19,8 +24,10 @@ export async function computePayouts(monthKey) {
   return res.data;
 }
 
-export async function payDoctor(doctorAuthId, monthKey) {
-  const res = await http.post(`/admin/payouts/${doctorAuthId}/pay`, { monthKey });
+export async function payDoctor(doctorAuthId, monthKey, notes = "") {
+  const res = await http.post(`/admin/payouts/${doctorAuthId}/pay`, {
+    monthKey,
+    notes,
+  });
   return res.data;
 }
-

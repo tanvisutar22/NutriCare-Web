@@ -14,13 +14,23 @@ export const verifyApprovedDoctor = async (req, res, next) => {
     if (!doctorProfile) {
       return res.status(403).json({
         success: false,
+        code: "PROFILE_INCOMPLETE",
         message: "Doctor profile not found",
       });
     }
 
-    if (!doctorProfile.isApproved) {
+    if (!doctorProfile.profileComplete) {
       return res.status(403).json({
         success: false,
+        code: "PROFILE_INCOMPLETE",
+        message: "Doctor profile is incomplete",
+      });
+    }
+
+    if (!doctorProfile.isApproved || doctorProfile.approvalStatus !== "approved") {
+      return res.status(403).json({
+        success: false,
+        code: "APPROVAL_PENDING",
         message: "Doctor not approved by admin",
       });
     }

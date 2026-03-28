@@ -14,6 +14,8 @@ import aiRouter from "./routes/ai.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import dailyTrackingRouter from "./routes/dailyTracking.routes.js";
+import mealLogRouter from "./routes/mealLog.routes.js";
 const app = Express();
 
 app.use(
@@ -38,6 +40,8 @@ app.use("/api/v1/diets", dietRouter);
 app.use("/api/v1/recipe", recipeRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/daily-tracking", dailyTrackingRouter);
+app.use("/api/v1/meal-logs", mealLogRouter);
 app.use("/api/v1/doctors", doctorRoutes);
 app.use("/api/v1/doctors", doctorPatientRoutes);
 app.use("/api/v1/doctors", doctorDashboardRoutes);

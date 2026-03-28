@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
-import { listDietPlans, createDietPlan, updateDietStatus } from "../features/diets/dietsApi";
+import {
+  createDietPlan,
+  getDietStreakStats,
+  getTodayDietPlan,
+  listDietPlans,
+  markTodayDietAsFollowed,
+  updateDietStatus,
+} from "../features/diets/dietsApi";
 import { listBodyMetrics } from "../features/bodyMetrics/bodyMetricsApi";
 import { getMyProfile } from "../features/user/userApi";
 import { getLatestMetricsMap } from "../features/bodyMetrics/bodyMetricsHelpers";
@@ -32,6 +39,15 @@ function MealBlock({ title, foods }) {
   );
 }
 
+function StreakStat({ label, value }) {
+  return (
+    <div className="rounded-2xl bg-slate-50 p-4">
+      <p className="text-xs uppercase tracking-wide text-slate-500">{label}</p>
+      <p className="mt-2 text-2xl font-bold text-slate-900">{value}</p>
+    </div>
+  );
+}
+
 export default function DietsModule() {
   const [diets, setDiets] = useState([]);
   const [metrics, setMetrics] = useState([]);
@@ -39,6 +55,14 @@ export default function DietsModule() {
   const [startDate, setStartDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
+  const [todayDiet, setTodayDiet] = useState(null);
+  const [streaks, setStreaks] = useState({
+    currentStreak: 0,
+    longestStreak: 0,
+    totalFollowedDays: 0,
+    todayFollowed: false,
+  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -47,11 +71,14 @@ export default function DietsModule() {
     setError("");
 
     try {
-      const [profileRes, metricRes, dietRes] = await Promise.allSettled([
-        getMyProfile(),
-        listBodyMetrics(),
-        listDietPlans(),
-      ]);
+      const [profileRes, metricRes, dietRes, streakRes, todayDietRes] =
+        await Promise.allSettled([
+          getMyProfile(),
+          listBodyMetrics(),
+          listDietPlans(),
+          getDietStreakStats(),
+          getTodayDietPlan(),
+        ]);
 
       if (profileRes.status === "fulfilled") {
         setProfileExists(true);
@@ -65,6 +92,21 @@ export default function DietsModule() {
 
       if (dietRes.status === "fulfilled") {
         setDiets(Array.isArray(dietRes.value?.data) ? dietRes.value.data : []);
+      }
+
+      if (streakRes.status === "fulfilled") {
+        setStreaks({
+          currentStreak: streakRes.value?.data?.currentStreak || 0,
+          longestStreak: streakRes.value?.data?.longestStreak || 0,
+          totalFollowedDays: streakRes.value?.data?.totalFollowedDays || 0,
+          todayFollowed: Boolean(streakRes.value?.data?.todayFollowed),
+        });
+      }
+
+      if (todayDietRes.status === "fulfilled") {
+        setTodayDiet(todayDietRes.value?.data || null);
+      } else {
+        setTodayDiet(null);
       }
     } catch (loadError) {
       setError(getApiErrorMessage(loadError));
@@ -112,6 +154,7 @@ export default function DietsModule() {
 
     return Boolean(weightOk && activityOk);
   }, [planEnded, latestDiet, latestMetrics]);
+
   const canGenerateDiet =
     profileExists &&
     Boolean(latestMetrics.weight) &&
@@ -125,7 +168,7 @@ export default function DietsModule() {
         ? "Add activity level or let the backend resolve TDEE first."
         : planEnded && !hasRecentVariableMetrics
           ? "Your last plan ended. Please update weight and activity level before generating a new plan."
-        : "";
+          : "";
 
   const groupedByDate = useMemo(() => {
     return [...diets].sort((a, b) => {
@@ -166,6 +209,39 @@ export default function DietsModule() {
     }
   };
 
+  const handleFollowToday = async () => {
+    setFollowLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await markTodayDietAsFollowed();
+      const updatedDiet = response?.data?.diet || response?.data || null;
+      if (updatedDiet) {
+        setTodayDiet(updatedDiet);
+        setDiets((current) =>
+          current.map((diet) =>
+            diet._id === updatedDiet._id ? { ...diet, ...updatedDiet } : diet,
+          ),
+        );
+      }
+      if (response?.data?.streaks) {
+        setStreaks((current) => ({
+          ...current,
+          ...response.data.streaks,
+          todayFollowed: true,
+        }));
+      } else {
+        setStreaks((current) => ({ ...current, todayFollowed: true }));
+      }
+      setSuccess(response?.message || "Today's diet marked as followed.");
+    } catch (followError) {
+      setError(getApiErrorMessage(followError));
+    } finally {
+      setFollowLoading(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -175,8 +251,7 @@ export default function DietsModule() {
           </p>
           <h1 className="section-title mt-2">Generate and manage 7-day meal plans</h1>
           <p className="section-copy">
-            The backend creates one document per day with macro targets and meals
-            for breakfast, lunch, and dinner.
+            Review today&apos;s plan, mark it as completed once, and keep your streak moving.
           </p>
         </div>
         <Link to="/recipes" className="btn-secondary">
@@ -184,8 +259,56 @@ export default function DietsModule() {
         </Link>
       </div>
 
-      <div className="mt-8 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
         <section className="space-y-6">
+          <div className="card">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Diet streak</h2>
+                <p className="mt-2 text-sm text-slate-500">
+                  Your streak grows when today&apos;s diet is marked as followed.
+                </p>
+              </div>
+              {streaks.todayFollowed || todayDiet?.isFollowed ? (
+                <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+                  Today&apos;s diet completed
+                </span>
+              ) : null}
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <StreakStat label="Current Streak" value={`🔥 ${streaks.currentStreak || 0}`} />
+              <StreakStat label="Longest Streak" value={`🏆 ${streaks.longestStreak || 0}`} />
+              <StreakStat label="Total Followed" value={`✅ ${streaks.totalFollowedDays || 0}`} />
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              {!todayDiet ? (
+                <p className="text-sm text-slate-500">
+                  No diet plan is available for today yet. Generate a plan first.
+                </p>
+              ) : streaks.todayFollowed || todayDiet.isFollowed ? (
+                <p className="text-sm font-medium text-emerald-700">
+                  Great work. You&apos;ve already marked today&apos;s plan as followed.
+                </p>
+              ) : (
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-sm text-slate-600">
+                    Mark today&apos;s meal plan as completed once you&apos;ve followed it.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    disabled={followLoading}
+                    onClick={handleFollowToday}
+                  >
+                    {followLoading ? "Saving..." : "Mark Today as Followed"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="card">
             <h2 className="text-lg font-semibold text-slate-900">Diet generation</h2>
             <p className="mt-2 text-sm text-slate-500">
@@ -238,25 +361,6 @@ export default function DietsModule() {
               </div>
             ) : null}
           </div>
-
-          <div className="card">
-            <h2 className="text-lg font-semibold text-slate-900">Future-ready planner</h2>
-            <div className="mt-4 grid gap-3">
-              <div className="rounded-2xl border border-dashed border-slate-200 p-4">
-                <p className="font-medium text-slate-800">Snacks</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Optional placeholder only. Backend currently returns breakfast,
-                  lunch, and dinner.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-dashed border-slate-200 p-4">
-                <p className="font-medium text-slate-800">AI optimization</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  Future slot for chatbot-led meal swaps and plan improvements.
-                </p>
-              </div>
-            </div>
-          </div>
         </section>
 
         <section className="space-y-6">
@@ -283,6 +387,11 @@ export default function DietsModule() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3">
+                    {diet.isFollowed ? (
+                      <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+                        Followed
+                      </span>
+                    ) : null}
                     <span className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-medium capitalize text-emerald-700">
                       {diet.status}
                     </span>
@@ -333,12 +442,7 @@ export default function DietsModule() {
                   <MealBlock title="Breakfast" foods={diet.meals?.breakfast} />
                   <MealBlock title="Lunch" foods={diet.meals?.lunch} />
                   <MealBlock title="Dinner" foods={diet.meals?.dinner} />
-                  <div className="rounded-2xl border border-dashed border-slate-200 p-4">
-                    <h3 className="text-sm font-semibold text-slate-900">Snacks</h3>
-                    <p className="mt-3 text-sm text-slate-500">
-                      Optional future section. No snack data comes from the backend.
-                    </p>
-                  </div>
+                  <MealBlock title="Snacks" foods={diet.meals?.snacks} />
                 </div>
               </article>
             ))

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
 import { getFoods, getRecipeByName } from "../features/recipes/recipesApi";
 
@@ -12,6 +13,7 @@ function NutritionBadge({ label, value }) {
 }
 
 export default function RecipesPage() {
+  const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodQuery, setFoodQuery] = useState("");
   const [recipeQuery, setRecipeQuery] = useState("");
@@ -161,18 +163,12 @@ export default function RecipesPage() {
                   <button
                     className="btn-secondary mt-4 w-full"
                     onClick={() => {
-                      setRecipeQuery(food.foodName);
-                      setLoadingRecipe(true);
-                      setError("");
-                      getRecipeByName(food.foodName)
-                        .then(setRecipe)
-                        .catch((recipeError) =>
-                          setError(getApiErrorMessage(recipeError)),
-                        )
-                        .finally(() => setLoadingRecipe(false));
+                      navigate(`/meal-details?name=${encodeURIComponent(food.foodName)}`, {
+                        state: { recipeName: food.foodName },
+                      });
                     }}
                   >
-                    Open recipe
+                    View recipe
                   </button>
                 </article>
               ))
@@ -268,6 +264,16 @@ export default function RecipesPage() {
                       {recipe.recipe?.steps || "No steps provided."}
                     </p>
                   </div>
+                  <button
+                    className="btn-primary w-full"
+                    onClick={() =>
+                      navigate(`/meal-details?name=${encodeURIComponent(recipe.foodName)}`, {
+                        state: { recipeName: recipe.foodName },
+                      })
+                    }
+                  >
+                    Open full recipe page
+                  </button>
                 </div>
               </>
             )}

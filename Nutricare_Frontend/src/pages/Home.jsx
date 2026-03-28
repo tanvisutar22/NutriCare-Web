@@ -202,7 +202,7 @@ export default function Home() {
 
         {/* FOOTER */}
         <div className="mt-14 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} NutriCare AI • Wellness & Diet Management
+          Â© {new Date().getFullYear()} NutriCare AI â€¢ Wellness & Diet Management
         </div>
       </div>
     </div>
