@@ -11,6 +11,14 @@ import {
   getDoctorSelectionsForPatients,
 } from "../utils/doctorSelection.js";
 
+const normalizeOptionalSelections = (value) => {
+  if (!value) return [];
+  const values = Array.isArray(value) ? value : [value];
+  return values
+    .map((item) => String(item).trim().toLowerCase())
+    .filter((item) => item && item !== "none");
+};
+
 export const createUserProfile = async (req, res) => {
   try {
     const authId = req.user?._id;
@@ -42,8 +50,8 @@ export const createUserProfile = async (req, res) => {
       age,
       height,
       foodPreference,
-      medicalConditions,
-      allergies,
+      medicalConditions: normalizeOptionalSelections(medicalConditions),
+      allergies: normalizeOptionalSelections(allergies),
       goal,
     };
 
@@ -96,7 +104,18 @@ export const updateMyProfile = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const updates = req.body || {};
+    const updates = {
+      ...req.body,
+    };
+
+    if (Object.prototype.hasOwnProperty.call(updates, "medicalConditions")) {
+      updates.medicalConditions = normalizeOptionalSelections(updates.medicalConditions);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(updates, "allergies")) {
+      updates.allergies = normalizeOptionalSelections(updates.allergies);
+    }
+
     const profile = await User.findOneAndUpdate({ authId }, updates, {
       new: true,
       runValidators: true,

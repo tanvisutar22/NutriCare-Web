@@ -9,6 +9,7 @@ import {
   FOOD_PREFERENCE_OPTIONS,
   GENDER_OPTIONS,
   MEDICAL_CONDITION_OPTIONS,
+  WEIGHT_GOAL_OPTIONS,
 } from "../features/user/userConstants";
 
 const initialForm = {
@@ -16,28 +17,49 @@ const initialForm = {
   gender: "",
   age: "",
   height: "",
+  goal: "",
   foodPreference: "",
   medicalConditions: [],
   allergies: [],
 };
 
-function toggleItem(items, value) {
-  return items.includes(value)
-    ? items.filter((item) => item !== value)
-    : [...items, value];
+const NONE_OPTION = "none";
+
+function normalizeOptionList(value) {
+  const next = Array.isArray(value)
+    ? value.map((item) => String(item))
+    : value
+      ? [String(value)]
+      : [];
+
+  return next.filter((item) => item && item !== NONE_OPTION);
 }
 
-function ChipGroup({ options, value, onChange }) {
+function toggleSelectableList(items, selectedValue) {
+  const current = normalizeOptionList(items);
+  if (selectedValue === NONE_OPTION) {
+    return [];
+  }
+
+  if (current.includes(selectedValue)) {
+    return current.filter((item) => item !== selectedValue);
+  }
+
+  return [...current, selectedValue];
+}
+
+function ChipGroup({ options, value, onChange, noneValue = NONE_OPTION }) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((option) => {
-        const active = value.includes(option.value);
+        const active =
+          option.value === noneValue ? value.length === 0 : value.includes(option.value);
 
         return (
           <button
             key={option.value}
             type="button"
-            onClick={() => onChange(toggleItem(value, option.value))}
+            onClick={() => onChange(toggleSelectableList(value, option.value))}
             className={[
               "rounded-full border px-4 py-2 text-sm transition",
               active
@@ -82,17 +104,10 @@ export default function UserModule() {
           gender: data.gender || "",
           age: data.age ?? "",
           height: data.height ?? "",
+          goal: data.goal || "",
           foodPreference: data.foodPreference || "",
-          medicalConditions: Array.isArray(data.medicalConditions)
-            ? data.medicalConditions
-            : data.medicalConditions
-              ? [String(data.medicalConditions)]
-              : [],
-          allergies: Array.isArray(data.allergies)
-            ? data.allergies
-            : data.allergies
-              ? [String(data.allergies)]
-              : [],
+          medicalConditions: normalizeOptionList(data.medicalConditions),
+          allergies: normalizeOptionList(data.allergies),
         });
       } catch (loadError) {
         if (!active) return;
@@ -120,13 +135,8 @@ export default function UserModule() {
     if (!form.gender) issues.push("Gender is required");
     if (!String(form.age).trim()) issues.push("Age is required");
     if (!String(form.height).trim()) issues.push("Height is required");
+    if (!form.goal) issues.push("Weight goal is required");
     if (!form.foodPreference) issues.push("Food preference is required");
-    if (form.medicalConditions.length === 0) {
-      issues.push("Select at least one medical condition");
-    }
-    if (form.allergies.length === 0) {
-      issues.push("Select at least one allergy");
-    }
     return issues;
   }, [form]);
 
@@ -148,6 +158,7 @@ export default function UserModule() {
         gender: form.gender,
         age: Number(form.age),
         height: Number(form.height),
+        goal: form.goal,
         foodPreference: form.foodPreference,
         medicalConditions: form.medicalConditions,
         allergies: form.allergies,
@@ -226,7 +237,7 @@ export default function UserModule() {
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label className="text-sm font-medium text-slate-700">Age</label>
                 <input
@@ -277,6 +288,27 @@ export default function UserModule() {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="text-sm font-medium text-slate-700">Weight goal</label>
+                <select
+                  className="input mt-2"
+                  value={form.goal}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      goal: event.target.value,
+                    }))
+                  }
+                >
+                  <option value="">Select goal</option>
+                  {WEIGHT_GOAL_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div>
@@ -309,30 +341,6 @@ export default function UserModule() {
                     setForm((prev) => ({ ...prev, allergies: next }))
                   }
                 />
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-5">
-              <div className="grid gap-4 md:grid-cols-3">
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">Weight goal</p>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Future UI section only. Saved weight comes from the metrics
-                    module.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">Sleep schedule</p>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Future insight field. Not sent to backend.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">Goal setting</p>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Future section for fat loss, gain, or maintenance flows.
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -373,14 +381,6 @@ export default function UserModule() {
             </div>
           </div>
 
-          <div className="card">
-            <h2 className="text-lg font-semibold text-slate-900">Demo notes</h2>
-            <ul className="mt-4 space-y-3 text-sm text-slate-600">
-              <li>Only backend-supported fields are submitted.</li>
-              <li>Weight is captured in the metrics module, not in this form.</li>
-              <li>Vegan, keto, and low-carb can be discussed as future scope only.</li>
-            </ul>
-          </div>
         </aside>
       </div>
     </div>

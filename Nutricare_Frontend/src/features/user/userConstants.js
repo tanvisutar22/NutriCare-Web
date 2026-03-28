@@ -10,8 +10,15 @@ export const FOOD_PREFERENCE_OPTIONS = [
   { value: "eggetarian", label: "Eggetarian" },
 ];
 
+export const WEIGHT_GOAL_OPTIONS = [
+  { value: "weight_loss", label: "Weight Loss" },
+  { value: "muscle_gain", label: "Muscle Gain" },
+  { value: "maintenance", label: "Maintenance" },
+];
+
 // Mirrors backend `user.model.js` values.
 export const MEDICAL_CONDITION_OPTIONS = [
+  { value: "none", label: "None" },
   { value: "diabetes", label: "Diabetes" },
   { value: "hypertension", label: "Hypertension" },
   { value: "heart_disease", label: "Heart disease" },
@@ -24,6 +31,7 @@ export const MEDICAL_CONDITION_OPTIONS = [
 ];
 
 export const ALLERGY_OPTIONS = [
+  { value: "none", label: "None" },
   { value: "milk", label: "Milk" },
   { value: "peanuts", label: "Peanuts" },
   { value: "tree_nuts", label: "Tree nuts" },
@@ -32,4 +40,3 @@ export const ALLERGY_OPTIONS = [
   { value: "gluten", label: "Gluten" },
   { value: "seafood", label: "Seafood" },
 ];
-
