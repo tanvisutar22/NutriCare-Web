@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { getApiErrorMessage } from "../shared/api/http";
-import { createUserProfile, getMyProfile, updateMyProfile } from "../features/user/userApi";
+import { getMyProfile } from "../features/user/userApi";
+import { saveProfile } from "../store/slices/profileSlice";
 import {
   ALLERGY_OPTIONS,
   FOOD_PREFERENCE_OPTIONS,
@@ -52,6 +54,9 @@ function ChipGroup({ options, value, onChange }) {
 }
 
 export default function UserModule() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -148,12 +153,19 @@ export default function UserModule() {
         allergies: form.allergies,
       };
 
-      const response = profileExists
-        ? await updateMyProfile(payload)
-        : await createUserProfile(payload);
+      await dispatch(
+        saveProfile({ payload, isUpdate: profileExists }),
+      ).unwrap();
+
+      const redirectedFrom = location.state?.from;
+      const wasCreatingProfile = !profileExists;
 
       setProfileExists(true);
-      setSuccess(response?.message || "Profile saved successfully.");
+      setSuccess("Profile saved successfully.");
+
+      if (wasCreatingProfile && redirectedFrom) {
+        navigate(redirectedFrom, { replace: true });
+      }
     } catch (submitError) {
       setError(getApiErrorMessage(submitError));
     } finally {

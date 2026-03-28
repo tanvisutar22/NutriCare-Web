@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children, requireProfile = false }) {
   }
 
   if (requireProfile && !hasProfile) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/profile" replace state={{ from: location.pathname }} />;
   }
 
   return children;
