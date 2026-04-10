@@ -1,12 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
-  font-family: "Segoe UI", "Inter", sans-serif;
+  @apply bg-slate-950 text-slate-100 antialiased;
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 24%),
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.14), transparent 18%),
+    linear-gradient(180deg, #050816 0%, #08142d 30%, #0a1f4a 58%, #08152a 100%);
+  background-attachment: fixed;
 }
 
 #root {
@@ -14,25 +19,184 @@ body {
 }
 
 .input {
-  @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-100;
+  @apply w-full rounded-2xl border border-blue-200/20 bg-slate-950/55 px-4 py-3 text-sm text-slate-100 shadow-[0_16px_45px_-28px_rgba(15,23,42,0.85)] transition placeholder:text-slate-400 focus:border-cyan-400 focus:outline-none focus:ring-4 focus:ring-cyan-400/15;
+  backdrop-filter: blur(12px);
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:-translate-y-0.5 hover:from-emerald-600 hover:to-teal-700 disabled:cursor-not-allowed disabled:opacity-60;
+  @apply inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_20px_50px_-22px_rgba(59,130,246,0.9)] transition hover:-translate-y-0.5 hover:from-cyan-300 hover:via-blue-400 hover:to-indigo-400 disabled:cursor-not-allowed disabled:opacity-60;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50;
+  @apply inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/6 px-5 py-3 text-sm font-semibold text-slate-100 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.9)] transition hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-cyan-300/10;
+  backdrop-filter: blur(10px);
 }
 
 .card {
-  @apply rounded-3xl border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur;
+  @apply rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(10,25,56,0.82),rgba(8,18,40,0.92))] p-6 shadow-[0_24px_70px_-34px_rgba(2,6,23,0.95)] backdrop-blur-xl;
 }
 
 .section-title {
-  @apply text-2xl font-bold tracking-tight text-slate-900;
+  @apply text-2xl font-bold tracking-tight text-white;
 }
 
 .section-copy {
-  @apply mt-2 max-w-2xl text-sm leading-6 text-slate-600;
+  @apply mt-2 max-w-2xl text-sm leading-6 text-slate-300;
+}
+
+select.input option {
+  color: #e2e8f0;
+  background: #0f172a;
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.text-slate-900 {
+  color: #f8fafc;
+}
+
+.text-slate-800 {
+  color: #e2e8f0;
+}
+
+.text-slate-700 {
+  color: #dbeafe;
+}
+
+.text-slate-600 {
+  color: #cbd5e1;
+}
+
+.text-slate-500,
+.text-slate-400 {
+  color: #94a3b8;
+}
+
+.bg-white .text-slate-900,
+.bg-slate-50 .text-slate-900,
+.bg-amber-50 .text-slate-900,
+.bg-emerald-50 .text-slate-900,
+.bg-red-50 .text-slate-900,
+.bg-white .text-slate-800,
+.bg-slate-50 .text-slate-800,
+.bg-amber-50 .text-slate-800,
+.bg-emerald-50 .text-slate-800,
+.bg-red-50 .text-slate-800,
+.bg-white .text-slate-700,
+.bg-slate-50 .text-slate-700,
+.bg-amber-50 .text-slate-700,
+.bg-emerald-50 .text-slate-700,
+.bg-red-50 .text-slate-700 {
+  color: #0f172a !important;
+}
+
+.bg-white .text-slate-600,
+.bg-slate-50 .text-slate-600,
+.bg-amber-50 .text-slate-600,
+.bg-emerald-50 .text-slate-600,
+.bg-red-50 .text-slate-600,
+.bg-white .text-slate-500,
+.bg-slate-50 .text-slate-500,
+.bg-amber-50 .text-slate-500,
+.bg-emerald-50 .text-slate-500,
+.bg-red-50 .text-slate-500,
+.bg-white .text-slate-400,
+.bg-slate-50 .text-slate-400,
+.bg-amber-50 .text-slate-400,
+.bg-emerald-50 .text-slate-400,
+.bg-red-50 .text-slate-400 {
+  color: #475569 !important;
+}
+
+.card,
+.card label,
+.card th,
+.card td,
+.card li,
+.card p,
+.card span,
+.card h1,
+.card h2,
+.card h3,
+.card h4 {
+  color: inherit;
+}
+
+.card {
+  color: #e2e8f0;
+}
+
+.card .text-slate-900,
+.card .text-slate-800,
+.card .text-slate-700 {
+  color: #f8fafc !important;
+}
+
+.card .text-slate-600,
+.card .text-slate-500,
+.card .text-slate-400 {
+  color: #cbd5e1 !important;
+}
+
+.card .bg-white,
+.card .bg-slate-50,
+.card .bg-white\/90,
+.card .bg-white\/80,
+.card .bg-white\/70,
+.card .bg-amber-50,
+.card .bg-emerald-50 {
+  background: linear-gradient(180deg, rgba(17, 34, 74, 0.96), rgba(10, 24, 53, 0.98)) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 18px 40px -28px rgba(2, 6, 23, 0.95);
+}
+
+.card .bg-white .text-slate-900,
+.card .bg-white .text-slate-800,
+.card .bg-white .text-slate-700,
+.card .bg-slate-50 .text-slate-900,
+.card .bg-slate-50 .text-slate-800,
+.card .bg-slate-50 .text-slate-700,
+.card .bg-white\/90 .text-slate-900,
+.card .bg-white\/90 .text-slate-800,
+.card .bg-white\/90 .text-slate-700,
+.card .bg-white\/80 .text-slate-900,
+.card .bg-white\/80 .text-slate-800,
+.card .bg-white\/80 .text-slate-700,
+.card .bg-white\/70 .text-slate-900,
+.card .bg-white\/70 .text-slate-800,
+.card .bg-white\/70 .text-slate-700,
+.card .bg-amber-50 .text-slate-900,
+.card .bg-amber-50 .text-slate-800,
+.card .bg-amber-50 .text-slate-700,
+.card .bg-emerald-50 .text-slate-900,
+.card .bg-emerald-50 .text-slate-800,
+.card .bg-emerald-50 .text-slate-700 {
+  color: #f8fafc !important;
+}
+
+.card .bg-white .text-slate-600,
+.card .bg-white .text-slate-500,
+.card .bg-white .text-slate-400,
+.card .bg-slate-50 .text-slate-600,
+.card .bg-slate-50 .text-slate-500,
+.card .bg-slate-50 .text-slate-400,
+.card .bg-white\/90 .text-slate-600,
+.card .bg-white\/90 .text-slate-500,
+.card .bg-white\/90 .text-slate-400,
+.card .bg-white\/80 .text-slate-600,
+.card .bg-white\/80 .text-slate-500,
+.card .bg-white\/80 .text-slate-400,
+.card .bg-white\/70 .text-slate-600,
+.card .bg-white\/70 .text-slate-500,
+.card .bg-white\/70 .text-slate-400,
+.card .bg-amber-50 .text-slate-600,
+.card .bg-amber-50 .text-slate-500,
+.card .bg-amber-50 .text-slate-400,
+.card .bg-emerald-50 .text-slate-600,
+.card .bg-emerald-50 .text-slate-500,
+.card .bg-emerald-50 .text-slate-400 {
+  color: #cbd5e1 !important;
 }

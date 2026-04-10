@@ -1,243 +1,15 @@
-// // import { useState } from "react";
-// // import { useAuth } from "../context/AuthContext";
-// // import { useNavigate, Link } from "react-router-dom";
-
-// // export default function Login() {
-// //   const { login } = useAuth();
-// //   const navigate = useNavigate();
-// //   const [email, setEmail] = useState("");
-// //   const [password, setPassword] = useState("");
-// //   const [error, setError] = useState("");
-
-// //   const handleLogin = async () => {
-// //     try {
-// //       await login(email, password);
-// //       console.log("Login successful, navigating to dashboard");
-// //       navigate("/dashboard");
-// //     } catch {
-// //       setError("Invalid credentials or server error");
-// //     }
-// //   };
-
-// //   return (
-// //     <div className="max-w-md mx-auto py-12 space-y-4">
-// //       {error && <p className="text-red-500">{error}</p>}
-// //       <input
-// //         placeholder="Email"
-// //         value={email}
-// //         onChange={(e) => setEmail(e.target.value)}
-// //         className="input"
-// //       />
-// //       <input
-// //         type="password"
-// //         placeholder="Password"
-// //         value={password}
-// //         onChange={(e) => setPassword(e.target.value)}
-// //         className="input"
-// //       />
-// //       <button onClick={handleLogin} className="btn-primary">
-// //         Login
-// //       </button>
-// //       <Link to="/forgot-password" className="text-teal-600">
-// //         Forgot Password?
-// //       </Link>
-// //     </div>
-// //   );
-// // }
-
-// import { useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
-
-// export default function Login() {
-//   const { login } = useAuth();
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-
-//   const handleLogin = async () => {
-//     try {
-//       const hasProfile = await login(email, password);
-
-//       if (hasProfile) {
-//         navigate("/dashboard"); // ✅ only if profile exists
-//       } else {
-//         navigate("/user-form"); // ✅ new user, must fill profile first
-//       }
-//     } catch (err) {
-//       setError(
-//         err.response?.data?.message || "Invalid credentials or server error",
-//       );
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-md mx-auto py-12 space-y-4">
-//       {error && <p className="text-red-500">{error}</p>}
-//       <input
-//         placeholder="Email"
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//         className="input"
-//       />
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         className="input"
-//       />
-//       <button onClick={handleLogin} className="btn-primary">
-//         Login
-//       </button>
-//       <Link to="/forgot-password" className="text-teal-600">
-//         Forgot Password?
-//       </Link>
-//     </div>
-//   );
-// }
-
-// import { useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
-// // import Loader from "../components/Loader";
-// export default function Login() {
-//   const { login } = useAuth();
-//   const navigate = useNavigate();
-
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [showPw, setShowPw] = useState(false);
-
-//   const [error, setError] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const handleLogin = async () => {
-//     setError("");
-
-//     if (!email.trim()) return setError("Email is required");
-//     if (!password.trim()) return setError("Password is required");
-
-//     setLoading(true);
-//     try {
-//       const hasProfile = await login(email, password);
-//       // New after-login flow: always land on the new User module
-//       // (profile can be created/updated there).
-//       navigate("/user");
-//     } catch (err) {
-//       setError(
-//         err.response?.data?.message || "Invalid credentials or server error",
-//       );
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-teal-50 via-white to-white flex items-center">
-//       <div className="max-w-5xl mx-auto w-full px-6 py-12 grid md:grid-cols-2 gap-10 items-center">
-//         {/* LEFT INFO */}
-//         <div className="hidden md:block">
-//           <h2 className="text-4xl font-bold text-slate-900 leading-tight">
-//             Welcome back to <span className="text-teal-600">NutriCare AI</span>
-//           </h2>
-//           <p className="text-slate-600 mt-4">
-//             Login to access your dashboard, track metrics, and monitor your
-//             progress.
-//           </p>
-
-//           <div className="mt-8 space-y-3 text-sm text-slate-700">
-//             {[
-//               "Track weight & activity",
-//               "Manage goals and logs",
-//               "View progress charts",
-//             ].map((t) => (
-//               <div key={t} className="flex items-center gap-2">
-//                 <span className="h-2 w-2 rounded-full bg-teal-600" />
-//                 {t}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* LOGIN CARD */}
-//         <div className="bg-white border border-gray-100 rounded-3xl shadow-lg p-6 md:p-8">
-//           <h3 className="text-2xl font-semibold text-slate-900">Login</h3>
-//           <p className="text-sm text-slate-600 mt-1">
-//             Enter your credentials to continue.
-//           </p>
-
-//           {error && (
-//             <div className="mt-4 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 text-sm">
-//               {error}
-//             </div>
-//           )}
-
-//           <div className="mt-5 space-y-4">
-//             <div>
-//               <label className="text-sm text-slate-700 font-medium">
-//                 Email
-//               </label>
-//               <input
-//                 placeholder="you@example.com"
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//                 className="input mt-2"
-//               />
-//             </div>
-
-//             <div>
-//               <label className="text-sm text-slate-700 font-medium">
-//                 Password
-//               </label>
-//               <div className="mt-2 relative">
-//                 <input
-//                   type={showPw ? "text" : "password"}
-//                   placeholder="••••••••"
-//                   value={password}
-//                   onChange={(e) => setPassword(e.target.value)}
-//                   className="input pr-20"
-//                 />
-//                 <button
-//                   type="button"
-//                   onClick={() => setShowPw((s) => !s)}
-//                   className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-teal-700 hover:text-teal-800"
-//                 >
-//                   {showPw ? "Hide" : "Show"}
-//                 </button>
-//               </div>
-//             </div>
-
-//             <button
-//               onClick={handleLogin}
-//               disabled={loading}
-//               className="btn-primary w-full disabled:opacity-60"
-//             >
-//               {loading ? "Logging in..." : "Login"}
-//             </button>
-
-//             <div className="flex justify-between text-sm">
-//               <Link
-//                 to="/forgot-password"
-//                 className="text-teal-700 hover:underline"
-//               >
-//                 Forgot Password?
-//               </Link>
-//               <Link to="/register" className="text-slate-700 hover:underline">
-//                 Create account
-//               </Link>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+
+function Field({ label, children }) {
+  return (
+    <div>
+      <label className="text-sm font-semibold text-slate-800">{label}</label>
+      <div className="mt-2">{children}</div>
+    </div>
+  );
+}
 
 export default function Login() {
   const { login } = useAuth();
@@ -246,7 +18,6 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -270,99 +41,112 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-teal-50 via-white to-white flex items-center">
-      <div className="max-w-5xl mx-auto w-full px-6 py-12 grid md:grid-cols-2 gap-10 items-center">
-        <div className="hidden md:block">
-          <h2 className="text-4xl font-bold text-slate-900 leading-tight">
-            Welcome back to <span className="text-teal-600">NutriCare AI</span>
-          </h2>
-          <p className="text-slate-600 mt-4">
-            Login to access your dashboard, track metrics, and monitor your
-            progress.
+    <div className="min-h-[calc(100vh-64px)] bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.12),transparent_22%),linear-gradient(180deg,#071229_0%,#0f2457_100%)]">
+      <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-[1fr_0.92fr]">
+        <section className="hidden rounded-[36px] border border-white/10 bg-[linear-gradient(145deg,rgba(10,23,53,0.96),rgba(17,46,99,0.92))] p-10 shadow-[0_28px_90px_-42px_rgba(2,6,23,0.95)] lg:block">
+          <div className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-100">
+            NutriCare
+          </div>
+          <h1 className="mt-6 text-5xl font-black leading-tight tracking-[-0.04em] text-white">
+            Welcome back to
+            <span className="block bg-gradient-to-r from-cyan-300 via-blue-300 to-indigo-300 bg-clip-text text-transparent">
+              NutriCare AI
+            </span>
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+            Log in to continue your health journey, review your dashboard, and stay connected to your diet and wellness progress.
           </p>
 
-          <div className="mt-8 space-y-3 text-sm text-slate-700">
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {[
-              "Track weight & activity",
-              "Manage goals and logs",
-              "View progress charts",
-            ].map((t) => (
-              <div key={t} className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-teal-600" />
-                {t}
+              "Track weight and activity",
+              "Manage goals and daily logs",
+              "Review progress and diet plans",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-[26px] border border-white/10 bg-white/6 p-4 text-sm font-medium text-slate-100 backdrop-blur"
+              >
+                {item}
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="bg-white border border-gray-100 rounded-3xl shadow-lg p-6 md:p-8">
-          <h3 className="text-2xl font-semibold text-slate-900">Login</h3>
-          <p className="text-sm text-slate-600 mt-1">
-            Enter your credentials to continue.
-          </p>
+        <section className="rounded-[34px] border border-slate-200 bg-white p-7 shadow-[0_26px_80px_-42px_rgba(15,23,42,0.45)] sm:p-9">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-4xl font-bold tracking-tight text-slate-900">
+                Login
+              </h2>
+              <p className="mt-2 text-base text-slate-600">
+                Enter your credentials to continue.
+              </p>
+            </div>
+            <div className="rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
+              Secure Access
+            </div>
+          </div>
 
-          {error && (
-            <div className="mt-4 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 text-sm">
+          {error ? (
+            <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
-          )}
+          ) : null}
 
-          <div className="mt-5 space-y-4">
-            <div>
-              <label className="text-sm text-slate-700 font-medium">
-                Email
-              </label>
+          <div className="mt-8 space-y-5">
+            <Field label="Email">
               <input
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input mt-2"
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
               />
-            </div>
+            </Field>
 
-            <div>
-              <label className="text-sm text-slate-700 font-medium">
-                Password
-              </label>
-              <div className="mt-2 relative">
+            <Field label="Password">
+              <div className="relative">
                 <input
                   type={showPw ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input pr-20"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 pr-20 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-cyan-400 focus:bg-white focus:ring-4 focus:ring-cyan-100"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-teal-700 hover:text-teal-800"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-cyan-700 transition hover:text-cyan-900"
                 >
                   {showPw ? "Hide" : "Show"}
                 </button>
               </div>
-            </div>
+            </Field>
 
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="btn-primary w-full disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 px-5 py-4 text-base font-semibold text-white shadow-[0_18px_50px_-20px_rgba(59,130,246,0.7)] transition hover:-translate-y-0.5 disabled:opacity-60"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            <div className="flex justify-between text-sm">
+            <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
               <Link
                 to="/forgot-password"
-                className="text-teal-700 hover:underline"
+                className="font-medium text-cyan-700 transition hover:text-cyan-900 hover:underline"
               >
                 Forgot Password?
               </Link>
-              <Link to="/register" className="text-slate-700 hover:underline">
+              <Link
+                to="/register"
+                className="font-medium text-slate-700 transition hover:text-slate-900 hover:underline"
+              >
                 Create account
               </Link>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

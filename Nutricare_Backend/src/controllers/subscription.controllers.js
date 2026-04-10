@@ -4,6 +4,11 @@ import Payment from "../models/payment.model.js";
 import Subscription from "../models/subscription.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import {
+  createRazorpayOrder,
+  getRazorpayCheckoutConfig,
+  verifyRazorpaySignature,
+} from "../services/payment.service.js";
 
 const PLAN_DETAILS = {
   weekly: { amount: 299, label: "Weekly Plan", days: 7 },
@@ -86,6 +91,60 @@ const getActiveSubscriptionConflictMessage = (subscription) =>
     ? `You already have an active subscription until ${new Date(subscription.endDate).toLocaleDateString()}. Upgrade will be available after the current plan ends.`
     : "You already have an active subscription.";
 
+const activateSubscriptionForPayment = async ({ payment, payerAuthId }) => {
+  const plan = getPlanConfig(payment.planType);
+  if (!plan || Number(payment.amount) !== Number(plan.amount)) {
+    throw new ApiError(400, "Payment details do not match the plan");
+  }
+
+  const activeSubscription = await getActiveSubscription(payerAuthId);
+  if (activeSubscription) {
+    throw new ApiError(409, getActiveSubscriptionConflictMessage(activeSubscription));
+  }
+
+  const { validityStart, validityEnd } = buildValidityWindow(payment.planType, null);
+
+  payment.status = "verified";
+  payment.verificationStatus = "verified";
+  payment.verifiedAt = new Date();
+  payment.validityStart = validityStart;
+  payment.validityEnd = validityEnd;
+  await payment.save();
+
+  const subscription = await Subscription.create({
+    patientAuthId: payerAuthId,
+    planType: payment.planType,
+    startDate: validityStart,
+    endDate: validityEnd,
+    status: "active",
+    paymentId: payment._id,
+    paymentIds: [payment._id],
+    totalPaidAmount: Number(payment.amount || 0),
+  });
+
+  const adminAuthId = await getAdminAuthId();
+  if (adminAuthId) {
+    await AdminWalletTransaction.create({
+      adminAuthId,
+      type: "credit_subscription",
+      amount: payment.amount,
+      referenceType: "Payment",
+      referenceId: payment._id,
+      meta: {
+        payerAuthId,
+        planType: payment.planType,
+        transactionId: payment.transactionId,
+      },
+    });
+  }
+
+  return {
+    subscription,
+    payment,
+    remainingDays: getRemainingDays(subscription),
+  };
+};
+
 export const listSubscriptionPlans = async (_req, res) => {
   const plans = Object.entries(PLAN_DETAILS).map(([planType, config]) => ({
     planType,
@@ -107,7 +166,7 @@ export const createMockPaymentIntent = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const { planType, paymentMethod = "mock" } = req.body || {};
+    const { planType, paymentMethod = "razorpay" } = req.body || {};
     const plan = getPlanConfig(planType);
 
     if (!plan) {
@@ -126,22 +185,61 @@ export const createMockPaymentIntent = async (req, res) => {
       planType,
       amount: plan.amount,
       paymentMethod,
-      provider: "mock",
+      provider: "razorpay",
       status: "pending",
       verificationStatus: "unverified",
-      transactionId: `MOCK-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+      transactionId: "",
       meta: {
-        gateway: "mock",
+        gateway: "razorpay",
         planLabel: plan.label,
       },
     });
 
+    const order = await createRazorpayOrder({
+      amount: plan.amount,
+      currency: "INR",
+      receipt: `sub_${String(payment._id).slice(-10)}_${Date.now().toString().slice(-8)}`,
+      notes: {
+        paymentId: String(payment._id),
+        payerAuthId: String(payerAuthId),
+        planType,
+      },
+    });
+
+    payment.status = "created";
+    payment.transactionId = order.id;
+    payment.meta = {
+      ...payment.meta,
+      razorpayOrderId: order.id,
+      amountInSubunits: order.amount,
+      currency: order.currency,
+    };
+    await payment.save();
+
     return res
       .status(201)
-      .json(new ApiResponse(201, payment, "Mock payment initiated"));
+      .json(
+        new ApiResponse(
+          201,
+          {
+            _id: payment._id,
+            amount: payment.amount,
+            currency: order.currency,
+            orderId: order.id,
+            transactionId: order.id,
+            planType: payment.planType,
+            keyId: getRazorpayCheckoutConfig().keyId,
+            gateway: "razorpay",
+          },
+          "Razorpay payment initiated",
+        ),
+      );
   } catch (error) {
     console.error("Error in createMockPaymentIntent:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    const statusCode = error?.statusCode || 500;
+    return res
+      .status(statusCode)
+      .json(new ApiError(statusCode, error.message || "Internal Server Error"));
   }
 };
 
@@ -152,7 +250,12 @@ export const verifyAndActivateSubscription = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const { paymentId, simulateStatus = "success" } = req.body || {};
+    const {
+      paymentId,
+      razorpay_order_id: razorpayOrderId,
+      razorpay_payment_id: razorpayPaymentId,
+      razorpay_signature: razorpaySignature,
+    } = req.body || {};
     if (!paymentId) {
       return res.status(400).json(new ApiError(400, "paymentId is required"));
     }
@@ -180,86 +283,69 @@ export const verifyAndActivateSubscription = async (req, res) => {
       );
     }
 
-    if (simulateStatus !== "success") {
+    if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return res
+        .status(400)
+        .json(new ApiError(400, "Razorpay payment verification details are required"));
+    }
+
+    const expectedOrderId = payment.meta?.razorpayOrderId || payment.transactionId;
+    if (!expectedOrderId || expectedOrderId !== razorpayOrderId) {
       payment.status = "failed";
       payment.verificationStatus = "rejected";
       payment.meta = {
         ...payment.meta,
-        failureReason: "Mock gateway declined the transaction",
+        failureReason: "Razorpay order mismatch",
       };
       await payment.save();
 
-      return res.status(400).json(new ApiError(400, "Mock payment failed"));
+      return res.status(400).json(new ApiError(400, "Razorpay order mismatch"));
     }
 
-    const plan = getPlanConfig(payment.planType);
-    if (!plan || Number(payment.amount) !== Number(plan.amount)) {
-      return res
-        .status(400)
-        .json(new ApiError(400, "Payment details do not match the plan"));
-    }
-
-    const activeSubscription = await getActiveSubscription(payerAuthId);
-    if (activeSubscription) {
-      return res
-        .status(409)
-        .json(new ApiError(409, getActiveSubscriptionConflictMessage(activeSubscription)));
-    }
-
-    const { validityStart, validityEnd } = buildValidityWindow(payment.planType, null);
-
-    payment.status = "verified";
-    payment.verificationStatus = "verified";
-    payment.verifiedAt = new Date();
-    payment.validityStart = validityStart;
-    payment.validityEnd = validityEnd;
-    payment.meta = {
-      ...payment.meta,
-      verifiedBy: "mock-gateway",
-    };
-    await payment.save();
-
-    const subscription = await Subscription.create({
-      patientAuthId: payerAuthId,
-      planType: payment.planType,
-      startDate: validityStart,
-      endDate: validityEnd,
-      status: "active",
-      paymentId: payment._id,
-      paymentIds: [payment._id],
-      totalPaidAmount: Number(payment.amount || 0),
+    const isValidSignature = verifyRazorpaySignature({
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature,
     });
 
-    const adminAuthId = await getAdminAuthId();
-    if (adminAuthId) {
-      await AdminWalletTransaction.create({
-        adminAuthId,
-        type: "credit_subscription",
-        amount: payment.amount,
-        referenceType: "Payment",
-        referenceId: payment._id,
-        meta: {
-          payerAuthId,
-          planType: payment.planType,
-          transactionId: payment.transactionId,
-        },
-      });
+    if (!isValidSignature) {
+      payment.status = "failed";
+      payment.verificationStatus = "rejected";
+      payment.meta = {
+        ...payment.meta,
+        failureReason: "Invalid Razorpay signature",
+      };
+      await payment.save();
+
+      return res.status(400).json(new ApiError(400, "Invalid Razorpay payment signature"));
     }
+
+    payment.transactionId = razorpayPaymentId;
+    payment.meta = {
+      ...payment.meta,
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature,
+      verifiedBy: "razorpay",
+    };
+    const activationResult = await activateSubscriptionForPayment({
+      payment,
+      payerAuthId,
+    });
 
     return res.status(200).json(
       new ApiResponse(
         200,
-        {
-          subscription,
-          payment,
-          remainingDays: getRemainingDays(subscription),
-        },
+        activationResult,
         "Subscription activated successfully",
       ),
     );
   } catch (error) {
     console.error("Error in verifyAndActivateSubscription:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    const statusCode = error?.statusCode || 500;
+    return res
+      .status(statusCode)
+      .json(new ApiError(statusCode, error.message || "Internal Server Error"));
   }
 };
 
@@ -299,15 +385,27 @@ export const purchaseSubscription = async (req, res) => {
       },
     });
 
-    req.body = {
-      paymentId: payment._id,
-      simulateStatus: "success",
+    payment.status = "paid";
+    payment.verificationStatus = "verified";
+    payment.meta = {
+      ...payment.meta,
+      verifiedBy: "legacy-direct-purchase",
     };
 
-    return verifyAndActivateSubscription(req, res);
+    const activationResult = await activateSubscriptionForPayment({
+      payment,
+      payerAuthId,
+    });
+
+    return res.status(200).json(
+      new ApiResponse(200, activationResult, "Subscription activated successfully"),
+    );
   } catch (error) {
     console.error("Error in purchaseSubscription:", error);
-    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    const statusCode = error?.statusCode || 500;
+    return res
+      .status(statusCode)
+      .json(new ApiError(statusCode, error.message || "Internal Server Error"));
   }
 };
 

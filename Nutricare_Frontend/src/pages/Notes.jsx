@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
 import { listMyDoctorNotes } from "../features/notes/notesApi";
+import { useAuth } from "../context/AuthContext";
 
 function InlineAlert({ variant = "info", children }) {
   const styles = {
@@ -22,6 +24,8 @@ function formatDateTime(value) {
 }
 
 export default function Notes() {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
   const [error, setError] = useState("");
@@ -33,7 +37,13 @@ export default function Notes() {
       const res = await listMyDoctorNotes();
       setRows(Array.isArray(res?.data) ? res.data : []);
     } catch (e) {
-      setError(getApiErrorMessage(e));
+      const message = getApiErrorMessage(e);
+      if (e?.response?.status === 401 || e?.response?.status === 403) {
+        await logout();
+        navigate("/login", { replace: true, state: { from: "/notes" } });
+        return;
+      }
+      setError(message);
       setRows([]);
     } finally {
       setLoading(false);

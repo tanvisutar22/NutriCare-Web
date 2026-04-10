@@ -16,6 +16,7 @@ import subscriptionRouter from "./routes/subscription.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import dailyTrackingRouter from "./routes/dailyTracking.routes.js";
 import mealLogRouter from "./routes/mealLog.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 const app = Express();
 
 app.use(
@@ -46,6 +47,7 @@ app.use("/api/v1/doctors", doctorRoutes);
 app.use("/api/v1/doctors", doctorPatientRoutes);
 app.use("/api/v1/doctors", doctorDashboardRoutes);
 
+app.use("/api/payment", paymentRoutes);
 app.use("/api/v1/ai", aiRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 export default app;

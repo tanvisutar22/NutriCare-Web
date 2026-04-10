@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../shared/api/http";
 import {
   bookDoctor,
   getMyAssignedDoctor,
   listApprovedDoctors,
 } from "../features/user/userApi";
+import { useAuth } from "../context/AuthContext";
 
 export default function DoctorBooking() {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [doctors, setDoctors] = useState([]);
@@ -25,6 +29,11 @@ export default function DoctorBooking() {
       setDoctors(Array.isArray(doctorsRes?.data) ? doctorsRes.data : []);
       setAssignedDoctor(assignedRes?.data || null);
     } catch (requestError) {
+      if (requestError?.response?.status === 401 || requestError?.response?.status === 403) {
+        await logout();
+        navigate("/login", { replace: true, state: { from: "/doctor-booking" } });
+        return;
+      }
       setError(getApiErrorMessage(requestError));
     } finally {
       setLoading(false);
@@ -53,9 +62,9 @@ export default function DoctorBooking() {
   return (
     <div className="mx-auto max-w-7xl space-y-8 px-6 py-10">
       <div>
-        <h2 className="text-3xl font-bold text-slate-900">Choose your doctor</h2>
+        <h2 className="text-3xl font-bold text-slate-900">Doctor Consultation</h2>
         <p className="mt-1 text-slate-600">
-          Select only from approved doctors. Booking requires an active subscription and an available doctor slot.
+          Select only from approved doctors. Consultation requires an active subscription and an available doctor slot.
         </p>
       </div>
 

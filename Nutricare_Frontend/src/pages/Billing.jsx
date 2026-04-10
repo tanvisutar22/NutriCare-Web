@@ -1,12 +1,38 @@
 import { useEffect, useMemo, useState } from "react";
 import { getApiErrorMessage } from "../shared/api/http";
 import {
-  createMockPaymentIntent,
+  createSubscriptionPaymentIntent,
   getMySubscription,
   getMySubscriptionHistory,
   getSubscriptionPlans,
-  verifyMockPayment,
+  verifySubscriptionPayment,
 } from "../features/subscriptions/subscriptionsApi";
+
+function loadRazorpayScript() {
+  return new Promise((resolve, reject) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const existingScript = document.querySelector('script[data-razorpay-checkout="true"]');
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(true), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Unable to load Razorpay Checkout.")), {
+        once: true,
+      });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.dataset.razorpayCheckout = "true";
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(new Error("Unable to load Razorpay Checkout."));
+    document.body.appendChild(script);
+  });
+}
 
 function InlineAlert({ variant = "info", children }) {
   const styles = {
@@ -36,18 +62,24 @@ function PlanCard({ plan, onSelect, selected }) {
       className={[
         "rounded-3xl border p-6 text-left shadow-sm transition",
         selected
-          ? "border-emerald-300 bg-emerald-50 shadow-emerald-100"
-          : "border-slate-200 bg-white hover:border-emerald-200",
+          ? "border-cyan-300 bg-[linear-gradient(180deg,rgba(18,48,102,0.98),rgba(10,26,58,0.98))] shadow-[0_0_0_1px_rgba(103,232,249,0.35),0_24px_60px_-30px_rgba(6,182,212,0.6)]"
+          : "border-white/10 bg-[linear-gradient(180deg,rgba(17,34,74,0.92),rgba(10,24,53,0.96))] hover:border-cyan-300/30",
       ].join(" ")}
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+      <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${selected ? "text-cyan-100" : "text-slate-400"}`}>
         {plan.label}
       </p>
-      <h3 className="mt-3 text-3xl font-bold text-slate-900">Rs. {plan.amount}</h3>
-      <p className="mt-2 text-sm text-slate-600">
-        Valid for {plan.durationDays} days with mock verified payment activation.
+      <h3 className={`mt-3 text-3xl font-bold ${selected ? "text-white" : "text-slate-100"}`}>Rs. {plan.amount}</h3>
+      <p className={`mt-2 text-sm ${selected ? "text-slate-200" : "text-slate-300"}`}>
+        Valid for {plan.durationDays} days with secure Razorpay payment activation.
       </p>
-      <div className="mt-5 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+      <div
+        className={`mt-5 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+          selected
+            ? "bg-cyan-300/18 text-cyan-100 ring-1 ring-cyan-300/30"
+            : "bg-white/10 text-slate-200 ring-1 ring-white/10"
+        }`}
+      >
         {plan.planType}
       </div>
     </button>
@@ -60,8 +92,6 @@ export default function Billing() {
   const [subscription, setSubscription] = useState(null);
   const [history, setHistory] = useState({ subscriptions: [], payments: [] });
   const [paymentMethod, setPaymentMethod] = useState("upi");
-  const [gatewayOpen, setGatewayOpen] = useState(false);
-  const [paymentIntent, setPaymentIntent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState("");
@@ -110,33 +140,82 @@ export default function Billing() {
     setError("");
     setSuccess("");
     try {
-      const response = await createMockPaymentIntent({
+      await loadRazorpayScript();
+
+      const response = await createSubscriptionPaymentIntent({
         planType: selectedPlan.planType,
         paymentMethod,
       });
-      setPaymentIntent(response?.data || null);
-      setGatewayOpen(true);
-    } catch (requestError) {
-      setError(getApiErrorMessage(requestError));
-    } finally {
-      setProcessing(false);
-    }
-  };
+      const intent = response?.data || null;
 
-  const confirmPayment = async (simulateStatus) => {
-    if (!paymentIntent?._id) return;
-    setProcessing(true);
-    setError("");
-    setSuccess("");
-    try {
-      const response = await verifyMockPayment({
-        paymentId: paymentIntent._id,
-        simulateStatus,
+      if (!intent?.orderId || !intent?.keyId || !window.Razorpay) {
+        throw new Error("Razorpay order setup failed.");
+      }
+
+      await new Promise((resolve, reject) => {
+        const razorpay = new window.Razorpay({
+          key: intent.keyId,
+          amount: Number(intent.amount) * 100,
+          currency: intent.currency || "INR",
+          name: "NutriCare",
+          description: `${selectedPlan.label} subscription`,
+          order_id: intent.orderId,
+          config: {
+            display: {
+              blocks: {
+                upi_first: {
+                  name: "Pay via UPI",
+                  instruments: [
+                    {
+                      method: "upi",
+                    },
+                  ],
+                },
+              },
+              sequence: ["block.upi_first"],
+              preferences: {
+                show_default_blocks: true,
+              },
+            },
+          },
+          handler: async (gatewayResponse) => {
+            try {
+              const verifyResponse = await verifySubscriptionPayment({
+                paymentId: intent._id,
+                ...gatewayResponse,
+              });
+              setSuccess(
+                verifyResponse?.message || "Premium plan updated successfully.",
+              );
+              await load();
+              resolve(verifyResponse);
+            } catch (requestError) {
+              reject(requestError);
+            }
+          },
+          modal: {
+            ondismiss: () => reject(new Error("Payment cancelled.")),
+          },
+          prefill: {},
+          notes: {
+            paymentId: intent._id,
+            planType: selectedPlan.planType,
+          },
+          theme: {
+            color: "#0f766e",
+          },
+        });
+
+        razorpay.on("payment.failed", (event) => {
+          const reason =
+            event?.error?.description ||
+            event?.error?.reason ||
+            "Payment failed. Please try again.";
+          reject(new Error(reason));
+        });
+
+        razorpay.open();
       });
-      setSuccess(response?.message || "Premium plan updated successfully.");
-      setGatewayOpen(false);
-      setPaymentIntent(null);
-      await load();
     } catch (requestError) {
       setError(getApiErrorMessage(requestError));
     } finally {
@@ -153,7 +232,7 @@ export default function Billing() {
           </div>
           <h2 className="mt-3 text-3xl font-bold text-slate-900">Upgrade to Premium</h2>
           <p className="mt-2 max-w-2xl text-slate-600">
-            Unlock doctor access, advanced review flows, and a structured mock
+            Unlock doctor access, advanced review flows, and a secure Razorpay
             payment experience with proper subscription history.
           </p>
         </div>
@@ -215,9 +294,9 @@ export default function Billing() {
           </div>
 
           <div className="card">
-            <h3 className="text-lg font-semibold text-slate-900">Mock payment gateway</h3>
+            <h3 className="text-lg font-semibold text-slate-900">Razorpay payment gateway</h3>
             <p className="mt-1 text-sm text-slate-600">
-              This simulates a real payment step before backend verification activates your subscription.
+              Your payment is completed in Razorpay Checkout and then verified on the backend before activating your subscription.
             </p>
 
             <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -249,10 +328,10 @@ export default function Billing() {
                 onClick={openGateway}
                 disabled={processing || !selectedPlan || hasActiveSubscription}
               >
-                {processing ? "Preparing..." : "Pay Now"}
+                {processing ? "Opening Razorpay..." : "Pay with Razorpay"}
               </button>
               <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                Backend verification happens after mock success.
+                Backend verification happens automatically after successful Razorpay payment.
               </div>
             </div>
           </div>
@@ -311,67 +390,6 @@ export default function Billing() {
           </div>
         </div>
       </div>
-
-      {gatewayOpen && paymentIntent ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/35 px-4">
-          <div className="w-full max-w-xl rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h3 className="text-xl font-semibold text-slate-900">Mock Payment Gateway</h3>
-                <p className="mt-1 text-sm text-slate-600">
-                  Review the plan, payment method, and confirm mock verification.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="rounded-2xl border border-slate-200 px-3 py-2 text-sm text-slate-600"
-                onClick={() => setGatewayOpen(false)}
-                disabled={processing}
-              >
-                Close
-              </button>
-            </div>
-
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs text-slate-500">Plan</div>
-                <div className="mt-1 font-semibold text-slate-900">{selectedPlan?.label}</div>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs text-slate-500">Amount</div>
-                <div className="mt-1 font-semibold text-slate-900">Rs. {paymentIntent.amount}</div>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs text-slate-500">Payment method</div>
-                <div className="mt-1 font-semibold capitalize text-slate-900">{paymentMethod}</div>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs text-slate-500">Transaction ID</div>
-                <div className="mt-1 font-semibold text-slate-900">{paymentIntent.transactionId}</div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => confirmPayment("success")}
-                disabled={processing}
-              >
-                {processing ? "Verifying..." : "Simulate Success"}
-              </button>
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => confirmPayment("failed")}
-                disabled={processing}
-              >
-                Simulate Failure
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

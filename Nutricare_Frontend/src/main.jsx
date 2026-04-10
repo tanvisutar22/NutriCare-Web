@@ -19,8 +19,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             toastOptions={{
               style: {
                 borderRadius: "12px",
-                background: "#ffffff",
-                color: "#0f172a",
+                background: "rgba(8, 20, 45, 0.96)",
+                color: "#e2e8f0",
+                border: "1px solid rgba(148, 163, 184, 0.12)",
+                backdropFilter: "blur(12px)",
               },
             }}
           />

@@ -1,103 +1,486 @@
 id,foodName,category,calories,protein,carbs,fat,foodPreference,allergens,medicalTags
 1,Almond Milk,breakfast,40,1.5,2.0,3.0,veg,tree_nuts,diabetes;hypertension;heart_disease;obesity;pcos
 2,Aloo Gobi,lunch,180,4.0,18.0,9.0,veg,,hypertension;heart_disease
-3,Apple,breakfast,95,0.5,25.0,0.3,veg,,diabetes;hypertension;heart_disease;obesity;gastritis;kidney_disease
-4,Avocado Toast,breakfast,220,6.0,24.0,11.0,veg,gluten,diabetes;heart_disease;pcos
-5,Banana,breakfast,105,1.3,27.0,0.4,veg,,hypertension;heart_disease;anemia;gastritis
-6,Berry Smoothie,breakfast,160,6.0,28.0,3.0,veg,milk,hypertension;heart_disease;obesity
-7,Bhindi Fry,lunch,170,3.0,12.0,12.0,veg,,diabetes;heart_disease;pcos
-8,Boiled Egg,breakfast,78,6.3,0.6,5.3,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
-9,Broccoli Stir Fry,lunch,120,4.0,10.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
-10,Brown Bread Sandwich,breakfast,240,9.0,34.0,8.0,veg,gluten,heart_disease;obesity
-11,Brown Rice,lunch,216,5.0,45.0,1.8,veg,,diabetes;heart_disease;obesity
-12,Chia Pudding,breakfast,210,7.0,18.0,12.0,veg,milk,diabetes;heart_disease;obesity;pcos
-13,Chicken Biryani,dinner,420,20.0,45.0,17.0,nonveg,,anemia
-14,Chicken Curry,lunch,310,27.0,10.0,18.0,nonveg,,pcos;anemia;thyroid_disorder
-15,Chicken Kebab,dinner,280,26.0,5.0,17.0,nonveg,,obesity;pcos;anemia
-16,Chicken Pulao,dinner,390,18.0,43.0,15.0,nonveg,,anemia
-17,Chicken Sandwich,dinner,320,25.0,28.0,11.0,nonveg,gluten,pcos
-18,Chicken Soup,dinner,150,15.0,8.0,6.0,nonveg,,gastritis;obesity;anemia
-19,Chicken Tikka,dinner,260,27.0,6.0,14.0,nonveg,milk,obesity;pcos;anemia
-20,Chole,lunch,280,12.0,36.0,9.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
-21,Cornflakes,breakfast,140,3.0,31.0,0.4,veg,,
-22,Cucumber Salad,lunch,60,2.0,8.0,2.0,veg,,diabetes;hypertension;heart_disease;obesity;gastritis;kidney_disease
-23,Curd,breakfast,98,5.0,7.0,4.0,veg,milk,hypertension;heart_disease;gastritis;thyroid_disorder
-24,Dal Fry,lunch,230,11.0,24.0,10.0,veg,,diabetes;heart_disease;pcos;anemia
-25,Dal Tadka,lunch,220,11.0,22.0,9.0,veg,,diabetes;heart_disease;pcos;anemia
-26,Dosa,breakfast,170,4.0,28.0,4.0,veg,,gastritis
-27,Egg Curry,lunch,260,13.0,6.0,19.0,eggetarian,eggs,pcos;anemia;thyroid_disorder
-28,Egg Fried Rice,dinner,340,11.0,42.0,14.0,eggetarian,eggs,anemia
-29,Energy Bar,breakfast,220,10.0,24.0,9.0,veg,,
-30,Falafel,dinner,290,11.0,31.0,13.0,veg,,diabetes;heart_disease;pcos;anemia
-31,Fish Curry,lunch,280,24.0,8.0,16.0,nonveg,seafood,heart_disease;thyroid_disorder;anemia
-32,Fish Fry,dinner,300,23.0,10.0,18.0,nonveg,seafood,thyroid_disorder;anemia
-33,French Fries,dinner,365,4.0,48.0,17.0,veg,,
-34,Fried Rice,dinner,330,8.0,50.0,11.0,veg,,
-35,Fruit Salad,breakfast,110,2.0,27.0,0.5,veg,,hypertension;heart_disease;obesity
-36,Granola,breakfast,220,6.0,32.0,8.0,veg,,heart_disease
-37,Greek Yogurt,breakfast,120,17.0,7.0,4.0,veg,milk,diabetes;heart_disease;obesity;pcos;gastritis
-38,Grilled Chicken Breast,dinner,220,35.0,0.0,5.0,nonveg,,diabetes;heart_disease;obesity;pcos;anemia
-39,Grilled Fish,dinner,200,28.0,0.0,8.0,nonveg,seafood,diabetes;heart_disease;obesity;thyroid_disorder;anemia
-40,Hummus,lunch,166,8.0,14.0,9.0,veg,,diabetes;heart_disease;obesity;pcos
-41,Idli,breakfast,140,5.0,30.0,1.0,veg,,gastritis;hypertension
-42,Jeera Rice,lunch,240,4.0,41.0,6.0,veg,,gastritis
-43,Khichdi,lunch,220,8.0,34.0,6.0,veg,,gastritis;hypertension;kidney_disease
-44,Lasagna,dinner,360,18.0,30.0,18.0,veg,gluten;milk,
-45,Lentil Soup,lunch,180,12.0,24.0,4.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
-46,Macaroni,dinner,300,10.0,54.0,4.0,veg,gluten,
-47,Mango,breakfast,99,1.4,25.0,0.6,veg,,anemia;heart_disease
-48,Mango Smoothie,breakfast,220,8.0,35.0,6.0,veg,milk,
-49,Mashed Potato,dinner,210,4.0,32.0,8.0,veg,milk,gastritis
-50,Milk,breakfast,103,8.0,12.0,2.4,veg,milk,gastritis;anemia;thyroid_disorder
-51,Millet Khichdi,lunch,230,8.0,36.0,6.0,veg,,diabetes;heart_disease;obesity;pcos;gastritis
-52,Mixed Veg Sabzi,lunch,160,5.0,18.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
-53,Mushroom Soup,lunch,120,4.0,12.0,6.0,veg,,heart_disease;obesity;gastritis
-54,Naan,dinner,260,8.0,45.0,6.0,veg,gluten,
-55,Noodles,dinner,320,8.0,52.0,8.0,veg,gluten,
-56,Oats,breakfast,150,5.0,27.0,3.0,veg,,diabetes;heart_disease;obesity;pcos;gastritis
-57,Omelette,breakfast,180,12.0,2.0,13.0,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
-58,Orange,breakfast,62,1.2,15.0,0.2,veg,,hypertension;heart_disease;anemia
-59,Palak Paneer,lunch,290,14.0,10.0,22.0,veg,milk,diabetes;heart_disease;pcos;anemia
-60,Paneer Bhurji,lunch,270,17.0,8.0,19.0,veg,milk,diabetes;pcos;anemia
-61,Paneer Butter Masala,dinner,350,13.0,12.0,28.0,veg,milk,anemia
-62,Paneer Sandwich,breakfast,310,14.0,30.0,15.0,veg,gluten;milk,pcos
-63,Paneer Tikka,dinner,260,18.0,8.0,16.0,veg,milk,diabetes;obesity;pcos;anemia
-64,Papaya,breakfast,59,1.0,15.0,0.4,veg,,heart_disease;obesity;gastritis
-65,Paratha,dinner,300,7.0,38.0,12.0,veg,gluten,
-66,Pasta,dinner,310,11.0,55.0,5.0,veg,gluten,
-67,Peanut Butter Toast,breakfast,280,10.0,24.0,16.0,veg,gluten;peanuts,diabetes;heart_disease;obesity;pcos
-68,Peanut Chaat,breakfast,250,11.0,16.0,16.0,veg,peanuts,diabetes;heart_disease;obesity;pcos;anemia
-69,Pita Bread,lunch,170,6.0,35.0,1.0,veg,gluten,
-70,Poha,breakfast,250,6.0,40.0,7.0,veg,,anemia;gastritis
-71,Prawn Curry,dinner,290,22.0,8.0,18.0,nonveg,seafood,thyroid_disorder;anemia
-72,Protein Shake,breakfast,160,24.0,8.0,3.0,veg,,obesity;pcos
-73,Quinoa,lunch,222,8.0,39.0,3.6,veg,,diabetes;heart_disease;obesity;pcos;anemia
-74,Rajma,lunch,265,13.0,35.0,7.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
-75,Ramen,dinner,380,10.0,52.0,14.0,veg,gluten;soy,
-76,Roasted Chickpeas,breakfast,180,9.0,27.0,4.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
-77,Roasted Peanuts,breakfast,170,7.0,6.0,14.0,veg,peanuts,diabetes;heart_disease;obesity;pcos;anemia
-78,Roti,lunch,120,4.0,22.0,1.5,veg,gluten,diabetes;heart_disease;obesity
-79,Salad,lunch,90,3.0,10.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;kidney_disease
-80,Sambar,lunch,140,6.0,18.0,4.0,veg,,diabetes;heart_disease;obesity;pcos
-81,Scrambled Eggs,breakfast,182,12.0,2.0,14.0,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
-82,Seekh Kebab,dinner,320,22.0,6.0,22.0,nonveg,,obesity;pcos;anemia
-83,Soy Milk,breakfast,100,7.0,4.0,4.0,veg,soy,diabetes;heart_disease;obesity;pcos
-84,Spaghetti,dinner,300,10.0,57.0,3.0,veg,gluten,
-85,Sprouts Salad,lunch,140,10.0,20.0,2.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
-86,Steamed Vegetables,dinner,80,4.0,14.0,1.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis;kidney_disease
-87,Sweet Potato,breakfast,112,2.0,26.0,0.1,veg,,diabetes;heart_disease;obesity
-88,Tofu Stir Fry,dinner,210,14.0,12.0,12.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
-89,Tomato Salad,lunch,70,2.0,9.0,3.0,veg,,diabetes;heart_disease;obesity
-90,Tomato Soup,lunch,90,2.0,16.0,2.0,veg,,heart_disease;obesity
-91,Tortilla Wrap,dinner,280,10.0,35.0,9.0,veg,gluten,
-92,Trail Mix,breakfast,220,6.0,18.0,14.0,veg,peanuts;tree_nuts,heart_disease;obesity;anemia
-93,Upma,breakfast,230,6.0,38.0,6.0,veg,gluten,gastritis
-94,Veg Burger,dinner,340,10.0,42.0,14.0,veg,gluten,
-95,Veg Momos,dinner,250,8.0,38.0,6.0,veg,gluten,
-96,Veg Pizza,dinner,320,12.0,36.0,14.0,veg,gluten;milk,
-97,Vegetable Curry,lunch,190,5.0,16.0,10.0,veg,,diabetes;heart_disease;obesity;pcos
-98,Vegetable Pulao,dinner,300,6.0,46.0,9.0,veg,,heart_disease
-99,Vegetable Sandwich,breakfast,260,8.0,34.0,9.0,veg,gluten,heart_disease;obesity
-100,Vegetable Soup,lunch,110,4.0,16.0,3.0,veg,,hypertension;heart_disease;obesity;gastritis;kidney_disease
-101,Whey Protein Shake,breakfast,140,25.0,4.0,2.0,veg,milk,obesity;pcos
-102,White Rice,dinner,205,4.0,45.0,0.4,veg,,gastritis;kidney_disease
+3,Amaranth Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+4,Amaranth Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+5,Amaranth Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+6,Amaranth Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+7,Amaranth Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+8,Amla Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+9,Amla Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+10,Amla Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+11,Amla Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+12,Amla Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+13,Apple,breakfast,95,0.5,25.0,0.3,veg,,diabetes;hypertension;heart_disease;obesity;gastritis;kidney_disease
+14,Apricot Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+15,Apricot Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+16,Apricot Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+17,Apricot Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+18,Apricot Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+19,Artichoke Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+20,Artichoke Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+21,Artichoke Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+22,Artichoke Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+23,Artichoke Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+24,Asparagus Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+25,Asparagus Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+26,Asparagus Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+27,Asparagus Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+28,Asparagus Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+29,Avocado Toast,breakfast,220,6.0,24.0,11.0,veg,gluten,diabetes;heart_disease;pcos
+30,Bajra Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+31,Bajra Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+32,Bajra Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+33,Bajra Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+34,Bajra Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+35,Banana,breakfast,105,1.3,27.0,0.4,veg,,hypertension;heart_disease;anemia;gastritis
+36,Barley Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+37,Barley Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+38,Barley Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+39,Barley Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+40,Barley Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+41,Beetroot Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+42,Beetroot Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+43,Beetroot Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+44,Beetroot Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia;gastritis
+45,Beetroot Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+46,Berry Smoothie,breakfast,160,6.0,28.0,3.0,veg,milk,hypertension;heart_disease;obesity
+47,Bhindi Fry,lunch,170,3.0,12.0,12.0,veg,,diabetes;heart_disease;pcos
+48,Blackberry Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+49,Blackberry Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+50,Blackberry Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+51,Blackberry Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+52,Blackberry Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+53,Boiled Egg,breakfast,78,6.3,0.6,5.3,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
+54,Bottle Gourd Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia;gastritis
+55,Bottle Gourd Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+56,Bottle Gourd Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+57,Bottle Gourd Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+58,Bottle Gourd Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+59,Broccoli Stir Fry,lunch,120,4.0,10.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+60,Broccolini Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+61,Broccolini Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+62,Broccolini Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+63,Broccolini Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+64,Broccolini Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+65,Brown Bread Sandwich,breakfast,240,9.0,34.0,8.0,veg,gluten,heart_disease;obesity
+66,Brown Rice,lunch,216,5.0,45.0,1.8,veg,,diabetes;heart_disease;obesity
+67,Buckwheat Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+68,Buckwheat Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+69,Buckwheat Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+70,Buckwheat Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+71,Buckwheat Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+72,Cabbage Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+73,Cabbage Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+74,Cabbage Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+75,Cabbage Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+76,Cabbage Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+77,Cannellini Bean Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+78,Cannellini Bean Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+79,Cannellini Bean Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+80,Cannellini Bean Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+81,Cannellini Bean Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+82,Carrot Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+83,Carrot Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+84,Carrot Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+85,Carrot Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+86,Carrot Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+87,Cauliflower Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+88,Cauliflower Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+89,Cauliflower Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+90,Cauliflower Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+91,Cauliflower Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+92,Celery Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+93,Celery Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+94,Celery Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+95,Celery Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+96,Celery Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+97,Cherry Tomato Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+98,Cherry Tomato Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+99,Cherry Tomato Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+100,Cherry Tomato Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+101,Cherry Tomato Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+102,Chia Pudding,breakfast,210,7.0,18.0,12.0,veg,milk,diabetes;heart_disease;obesity;pcos
+103,Chicken Biryani,dinner,420,20.0,45.0,17.0,nonveg,,anemia
+104,Chicken Curry,lunch,310,27.0,10.0,18.0,nonveg,,pcos;anemia;thyroid_disorder
+105,Chicken Kebab,dinner,280,26.0,5.0,17.0,nonveg,,obesity;pcos;anemia
+106,Chicken Pulao,dinner,390,18.0,43.0,15.0,nonveg,,anemia
+107,Chicken Sandwich,dinner,320,25.0,28.0,11.0,nonveg,gluten,pcos
+108,Chicken Soup,dinner,150,15.0,8.0,6.0,nonveg,,gastritis;obesity;anemia
+109,Chicken Tikka,dinner,260,27.0,6.0,14.0,nonveg,milk,obesity;pcos;anemia
+110,Chickpea Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+111,Chickpea Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+112,Chickpea Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+113,Chickpea Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+114,Chickpea Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+115,Chole,lunch,280,12.0,36.0,9.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+116,Cornflakes,breakfast,140,3.0,31.0,0.4,veg,,
+117,Cranberry Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+118,Cranberry Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+119,Cranberry Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+120,Cranberry Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+121,Cranberry Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+122,Cucumber Salad,lunch,60,2.0,8.0,2.0,veg,,diabetes;hypertension;heart_disease;obesity;gastritis;kidney_disease
+123,Curd,breakfast,98,5.0,7.0,4.0,veg,milk,hypertension;heart_disease;gastritis;thyroid_disorder
+124,Dal Fry,lunch,230,11.0,24.0,10.0,veg,,diabetes;heart_disease;pcos;anemia
+125,Dal Tadka,lunch,220,11.0,22.0,9.0,veg,,diabetes;heart_disease;pcos;anemia
+126,Date Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+127,Date Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+128,Date Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+129,Date Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+130,Date Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+131,Dosa,breakfast,170,4.0,28.0,4.0,veg,,gastritis
+132,Dragon Fruit Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+133,Dragon Fruit Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+134,Dragon Fruit Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+135,Dragon Fruit Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+136,Dragon Fruit Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+137,Drumstick Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+138,Drumstick Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+139,Drumstick Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+140,Drumstick Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+141,Drumstick Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+142,Edamame Curry,lunch,262.0,15.0,30.0,13.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
+143,Edamame Pilaf,dinner,302.0,13.0,50.0,8.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
+144,Edamame Salad,lunch,182.0,10.0,26.0,8.0,veg,soy,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+145,Edamame Soup,lunch,152.0,11.0,24.0,5.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+146,Edamame Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten;soy,diabetes;heart_disease;obesity;pcos;anemia
+147,Egg Curry,lunch,260,13.0,6.0,19.0,eggetarian,eggs,pcos;anemia;thyroid_disorder
+148,Egg Fried Rice,dinner,340,11.0,42.0,14.0,eggetarian,eggs,anemia
+149,Eggplant Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+150,Eggplant Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+151,Eggplant Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+152,Eggplant Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+153,Eggplant Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+154,Energy Bar,breakfast,220,10.0,24.0,9.0,veg,,
+155,Falafel,dinner,290,11.0,31.0,13.0,veg,,diabetes;heart_disease;pcos;anemia
+156,Farro Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,gluten,diabetes;heart_disease;obesity;pcos
+157,Farro Pilaf,dinner,298.0,10.0,50.0,8.0,veg,gluten,diabetes;heart_disease;obesity
+158,Farro Porridge,breakfast,208.0,8.0,40.0,6.0,veg,gluten,diabetes;heart_disease;obesity;gastritis
+159,Farro Salad,lunch,178.0,7.0,26.0,8.0,veg,gluten,diabetes;hypertension;heart_disease;obesity;pcos
+160,Farro Soup,lunch,148.0,8.0,24.0,5.0,veg,gluten,diabetes;heart_disease;obesity;gastritis
+161,Fennel Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+162,Fennel Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+163,Fennel Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+164,Fennel Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+165,Fennel Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+166,Fig Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+167,Fig Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+168,Fig Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+169,Fig Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+170,Fig Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+171,Fish Curry,lunch,280,24.0,8.0,16.0,nonveg,seafood,heart_disease;thyroid_disorder;anemia
+172,Fish Fry,dinner,300,23.0,10.0,18.0,nonveg,seafood,thyroid_disorder;anemia
+173,Flaxseed Breakfast Bowl,breakfast,238.0,10.0,34.0,11.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+174,Flaxseed Chia Cup,breakfast,233.0,10.0,26.0,14.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+175,Flaxseed Fruit Salad,breakfast,148.0,5.0,31.0,6.0,veg,,hypertension;heart_disease;obesity;anemia;gastritis
+176,Flaxseed Porridge,breakfast,218.0,9.0,35.0,10.0,veg,,diabetes;heart_disease;obesity;anemia;gastritis
+177,Flaxseed Smoothie,breakfast,208.0,8.0,32.0,9.0,veg,milk,hypertension;heart_disease;obesity;anemia
+178,Foxnut Breakfast Bowl,breakfast,238.0,10.0,34.0,11.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+179,Foxnut Chia Cup,breakfast,233.0,10.0,26.0,14.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+180,Foxnut Fruit Salad,breakfast,148.0,5.0,31.0,6.0,veg,,hypertension;heart_disease;obesity;anemia;gastritis
+181,Foxnut Porridge,breakfast,218.0,9.0,35.0,10.0,veg,,diabetes;heart_disease;obesity;anemia;gastritis
+182,Foxnut Smoothie,breakfast,208.0,8.0,32.0,9.0,veg,milk,hypertension;heart_disease;obesity;anemia
+183,French Fries,dinner,365,4.0,48.0,17.0,veg,,
+184,Fried Rice,dinner,330,8.0,50.0,11.0,veg,,
+185,Fruit Salad,breakfast,110,2.0,27.0,0.5,veg,,hypertension;heart_disease;obesity
+186,Garbanzo Bean Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+187,Garbanzo Bean Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+188,Garbanzo Bean Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+189,Garbanzo Bean Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+190,Garbanzo Bean Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+191,Granola,breakfast,220,6.0,32.0,8.0,veg,,heart_disease
+192,Greek Yogurt,breakfast,120,17.0,7.0,4.0,veg,milk,diabetes;heart_disease;obesity;pcos;gastritis
+193,Green Apple Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+194,Green Apple Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+195,Green Apple Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+196,Green Apple Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+197,Green Apple Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+198,Green Pea Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+199,Green Pea Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+200,Green Pea Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+201,Green Pea Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+202,Green Pea Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+203,Grilled Chicken Breast,dinner,220,35.0,0.0,5.0,nonveg,,diabetes;heart_disease;obesity;pcos;anemia
+204,Grilled Fish,dinner,200,28.0,0.0,8.0,nonveg,seafood,diabetes;heart_disease;obesity;thyroid_disorder;anemia
+205,Guava Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+206,Guava Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+207,Guava Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+208,Guava Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+209,Guava Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+210,Hummus,lunch,166,8.0,14.0,9.0,veg,,diabetes;heart_disease;obesity;pcos
+211,Idli,breakfast,140,5.0,30.0,1.0,veg,,gastritis;hypertension
+212,Jackfruit Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+213,Jackfruit Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+214,Jackfruit Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+215,Jackfruit Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+216,Jackfruit Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+217,Jeera Rice,lunch,240,4.0,41.0,6.0,veg,,gastritis
+218,Jowar Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+219,Jowar Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+220,Jowar Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+221,Jowar Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+222,Jowar Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+223,Kale Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+224,Kale Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+225,Kale Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+226,Kale Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+227,Kale Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+228,Khichdi,lunch,220,8.0,34.0,6.0,veg,,gastritis;hypertension;kidney_disease
+229,Kidney Bean Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+230,Kidney Bean Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+231,Kidney Bean Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+232,Kidney Bean Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+233,Kidney Bean Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+234,Kiwi Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+235,Kiwi Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+236,Kiwi Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+237,Kiwi Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+238,Kiwi Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+239,Kohlrabi Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+240,Kohlrabi Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+241,Kohlrabi Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+242,Kohlrabi Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+243,Kohlrabi Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+244,Lasagna,dinner,360,18.0,30.0,18.0,veg,gluten;milk,
+245,Lauki Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia;gastritis
+246,Lauki Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+247,Lauki Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+248,Lauki Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+249,Lauki Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+250,Leek Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+251,Leek Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+252,Leek Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+253,Leek Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+254,Leek Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+255,Lentil Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+256,Lentil Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+257,Lentil Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+258,Lentil Soup,lunch,180,12.0,24.0,4.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+259,Lentil Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+260,Lettuce Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+261,Lettuce Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+262,Lettuce Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+263,Lettuce Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+264,Lettuce Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+265,Lychee Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+266,Lychee Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+267,Lychee Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+268,Lychee Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+269,Lychee Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+270,Macaroni,dinner,300,10.0,54.0,4.0,veg,gluten,
+271,Makhana Breakfast Bowl,breakfast,238.0,10.0,34.0,11.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+272,Makhana Chia Cup,breakfast,233.0,10.0,26.0,14.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+273,Makhana Fruit Salad,breakfast,148.0,5.0,31.0,6.0,veg,,hypertension;heart_disease;obesity;anemia;gastritis
+274,Makhana Porridge,breakfast,218.0,9.0,35.0,10.0,veg,,diabetes;heart_disease;obesity;anemia;gastritis
+275,Makhana Smoothie,breakfast,208.0,8.0,32.0,9.0,veg,milk,hypertension;heart_disease;obesity;anemia
+276,Mango,breakfast,99,1.4,25.0,0.6,veg,,anemia;heart_disease
+277,Mango Smoothie,breakfast,220,8.0,35.0,6.0,veg,milk,
+278,Mashed Potato,dinner,210,4.0,32.0,8.0,veg,milk,gastritis
+279,Milk,breakfast,103,8.0,12.0,2.4,veg,milk,gastritis;anemia;thyroid_disorder
+280,Millet Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+281,Millet Khichdi,lunch,230,8.0,36.0,6.0,veg,,diabetes;heart_disease;obesity;pcos;gastritis
+282,Millet Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+283,Millet Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+284,Millet Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+285,Millet Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+286,Mixed Veg Sabzi,lunch,160,5.0,18.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+287,Mushroom Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+288,Mushroom Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+289,Mushroom Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+290,Mushroom Soup,lunch,120,4.0,12.0,6.0,veg,,heart_disease;obesity;gastritis
+291,Mushroom Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+292,Naan,dinner,260,8.0,45.0,6.0,veg,gluten,
+293,Navy Bean Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+294,Navy Bean Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+295,Navy Bean Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+296,Navy Bean Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+297,Navy Bean Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+298,Nectarine Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+299,Nectarine Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+300,Nectarine Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+301,Nectarine Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+302,Nectarine Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+303,Noodles,dinner,320,8.0,52.0,8.0,veg,gluten,
+304,Oat Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+305,Oat Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+306,Oat Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+307,Oat Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+308,Oat Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+309,Oats,breakfast,150,5.0,27.0,3.0,veg,,diabetes;heart_disease;obesity;pcos;gastritis
+310,Okra Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+311,Okra Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+312,Okra Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+313,Okra Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+314,Okra Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+315,Olive Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+316,Olive Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+317,Olive Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+318,Olive Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+319,Olive Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+320,Omelette,breakfast,180,12.0,2.0,13.0,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
+321,Orange,breakfast,62,1.2,15.0,0.2,veg,,hypertension;heart_disease;anemia
+322,Orange Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+323,Orange Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+324,Orange Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+325,Orange Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+326,Orange Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+327,Palak Paneer,lunch,290,14.0,10.0,22.0,veg,milk,diabetes;heart_disease;pcos;anemia
+328,Paneer Bhurji,lunch,270,17.0,8.0,19.0,veg,milk,diabetes;pcos;anemia
+329,Paneer Butter Masala,dinner,350,13.0,12.0,28.0,veg,milk,anemia
+330,Paneer Sandwich,breakfast,310,14.0,30.0,15.0,veg,gluten;milk,pcos
+331,Paneer Tikka,dinner,260,18.0,8.0,16.0,veg,milk,diabetes;obesity;pcos;anemia
+332,Papaya,breakfast,59,1.0,15.0,0.4,veg,,heart_disease;obesity;gastritis
+333,Papaya Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+334,Papaya Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+335,Papaya Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+336,Papaya Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+337,Papaya Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+338,Paratha,dinner,300,7.0,38.0,12.0,veg,gluten,
+339,Pasta,dinner,310,11.0,55.0,5.0,veg,gluten,
+340,Peanut Butter Toast,breakfast,280,10.0,24.0,16.0,veg,gluten;peanuts,diabetes;heart_disease;obesity;pcos
+341,Peanut Chaat,breakfast,250,11.0,16.0,16.0,veg,peanuts,diabetes;heart_disease;obesity;pcos;anemia
+342,Pear Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+343,Pear Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+344,Pear Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+345,Pear Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+346,Pear Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+347,Pinto Bean Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+348,Pinto Bean Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+349,Pinto Bean Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+350,Pinto Bean Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+351,Pinto Bean Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+352,Pistachio Breakfast Bowl,breakfast,238.0,10.0,34.0,11.0,veg,tree_nuts,diabetes;heart_disease;obesity;pcos;anemia
+353,Pistachio Chia Cup,breakfast,233.0,10.0,26.0,14.0,veg,tree_nuts,diabetes;heart_disease;obesity;pcos;anemia
+354,Pistachio Fruit Salad,breakfast,148.0,5.0,31.0,6.0,veg,tree_nuts,hypertension;heart_disease;obesity;anemia;gastritis
+355,Pistachio Porridge,breakfast,218.0,9.0,35.0,10.0,veg,tree_nuts,diabetes;heart_disease;obesity;anemia;gastritis
+356,Pistachio Smoothie,breakfast,208.0,8.0,32.0,9.0,veg,milk;tree_nuts,hypertension;heart_disease;obesity;anemia
+357,Pita Bread,lunch,170,6.0,35.0,1.0,veg,gluten,
+358,Poha,breakfast,250,6.0,40.0,7.0,veg,,anemia;gastritis
+359,Pomegranate Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+360,Pomegranate Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+361,Pomegranate Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+362,Pomegranate Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+363,Pomegranate Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+364,Prawn Curry,dinner,290,22.0,8.0,18.0,nonveg,seafood,thyroid_disorder;anemia
+365,Protein Shake,breakfast,160,24.0,8.0,3.0,veg,,obesity;pcos
+366,Pumpkin Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+367,Pumpkin Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+368,Pumpkin Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+369,Pumpkin Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+370,Pumpkin Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+371,Quinoa,lunch,222,8.0,39.0,3.6,veg,,diabetes;heart_disease;obesity;pcos;anemia
+372,Quinoa Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+373,Quinoa Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+374,Quinoa Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+375,Quinoa Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+376,Quinoa Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+377,Radish Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+378,Radish Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+379,Radish Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+380,Radish Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+381,Radish Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+382,Rajma,lunch,265,13.0,35.0,7.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+383,Ramen,dinner,380,10.0,52.0,14.0,veg,gluten;soy,
+384,Raspberry Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+385,Raspberry Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+386,Raspberry Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+387,Raspberry Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+388,Raspberry Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+389,Red Lentil Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+390,Red Lentil Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+391,Red Lentil Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+392,Red Lentil Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+393,Red Lentil Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+394,Ridge Gourd Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+395,Ridge Gourd Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+396,Ridge Gourd Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+397,Ridge Gourd Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+398,Ridge Gourd Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+399,Roasted Chickpeas,breakfast,180,9.0,27.0,4.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+400,Roasted Peanuts,breakfast,170,7.0,6.0,14.0,veg,peanuts,diabetes;heart_disease;obesity;pcos;anemia
+401,Roti,lunch,120,4.0,22.0,1.5,veg,gluten,diabetes;heart_disease;obesity
+402,Salad,lunch,90,3.0,10.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;kidney_disease
+403,Sambar,lunch,140,6.0,18.0,4.0,veg,,diabetes;heart_disease;obesity;pcos
+404,Scrambled Eggs,breakfast,182,12.0,2.0,14.0,eggetarian,eggs,diabetes;obesity;pcos;thyroid_disorder;anemia
+405,Seekh Kebab,dinner,320,22.0,6.0,22.0,nonveg,,obesity;pcos;anemia
+406,Soy Milk,breakfast,100,7.0,4.0,4.0,veg,soy,diabetes;heart_disease;obesity;pcos
+407,Spaghetti,dinner,300,10.0,57.0,3.0,veg,gluten,
+408,Spinach Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+409,Spinach Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+410,Spinach Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+411,Spinach Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia;gastritis
+412,Spinach Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+413,Sprouts Salad,lunch,140,10.0,20.0,2.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+414,Steamed Vegetables,dinner,80,4.0,14.0,1.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis;kidney_disease
+415,Strawberry Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+416,Strawberry Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+417,Strawberry Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+418,Strawberry Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+419,Strawberry Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+420,Sweet Corn Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,,diabetes;heart_disease;obesity;pcos
+421,Sweet Corn Pilaf,dinner,298.0,10.0,50.0,8.0,veg,,diabetes;heart_disease;obesity
+422,Sweet Corn Porridge,breakfast,208.0,8.0,40.0,6.0,veg,,diabetes;heart_disease;obesity;gastritis
+423,Sweet Corn Salad,lunch,178.0,7.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+424,Sweet Corn Soup,lunch,148.0,8.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;gastritis
+425,Sweet Potato,breakfast,112,2.0,26.0,0.1,veg,,diabetes;heart_disease;obesity
+426,Sweet Potato Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+427,Sweet Potato Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+428,Sweet Potato Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+429,Sweet Potato Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+430,Sweet Potato Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+431,Tofu Curry,lunch,262.0,15.0,30.0,13.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
+432,Tofu Pilaf,dinner,302.0,13.0,50.0,8.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
+433,Tofu Salad,lunch,182.0,10.0,26.0,8.0,veg,soy,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+434,Tofu Soup,lunch,152.0,11.0,24.0,5.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+435,Tofu Stir Fry,dinner,210,14.0,12.0,12.0,veg,soy,diabetes;heart_disease;obesity;pcos;anemia
+436,Tofu Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten;soy,diabetes;heart_disease;obesity;pcos;anemia
+437,Tomato Salad,lunch,70,2.0,9.0,3.0,veg,,diabetes;heart_disease;obesity
+438,Tomato Soup,lunch,90,2.0,16.0,2.0,veg,,heart_disease;obesity
+439,Tortilla Wrap,dinner,280,10.0,35.0,9.0,veg,gluten,
+440,Trail Mix,breakfast,220,6.0,18.0,14.0,veg,peanuts;tree_nuts,heart_disease;obesity;anemia
+441,Turnip Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+442,Turnip Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+443,Turnip Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+444,Turnip Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+445,Turnip Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+446,Upma,breakfast,230,6.0,38.0,6.0,veg,gluten,gastritis
+447,Urad Dal Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+448,Urad Dal Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+449,Urad Dal Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+450,Urad Dal Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+451,Urad Dal Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+452,Veg Burger,dinner,340,10.0,42.0,14.0,veg,gluten,
+453,Veg Momos,dinner,250,8.0,38.0,6.0,veg,gluten,
+454,Veg Pizza,dinner,320,12.0,36.0,14.0,veg,gluten;milk,
+455,Vegetable Curry,lunch,190,5.0,16.0,10.0,veg,,diabetes;heart_disease;obesity;pcos
+456,Vegetable Pulao,dinner,300,6.0,46.0,9.0,veg,,heart_disease
+457,Vegetable Sandwich,breakfast,260,8.0,34.0,9.0,veg,gluten,heart_disease;obesity
+458,Vegetable Soup,lunch,110,4.0,16.0,3.0,veg,,hypertension;heart_disease;obesity;gastritis;kidney_disease
+459,Walnut Breakfast Bowl,breakfast,238.0,10.0,34.0,11.0,veg,tree_nuts,diabetes;heart_disease;obesity;pcos;anemia
+460,Walnut Chia Cup,breakfast,233.0,10.0,26.0,14.0,veg,tree_nuts,diabetes;heart_disease;obesity;pcos;anemia
+461,Walnut Fruit Salad,breakfast,148.0,5.0,31.0,6.0,veg,tree_nuts,hypertension;heart_disease;obesity;anemia;gastritis
+462,Walnut Porridge,breakfast,218.0,9.0,35.0,10.0,veg,tree_nuts,diabetes;heart_disease;obesity;anemia;gastritis
+463,Walnut Smoothie,breakfast,208.0,8.0,32.0,9.0,veg,milk;tree_nuts,hypertension;heart_disease;obesity;anemia
+464,Watermelon Breakfast Bowl,breakfast,218.0,7.0,37.0,6.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+465,Watermelon Chia Cup,breakfast,213.0,7.0,29.0,9.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+466,Watermelon Fruit Salad,breakfast,128.0,2.0,34.0,1.0,veg,,hypertension;heart_disease;obesity;gastritis
+467,Watermelon Smoothie,breakfast,188.0,5.0,35.0,4.0,veg,milk,hypertension;heart_disease;obesity;gastritis
+468,Watermelon Yogurt Parfait,breakfast,188.0,10.0,30.0,5.0,veg,milk,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+469,Wheat Berry Breakfast Bowl,breakfast,228.0,9.0,39.0,7.0,veg,gluten,diabetes;heart_disease;obesity;pcos
+470,Wheat Berry Pilaf,dinner,298.0,10.0,50.0,8.0,veg,gluten,diabetes;heart_disease;obesity
+471,Wheat Berry Porridge,breakfast,208.0,8.0,40.0,6.0,veg,gluten,diabetes;heart_disease;obesity;gastritis
+472,Wheat Berry Salad,lunch,178.0,7.0,26.0,8.0,veg,gluten,diabetes;hypertension;heart_disease;obesity;pcos
+473,Wheat Berry Soup,lunch,148.0,8.0,24.0,5.0,veg,gluten,diabetes;heart_disease;obesity;gastritis
+474,Whey Protein Shake,breakfast,140,25.0,4.0,2.0,veg,milk,obesity;pcos
+475,White Rice,dinner,205,4.0,45.0,0.4,veg,,gastritis;kidney_disease
+476,Yellow Moong Curry,lunch,262.0,15.0,30.0,13.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+477,Yellow Moong Pilaf,dinner,302.0,13.0,50.0,8.0,veg,,diabetes;heart_disease;obesity;pcos;anemia
+478,Yellow Moong Salad,lunch,182.0,10.0,26.0,8.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+479,Yellow Moong Soup,lunch,152.0,11.0,24.0,5.0,veg,,diabetes;heart_disease;obesity;pcos;anemia;gastritis
+480,Yellow Moong Wrap,dinner,282.0,14.0,42.0,9.0,veg,gluten,diabetes;heart_disease;obesity;pcos;anemia
+481,Zucchini Curry,lunch,245.0,11.0,25.0,12.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;anemia
+482,Zucchini Pilaf,dinner,285.0,9.0,45.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+483,Zucchini Salad,lunch,165.0,6.0,21.0,7.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos
+484,Zucchini Soup,lunch,135.0,7.0,19.0,4.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos;gastritis
+485,Zucchini Stir Fry,dinner,225.0,10.0,23.0,11.0,veg,,diabetes;hypertension;heart_disease;obesity;pcos

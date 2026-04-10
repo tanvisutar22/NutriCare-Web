@@ -267,9 +267,9 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <Link to="/meal-log" className="btn-primary">Log Meal</Link>
-            <Link to="/daily-log" className="btn-secondary">Open Chat Assistant</Link>
-            <Link to="/diets" className="btn-secondary">View Diet</Link>
+            <Link to="/diets" className="btn-primary">View Diet</Link>
+            <Link to="/doctor-booking" className="btn-secondary">Doctor Consultation</Link>
+            <Link to="/notes" className="btn-secondary">Doctor Notes</Link>
             <Link to="/billing" className="btn-secondary">Upgrade</Link>
           </div>
         </div>
@@ -314,7 +314,6 @@ export default function Dashboard() {
                 Today's logged calories and macros.
               </p>
             </div>
-            <Link to="/meal-log" className="text-sm font-medium text-emerald-600">Log Meal</Link>
           </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs text-slate-500">Calories</p><p className="mt-2 text-2xl font-bold text-slate-900">{mealSummary?.totals?.calories || 0}</p></div>

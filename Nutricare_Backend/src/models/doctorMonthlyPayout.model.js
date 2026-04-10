@@ -44,6 +44,10 @@ const doctorMonthlyPayoutSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Auth",
     },
+    gatewayMeta: {
+      type: Object,
+      default: {},
+    },
   },
   { timestamps: true },
 );

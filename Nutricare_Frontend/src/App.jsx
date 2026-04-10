@@ -43,7 +43,7 @@ function AppContent() {
     );
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#dcfce7_0%,#eff6ff_35%,#f8fafc_70%)] text-slate-900">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_18%),radial-gradient(circle_at_top_right,rgba(59,130,246,0.16),transparent_22%),linear-gradient(180deg,#050816_0%,#08142d_30%,#0a1f4a_58%,#071121_100%)] text-slate-100">
       <Navbar />
       <main className="min-h-[calc(100vh-140px)]">
         <Routes>

@@ -7,8 +7,17 @@ import Payment from "../models/payment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { getDoctorSelectionsForPatients } from "../utils/doctorSelection.js";
+import {
+  createRazorpayOrder,
+  getRazorpayCheckoutConfig,
+  verifyRazorpaySignature,
+} from "../services/payment.service.js";
 
 const normalizeId = (value) => (value ? String(value) : "");
+const DOCTOR_PAYOUT_RATES = {
+  weekly: 100,
+  monthly: 250,
+};
 
 const parseMonthKey = (monthKey) => {
   if (!monthKey || !/^\d{4}-\d{2}$/.test(monthKey)) return null;
@@ -32,6 +41,72 @@ const computeAdminWalletBalance = (transactions = []) =>
     if (transaction.type === "debit_doctor_payout") return acc - amount;
     return acc;
   }, 0);
+
+const getDoctorFeeForPayment = (payment) =>
+  Number(DOCTOR_PAYOUT_RATES[payment?.planType] || 0);
+
+const buildAdminWalletSnapshot = ({ payments = [], payouts = [] }) => {
+  const totalCollections = payments.reduce(
+    (sum, payment) => sum + Number(payment.amount || 0),
+    0,
+  );
+  const totalPaidOut = payouts
+    .filter((payout) => payout.status === "paid")
+    .reduce((sum, payout) => sum + Number(payout.totalAmount || 0), 0);
+
+  return {
+    totalCollections,
+    totalPaidOut,
+    walletBalance: Math.max(totalCollections - totalPaidOut, 0),
+  };
+};
+
+const finalizeDoctorPayout = async ({
+  payout,
+  adminAuthId,
+  doctorAuthId,
+  monthKey,
+  notes = "",
+  gateway = null,
+}) => {
+  payout.status = "paid";
+  payout.paidAt = new Date();
+  payout.paidByAdminAuthId = adminAuthId;
+  payout.gatewayMeta = {
+    ...(payout.gatewayMeta || {}),
+    ...(gateway || {}),
+  };
+  await payout.save();
+
+  const adminWalletTx = await AdminWalletTransaction.create({
+    adminAuthId,
+    type: "debit_doctor_payout",
+    amount: payout.totalAmount,
+    referenceType: "DoctorMonthlyPayout",
+    referenceId: payout._id,
+    meta: {
+      doctorAuthId,
+      monthKey,
+      notes,
+      ...(gateway || {}),
+    },
+  });
+
+  const doctorWalletTx = await DoctorWalletTransaction.create({
+    doctorAuthId,
+    type: "credit_payout",
+    amount: payout.totalAmount,
+    referenceType: "DoctorMonthlyPayout",
+    referenceId: payout._id,
+    meta: {
+      monthKey,
+      notes,
+      ...(gateway || {}),
+    },
+  });
+
+  return { payout, adminWalletTransaction: adminWalletTx, doctorWalletTransaction: doctorWalletTx };
+};
 
 const buildDoctorEarnings = async ({ monthKey = null } = {}) => {
   const doctors = await Doctor.find({}).sort({ createdAt: -1 });
@@ -79,7 +154,7 @@ const buildDoctorEarnings = async ({ monthKey = null } = {}) => {
       (payment) => normalizeId(payment?.meta?.selectedDoctorAuthId) === doctorId,
     );
     const totalEarned = doctorPayments.reduce(
-      (sum, payment) => sum + Number(payment.amount || 0),
+      (sum, payment) => sum + getDoctorFeeForPayment(payment),
       0,
     );
     const totalPaid = totalPaidByDoctor.get(doctorId) || 0;
@@ -90,15 +165,23 @@ const buildDoctorEarnings = async ({ monthKey = null } = {}) => {
     );
     const monthPatientIds = [...new Set(monthPaymentRows.map((payment) => normalizeId(payment.payerAuthId)))];
     const monthlyTotal = monthPaymentRows.reduce(
-      (sum, payment) => sum + Number(payment.amount || 0),
+      (sum, payment) => sum + getDoctorFeeForPayment(payment),
       0,
     );
+    const monthPaidAmount = paidPayouts
+      .filter(
+        (payout) =>
+          normalizeId(payout.doctorAuthId) === doctorId &&
+          (!monthKey || payout.monthKey === monthKey),
+      )
+      .reduce((sum, payout) => sum + Number(payout.totalAmount || 0), 0);
 
     return {
       doctor,
       doctorAuthId: doctor.authId,
       assignedPatientsCount: uniquePatientIds.length,
       paidAmount: totalPaid,
+      monthPaidAmount,
       unpaidAmount: totalUnpaid,
       totalEarned,
       monthlyPatientIds: monthPatientIds,
@@ -183,7 +266,8 @@ export const computeMonthlyPayouts = async (req, res) => {
         payout,
         assignedPatientsCount: row.assignedPatientsCount,
         totalEarned: row.totalEarned,
-        paidAmount: row.paidAmount,
+        paidAmount: row.monthPaidAmount,
+        allTimePaidAmount: row.paidAmount,
         unpaidAmount: row.unpaidAmount,
       });
     }
@@ -217,58 +301,175 @@ export const payDoctorMonthlyPayout = async (req, res) => {
       return res.status(400).json(new ApiError(400, "Payout already paid"));
     }
 
-    const walletTransactions = await AdminWalletTransaction.find({}).sort({ createdAt: -1 });
-    const walletBalance = computeAdminWalletBalance(walletTransactions);
+    const [walletTransactions, verifiedPayments, paidPayouts] = await Promise.all([
+      AdminWalletTransaction.find({}).sort({ createdAt: -1 }),
+      Payment.find({ verificationStatus: "verified" }).select("amount"),
+      DoctorMonthlyPayout.find({ status: "paid" }).select("totalAmount"),
+    ]);
+    const walletBalance = buildAdminWalletSnapshot({
+      payments: verifiedPayments,
+      payouts: paidPayouts,
+    }).walletBalance;
     if (walletBalance < payout.totalAmount) {
       return res
         .status(400)
         .json(new ApiError(400, "Insufficient admin wallet balance"));
     }
 
-    payout.status = "paid";
-    payout.paidAt = new Date();
-    payout.paidByAdminAuthId = adminAuthId;
-    await payout.save();
-
-    const adminWalletTx = await AdminWalletTransaction.create({
+    const result = await finalizeDoctorPayout({
+      payout,
       adminAuthId,
-      type: "debit_doctor_payout",
-      amount: payout.totalAmount,
-      referenceType: "DoctorMonthlyPayout",
-      referenceId: payout._id,
-      meta: {
-        doctorAuthId,
-        monthKey,
-        notes,
-      },
-    });
-
-    const doctorWalletTx = await DoctorWalletTransaction.create({
       doctorAuthId,
-      type: "credit_payout",
-      amount: payout.totalAmount,
-      referenceType: "DoctorMonthlyPayout",
-      referenceId: payout._id,
-      meta: {
-        monthKey,
-        notes,
-      },
+      monthKey,
+      notes,
     });
 
     return res.status(200).json(
       new ApiResponse(
         200,
-        {
-          payout,
-          adminWalletTransaction: adminWalletTx,
-          doctorWalletTransaction: doctorWalletTx,
-        },
+        result,
         "Payout paid successfully",
       ),
     );
   } catch (error) {
     console.error("Error in payDoctorMonthlyPayout:", error);
     return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+};
+
+export const initiateDoctorPayoutPayment = async (req, res) => {
+  try {
+    const adminAuthId = req.user?._id;
+    const { doctorAuthId } = req.params;
+    const { monthKey, notes = "" } = req.body || {};
+
+    const parsed = parseMonthKey(monthKey);
+    if (!parsed) {
+      return res.status(400).json(new ApiError(400, "monthKey must be YYYY-MM"));
+    }
+
+    const payout = await DoctorMonthlyPayout.findOne({ doctorAuthId, monthKey });
+    if (!payout) {
+      return res.status(404).json(new ApiError(404, "Payout not found"));
+    }
+    if (payout.status === "paid") {
+      return res.status(400).json(new ApiError(400, "Payout already paid"));
+    }
+    if (!Number(payout.totalAmount)) {
+      return res.status(400).json(new ApiError(400, "Payout amount must be greater than zero"));
+    }
+
+    const [walletTransactions, verifiedPayments, paidPayouts] = await Promise.all([
+      AdminWalletTransaction.find({}).sort({ createdAt: -1 }),
+      Payment.find({ verificationStatus: "verified" }).select("amount"),
+      DoctorMonthlyPayout.find({ status: "paid" }).select("totalAmount"),
+    ]);
+    const walletBalance = buildAdminWalletSnapshot({
+      payments: verifiedPayments,
+      payouts: paidPayouts,
+    }).walletBalance;
+    if (walletBalance < payout.totalAmount) {
+      return res.status(400).json(new ApiError(400, "Insufficient admin wallet balance"));
+    }
+
+    const order = await createRazorpayOrder({
+      amount: payout.totalAmount,
+      currency: "INR",
+      receipt: `doc_${String(payout._id).slice(-10)}_${monthKey.replace("-", "")}`,
+      notes: {
+        doctorAuthId: String(doctorAuthId),
+        payoutId: String(payout._id),
+        monthKey,
+      },
+    });
+
+    payout.gatewayMeta = {
+      ...(payout.gatewayMeta || {}),
+      razorpayOrderId: order.id,
+      initiatedByAdminAuthId: String(adminAuthId),
+      notes,
+    };
+    await payout.save();
+
+    return res.status(201).json(
+      new ApiResponse(
+        201,
+        {
+          payoutId: payout._id,
+          amount: payout.totalAmount,
+          currency: order.currency,
+          orderId: order.id,
+          keyId: getRazorpayCheckoutConfig().keyId,
+          doctorAuthId,
+          monthKey,
+        },
+        "Doctor payout payment initiated",
+      ),
+    );
+  } catch (error) {
+    console.error("Error in initiateDoctorPayoutPayment:", error);
+    return res.status(error?.statusCode || 500).json(
+      new ApiError(error?.statusCode || 500, error.message || "Internal Server Error"),
+    );
+  }
+};
+
+export const verifyDoctorPayoutPayment = async (req, res) => {
+  try {
+    const adminAuthId = req.user?._id;
+    const { doctorAuthId } = req.params;
+    const {
+      monthKey,
+      razorpay_order_id: razorpayOrderId,
+      razorpay_payment_id: razorpayPaymentId,
+      razorpay_signature: razorpaySignature,
+      notes = "",
+    } = req.body || {};
+
+    const payout = await DoctorMonthlyPayout.findOne({ doctorAuthId, monthKey });
+    if (!payout) {
+      return res.status(404).json(new ApiError(404, "Payout not found"));
+    }
+    if (payout.status === "paid") {
+      return res.status(400).json(new ApiError(400, "Payout already paid"));
+    }
+    if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return res.status(400).json(new ApiError(400, "Razorpay verification details are required"));
+    }
+    if ((payout.gatewayMeta?.razorpayOrderId || "") !== razorpayOrderId) {
+      return res.status(400).json(new ApiError(400, "Razorpay order mismatch"));
+    }
+
+    const isValid = verifyRazorpaySignature({
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature,
+    });
+    if (!isValid) {
+      return res.status(400).json(new ApiError(400, "Invalid Razorpay signature"));
+    }
+
+    const result = await finalizeDoctorPayout({
+      payout,
+      adminAuthId,
+      doctorAuthId,
+      monthKey,
+      notes,
+      gateway: {
+        razorpayOrderId,
+        razorpayPaymentId,
+        razorpaySignature,
+      },
+    });
+
+    return res.status(200).json(
+      new ApiResponse(200, result, "Doctor payout paid successfully"),
+    );
+  } catch (error) {
+    console.error("Error in verifyDoctorPayoutPayment:", error);
+    return res.status(error?.statusCode || 500).json(
+      new ApiError(error?.statusCode || 500, error.message || "Internal Server Error"),
+    );
   }
 };
 
@@ -282,19 +483,16 @@ export const getAdminWalletOverview = async (req, res) => {
       buildDoctorEarnings(),
     ]);
 
-    const walletBalance = computeAdminWalletBalance(walletTransactions);
-    const totalCollections = payments.reduce(
-      (sum, payment) => sum + Number(payment.amount || 0),
-      0,
-    );
+    const walletSnapshot = buildAdminWalletSnapshot({ payments, payouts });
 
     return res.status(200).json(
       new ApiResponse(
         200,
         {
           adminAuthId,
-          walletBalance,
-          totalCollections,
+          walletBalance: walletSnapshot.walletBalance,
+          totalCollections: walletSnapshot.totalCollections,
+          totalPaidOut: walletSnapshot.totalPaidOut,
           pendingDoctors: doctorRows.filter((row) => !row.doctor.isApproved).length,
           walletTransactions,
           payments,

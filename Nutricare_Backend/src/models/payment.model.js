@@ -25,12 +25,12 @@ const paymentSchema = new mongoose.Schema(
     },
     provider: {
       type: String,
-      enum: ["mock"],
-      default: "mock",
+      enum: ["mock", "razorpay"],
+      default: "razorpay",
     },
     status: {
       type: String,
-      enum: ["paid", "pending", "failed", "verified"],
+      enum: ["created", "paid", "pending", "failed", "verified"],
       default: "pending",
       index: true,
     },
@@ -40,8 +40,8 @@ const paymentSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["upi", "card", "netbanking", "wallet", "mock"],
-      default: "mock",
+      enum: ["upi", "card", "netbanking", "wallet", "razorpay", "mock"],
+      default: "razorpay",
     },
     verificationStatus: {
       type: String,
@@ -69,4 +69,3 @@ const paymentSchema = new mongoose.Schema(
 paymentSchema.index({ payerAuthId: 1, createdAt: -1 });
 
 export default mongoose.model("Payment", paymentSchema);
-

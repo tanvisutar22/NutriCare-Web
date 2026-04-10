@@ -31,3 +31,16 @@ export async function payDoctor(doctorAuthId, monthKey, notes = "") {
   });
   return res.data;
 }
+
+export async function initiateDoctorPayoutPayment(doctorAuthId, monthKey, notes = "") {
+  const res = await http.post(`/admin/payouts/${doctorAuthId}/initiate-payment`, {
+    monthKey,
+    notes,
+  });
+  return res.data;
+}
+
+export async function verifyDoctorPayoutPayment(doctorAuthId, payload) {
+  const res = await http.post(`/admin/payouts/${doctorAuthId}/verify-payment`, payload);
+  return res.data;
+}

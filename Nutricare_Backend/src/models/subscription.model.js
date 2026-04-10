@@ -6,7 +6,6 @@ const subscriptionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Auth",
       required: true,
-      index: true,
     },
     planType: {
       type: String,

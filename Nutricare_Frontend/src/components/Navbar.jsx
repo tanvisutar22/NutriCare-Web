@@ -15,8 +15,8 @@ function Item({ to, label, closeMenu, end = false }) {
         [
           "block rounded-2xl px-4 py-3 text-sm font-medium transition",
           isActive
-            ? "bg-emerald-500 text-white shadow-md shadow-emerald-200"
-            : "text-slate-700 hover:bg-slate-100",
+            ? "bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-900/30"
+            : "text-slate-200 hover:bg-white/8",
         ].join(" ")
       }
     >
@@ -32,21 +32,21 @@ function Drawer({ open, title, items, onClose, onLogout }) {
     <div className="fixed inset-0 z-50">
       <button
         type="button"
-        className="absolute inset-0 bg-slate-950/35"
+        className="absolute inset-0 bg-slate-950/65"
         onClick={onClose}
         aria-label="Close navigation"
       />
-      <div className="absolute left-0 top-0 h-full w-full max-w-xs bg-white shadow-2xl md:max-w-sm">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+      <div className="absolute left-0 top-0 h-full w-full max-w-xs border-r border-white/10 bg-[linear-gradient(180deg,rgba(6,12,31,0.98),rgba(9,22,52,0.98))] shadow-2xl md:max-w-sm">
+        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
               NutriCare
             </p>
-            <h2 className="mt-1 text-lg font-semibold text-slate-900">{title}</h2>
+            <h2 className="mt-1 text-lg font-semibold text-white">{title}</h2>
           </div>
           <button
             type="button"
-            className="rounded-2xl border border-slate-200 px-3 py-2 text-sm text-slate-600"
+            className="rounded-2xl border border-white/10 bg-white/6 px-3 py-2 text-sm text-slate-200"
             onClick={onClose}
           >
             Close
@@ -60,7 +60,7 @@ function Drawer({ open, title, items, onClose, onLogout }) {
         </div>
 
         {onLogout ? (
-          <div className="border-t border-slate-200 px-4 py-4">
+          <div className="border-t border-white/10 px-4 py-4">
             <button onClick={onLogout} className="btn-secondary w-full">
               Logout
             </button>
@@ -84,9 +84,8 @@ const userItems = [
   { to: "/metrics", label: "Body Metrics" },
   { to: "/diets", label: "Diet" },
   { to: "/recipes", label: "Smart Meal Preparation" },
-  { to: "/doctor-booking", label: "Doctor" },
-  { to: "/notes", label: "Notes" },
-  { to: "/daily-log", label: "Chat Assistant" },
+  { to: "/doctor-booking", label: "Doctor Consultation" },
+  { to: "/notes", label: "Doctor Notes" },
   { to: "/billing", label: "Upgrade / Subscription" },
 ];
 
@@ -98,6 +97,59 @@ const doctorItems = [
 ];
 const adminItems = [{ to: "/admin", label: "Admin Dashboard", end: true }];
 
+function PublicDesktopNav({ onHome }) {
+  const links = onHome
+    ? [
+        { href: "#features", label: "Features" },
+        { href: "#how-it-works", label: "How It Works" },
+        { href: "#plans", label: "Plans" },
+        { href: "#faq", label: "FAQ" },
+      ]
+    : [
+        { to: "/", label: "Home" },
+        { to: "/about", label: "About" },
+      ];
+
+  return (
+    <div className="hidden items-center gap-3 lg:flex">
+      <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-2 backdrop-blur">
+        {links.map((link) =>
+          link.href ? (
+            <a
+              key={link.label}
+              href={link.href}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-white"
+            >
+              {link.label}
+            </a>
+          ) : (
+            <Link
+              key={link.label}
+              to={link.to}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-white"
+            >
+              {link.label}
+            </Link>
+          ),
+        )}
+      </div>
+
+      <Link
+        to="/login"
+        className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:-translate-y-0.5 hover:bg-cyan-400/20 hover:text-white"
+      >
+        Login
+      </Link>
+      <Link
+        to="/register"
+        className="rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-900/30 transition hover:-translate-y-0.5 hover:shadow-cyan-800/40"
+      >
+        Register
+      </Link>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -107,7 +159,8 @@ export default function Navbar() {
   const adminAuth = useSelector((state) => state.adminAuth);
   const [open, setOpen] = useState(false);
 
-  const isDoctorArea = location.pathname.startsWith("/doctor");
+  const isDoctorArea =
+    location.pathname === "/doctor" || location.pathname.startsWith("/doctor/");
   const isAdminArea = location.pathname.startsWith("/admin");
   const isDoctorWorkspace =
     isDoctorArea && location.pathname !== "/doctor/login" && location.pathname !== "/doctor/register";
@@ -115,6 +168,7 @@ export default function Navbar() {
   const showDoctorNav = isDoctorWorkspace;
   const showAdminNav = !showDoctorNav && isAdminWorkspace;
   const showUserNav = isAuthenticated && !isDoctorArea && !isAdminArea;
+  const isPublicHome = !showUserNav && !showDoctorNav && !showAdminNav && location.pathname === "/";
 
   let title = "Public Navigation";
   let items = publicItems;
@@ -152,24 +206,44 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/70 bg-white/90 backdrop-blur-xl">
+      <header
+        className={
+          isPublicHome
+            ? "sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl"
+            : "sticky top-0 z-40 border-b border-white/10 bg-slate-950/72 backdrop-blur-xl"
+        }
+      >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm"
-            onClick={() => setOpen(true)}
-            aria-label="Open navigation"
-          >
-            <span className="text-lg">|||</span>
-          </button>
+          {isPublicHome ? (
+            <Link to="/" className="flex items-center gap-3">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-500 text-lg font-bold text-white shadow-lg shadow-cyan-900/40">
+                N
+              </div>
+              <div>
+                <p className="text-base font-bold text-white">NutriCare</p>
+                <p className="text-xs text-slate-300">
+                  Personalized wellness and diet management
+                </p>
+              </div>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-slate-100 shadow-sm"
+              onClick={() => setOpen(true)}
+              aria-label="Open navigation"
+            >
+              <span className="text-lg">|||</span>
+            </button>
+          )}
 
           <Link
             to={showAdminNav ? "/admin" : showDoctorNav ? "/doctor/dashboard" : showUserNav ? "/dashboard" : "/"}
-            className="flex items-center gap-3 text-right"
+            className={isPublicHome ? "hidden" : "flex items-center gap-3 text-right"}
           >
             <div>
-              <p className="text-base font-bold text-slate-900">NutriCare</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-base font-bold text-white">NutriCare</p>
+              <p className="text-xs text-slate-300">
                 {showAdminNav
                   ? "Admin console"
                   : showDoctorNav
@@ -183,10 +257,14 @@ export default function Navbar() {
               N
             </div>
           </Link>
+
+          {isPublicHome ? <PublicDesktopNav onHome /> : null}
         </div>
       </header>
 
-      <Drawer open={open} title={title} items={items} onClose={() => setOpen(false)} onLogout={onLogout} />
+      {!isPublicHome ? (
+        <Drawer open={open} title={title} items={items} onClose={() => setOpen(false)} onLogout={onLogout} />
+      ) : null}
     </>
   );
 }

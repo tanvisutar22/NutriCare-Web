@@ -8,6 +8,7 @@ import DietPlan from "../models/diet.model.js";
 import DoctorWalletTransaction from "../models/doctorWalletTransaction.model.js";
 import MealLog from "../models/mealLogs.model.js";
 import Subscription from "../models/subscription.model.js";
+import DoctorMonthlyPayout from "../models/doctorMonthlyPayout.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import {
@@ -17,6 +18,26 @@ import {
 } from "../utils/doctorSelection.js";
 
 const normalizeId = (value) => (value ? String(value) : "");
+
+const buildDoctorWalletSnapshot = ({ payouts = [], withdrawals = [] }) => {
+  const totalPaid = payouts
+    .filter((payout) => payout.status === "paid")
+    .reduce((sum, payout) => sum + Number(payout.totalAmount || 0), 0);
+  const pendingAmount = payouts
+    .filter((payout) => payout.status === "pending" && Number(payout.totalAmount || 0) > 0)
+    .reduce((sum, payout) => sum + Number(payout.totalAmount || 0), 0);
+  const totalWithdrawn = withdrawals.reduce(
+    (sum, transaction) => sum + Number(transaction.amount || 0),
+    0,
+  );
+
+  return {
+    totalPaid,
+    pendingAmount,
+    totalWithdrawn,
+    balance: Math.max(totalPaid - totalWithdrawn, 0),
+  };
+};
 
 const startOfDay = (value = new Date()) => {
   const date = new Date(value);
@@ -197,21 +218,53 @@ export const getDoctorWallet = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Unauthorized"));
     }
 
-    const txs = await DoctorWalletTransaction.find({ doctorAuthId })
-      .sort({ createdAt: -1 })
-      .limit(200);
+    const [txs, payouts] = await Promise.all([
+      DoctorWalletTransaction.find({ doctorAuthId }).sort({ createdAt: -1 }).limit(200),
+      DoctorMonthlyPayout.find({ doctorAuthId }).sort({ createdAt: -1 }).limit(200),
+    ]);
 
-    const balance = txs.reduce((acc, transaction) => {
-      const amount = Number(transaction.amount) || 0;
-      if (transaction.type === "credit_payout") return acc + amount;
-      if (transaction.type === "debit_withdrawal") return acc - amount;
-      return acc;
-    }, 0);
+    const walletSnapshot = buildDoctorWalletSnapshot({
+      payouts,
+      withdrawals: txs.filter((transaction) => transaction.type === "debit_withdrawal"),
+    });
+    const paidPayouts = payouts.filter((payout) => payout.status === "paid");
+    const latestPaidPayout = paidPayouts[0] || null;
+
+    const transactions = [...txs];
+    const existingCreditRefs = new Set(
+      txs
+        .filter((transaction) => transaction.type === "credit_payout" && transaction.referenceId)
+        .map((transaction) => normalizeId(transaction.referenceId)),
+    );
+    for (const payout of paidPayouts) {
+      const payoutId = normalizeId(payout._id);
+      if (payoutId && !existingCreditRefs.has(payoutId)) {
+        transactions.push({
+          _id: `synthetic-${payoutId}`,
+          doctorAuthId,
+          type: "credit_payout",
+          amount: payout.totalAmount,
+          referenceType: "DoctorMonthlyPayout",
+          referenceId: payout._id,
+          meta: { monthKey: payout.monthKey, synthetic: true },
+          createdAt: payout.paidAt || payout.updatedAt || payout.createdAt,
+        });
+      }
+    }
+    transactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return res.status(200).json(
       new ApiResponse(
         200,
-        { balance, transactions: txs },
+        {
+          balance: walletSnapshot.balance,
+          totalPaid: walletSnapshot.totalPaid,
+          pendingAmount: walletSnapshot.pendingAmount,
+          totalWithdrawn: walletSnapshot.totalWithdrawn,
+          latestPaidPayout,
+          transactions,
+          payouts,
+        },
         "Wallet fetched successfully",
       ),
     );

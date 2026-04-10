@@ -20,12 +20,15 @@ export async function purchaseSubscription(payload) {
   return res.data;
 }
 
-export async function createMockPaymentIntent(payload) {
+export async function createSubscriptionPaymentIntent(payload) {
   const res = await http.post("/subscriptions/payments/initiate", payload);
   return res.data;
 }
 
-export async function verifyMockPayment(payload) {
+export async function verifySubscriptionPayment(payload) {
   const res = await http.post("/subscriptions/payments/verify", payload);
   return res.data;
 }
+
+export const createMockPaymentIntent = createSubscriptionPaymentIntent;
+export const verifyMockPayment = verifySubscriptionPayment;
